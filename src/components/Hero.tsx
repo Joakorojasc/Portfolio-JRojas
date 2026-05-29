@@ -2,6 +2,8 @@
 
 import { motion, type Variants } from "framer-motion";
 import { ArrowRight, Play, Sparkles } from "lucide-react";
+import Image from "next/image";
+import { PROFILE_PHOTO, cloudImage } from "@/lib/media";
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
@@ -119,9 +121,8 @@ export default function Hero() {
             animate="show"
             className="mt-7 text-[#8892A4] text-lg leading-relaxed max-w-lg"
           >
-            Transformo ideas en narrativas visuales de alto impacto. Especialista
-            en pacing cinematográfico, color grading y motion graphics que
-            generan resultados reales para marcas que aspiran a lo extraordinario.
+            Edición de video, reels, carruseles, secuencias de stories y producción
+            de podcast. Contenido que funciona.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -201,43 +202,31 @@ export default function Hero() {
 
             {/* Portrait frame */}
             <div className="relative rounded-3xl overflow-hidden glass-gold aspect-[3/4]">
-              {/* Inner gradient background for placeholder */}
-              <div
-                className="absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(160deg, #151C2C 0%, #0F1524 40%, #0B0F19 100%)",
-                }}
-              />
+              {(PROFILE_PHOTO.publicId || PROFILE_PHOTO.localSrc) ? (
+                <Image
+                  src={PROFILE_PHOTO.publicId
+                    ? cloudImage(PROFILE_PHOTO.publicId, "f_auto,q_auto,w_800,ar_3:4,c_fill,g_face")
+                    : PROFILE_PHOTO.localSrc}
+                  alt={PROFILE_PHOTO.alt}
+                  fill
+                  className="object-cover object-top"
+                  priority
+                />
+              ) : (
+                <>
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, #151C2C 0%, #0F1524 40%, #0B0F19 100%)" }} />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
+                    <div className="w-20 h-20 rounded-full border-2 border-[#C9A96E]/30 flex items-center justify-center">
+                      <svg viewBox="0 0 24 24" className="w-10 h-10 text-[#C9A96E]/40" fill="currentColor">
+                        <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
+                      </svg>
+                    </div>
+                    <p className="text-xs text-[#C9A96E]/40 tracking-[0.15em] uppercase">Foto de perfil</p>
+                  </div>
+                </>
+              )}
 
-              {/* Decorative lines */}
-              <div className="absolute inset-0 opacity-10">
-                {[...Array(6)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="absolute left-0 right-0 border-t border-white/20"
-                    style={{ top: `${(i + 1) * 14}%` }}
-                  />
-                ))}
-              </div>
-
-              {/* Portrait icon placeholder */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-                <div className="w-20 h-20 rounded-full border-2 border-[#C9A96E]/30 flex items-center justify-center">
-                  <svg
-                    viewBox="0 0 24 24"
-                    className="w-10 h-10 text-[#C9A96E]/40"
-                    fill="currentColor"
-                  >
-                    <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
-                  </svg>
-                </div>
-                <p className="text-xs text-[#C9A96E]/40 tracking-[0.15em] uppercase">
-                  Foto de perfil
-                </p>
-              </div>
-
-              {/* Bottom info strip */}
+              {/* Bottom info strip — always visible */}
               <div className="absolute bottom-0 left-0 right-0 p-5 glass border-t border-white/[0.06]">
                 <p className="text-xs font-semibold tracking-[0.12em] uppercase text-[#C9A96E]">
                   Joaquín Rojas
@@ -248,29 +237,6 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* Floating badge — top right */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.6 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1.1, duration: 0.5, ease: "backOut" }}
-              className="absolute -top-4 -right-4 glass-gold rounded-2xl px-4 py-3"
-            >
-              <p className="text-xs font-bold text-[#C9A96E]">✦ Premium</p>
-              <p className="text-[10px] text-[#8892A4]">Post-producción</p>
-            </motion.div>
-
-            {/* Floating badge — bottom left */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.6 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1.3, duration: 0.5, ease: "backOut" }}
-              className="absolute -bottom-4 -left-4 glass-gold rounded-2xl px-4 py-3"
-            >
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <p className="text-xs font-medium text-[#F0F2F5]">Disponible</p>
-              </div>
-            </motion.div>
           </div>
         </motion.div>
       </div>
