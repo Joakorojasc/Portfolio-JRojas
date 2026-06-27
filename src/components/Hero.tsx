@@ -1,258 +1,263 @@
 "use client";
 
+import { useState } from "react";
 import { motion, type Variants } from "framer-motion";
-import { ArrowRight, Play, Sparkles } from "lucide-react";
+import { ArrowDown, Play, Mic, type LucideIcon } from "lucide-react";
 import Image from "next/image";
-import { PROFILE_PHOTO, cloudImage } from "@/lib/media";
+import {
+  PROFILE_PHOTO,
+  REELS,
+  YOUTUBE,
+  TOOLS,
+  cloudImage,
+  cloudPoster,
+} from "@/lib/media";
+import ToolIcon from "./ToolIcon";
 
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0, y: 24 },
   show: (delay: number = 0) => ({
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.8,
+      duration: 0.85,
       ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
       delay,
     },
   }),
 };
 
-const stats = [
-  { value: "+5", label: "Años de experiencia" },
-  { value: "+200", label: "Proyectos entregados" },
-  { value: "4K", label: "Producción en ultra HD" },
-];
+const photoSrc = PROFILE_PHOTO.publicId
+  ? cloudImage(PROFILE_PHOTO.publicId, "f_auto,q_auto,w_900,ar_3:4,c_fill,g_face")
+  : PROFILE_PHOTO.localSrc;
+
+// Tarjeta de trabajo que asoma junto a la foto (hover + lleva a su sección)
+type PeekProps = {
+  href: string;
+  label: string;
+  img: string;
+  aspect: string;
+  posClass: string;
+  rotate: number;
+  delay: number;
+  Icon: LucideIcon;
+};
+
+function HeroPeek({ href, label, img, aspect, posClass, rotate, delay, Icon }: PeekProps) {
+  const [failed, setFailed] = useState(false);
+
+  return (
+    <motion.a
+      href={href}
+      initial={{ opacity: 0, y: 24, rotate: rotate * 1.5 }}
+      animate={{ opacity: 1, y: 0, rotate }}
+      whileHover={{ scale: 1.07, rotate: rotate / 2, y: -5 }}
+      transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
+      className={`group absolute ${posClass} rounded-xl overflow-hidden shadow-2xl shadow-black/60 cursor-pointer`}
+      style={{ aspectRatio: aspect }}
+    >
+      {!failed && img ? (
+        /* eslint-disable-next-line @next/next/no-img-element */
+        <img
+          src={img}
+          alt={label}
+          onError={() => setFailed(true)}
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+      ) : (
+        <div
+          className="absolute inset-0 flex items-center justify-center"
+          style={{
+            background:
+              "linear-gradient(155deg, #221A2E 0%, #18121F 60%, #120D1C 100%)",
+          }}
+        >
+          <Icon size={22} className="text-white/25" />
+        </div>
+      )}
+
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/5 transition-colors duration-300" />
+
+      {/* Botón */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="w-9 h-9 rounded-full bg-[#9B5CE5]/95 flex items-center justify-center scale-90 group-hover:scale-100 transition-transform duration-300">
+          <Icon size={15} fill="currentColor" className="text-white" />
+        </div>
+      </div>
+
+      {/* Etiqueta */}
+      <div className="absolute bottom-0 inset-x-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
+        <span className="text-[9px] font-bold tracking-[0.18em] uppercase text-white/90">
+          {label}
+        </span>
+      </div>
+    </motion.a>
+  );
+}
 
 export default function Hero() {
   return (
-    <section
-      id="inicio"
-      className="relative min-h-screen flex items-center overflow-hidden px-6 md:px-16 lg:px-24"
-    >
-      {/* Background ambient blobs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div
-          className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full opacity-20 animate-blob"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(79,126,255,0.4) 0%, transparent 70%)",
-          }}
-        />
-        <div
-          className="absolute bottom-0 -left-40 w-[500px] h-[500px] rounded-full opacity-15 animate-blob"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(201,169,110,0.35) 0%, transparent 70%)",
-            animationDelay: "3s",
-          }}
-        />
-        {/* Grid texture */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
-            `,
-            backgroundSize: "80px 80px",
-          }}
-        />
-      </div>
+    <section id="inicio" className="relative overflow-hidden px-5 md:px-10">
+      {/* Halo violeta único, sutil */}
+      <div
+        className="pointer-events-none absolute right-0 top-10 w-[640px] h-[640px] rounded-full opacity-[0.14]"
+        style={{
+          background:
+            "radial-gradient(circle at center, rgba(155,92,229,0.55) 0%, transparent 70%)",
+        }}
+      />
 
-      <div className="relative z-10 max-w-[1400px] mx-auto w-full pt-28 pb-20 grid grid-cols-1 lg:grid-cols-[1fr_420px] xl:grid-cols-[1fr_480px] gap-16 lg:gap-8 items-center">
-        {/* ── Left: Text Content ── */}
-        <div className="flex flex-col">
-          {/* Badge */}
-          <motion.div
+      <div className="relative z-10 max-w-[1180px] mx-auto w-full pt-32 pb-20 grid lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-10 items-center">
+        {/* ── Columna texto ── */}
+        <div className="text-center lg:text-left">
+          <motion.span
             variants={fadeUp}
-            custom={0.1}
+            custom={0}
             initial="hidden"
             animate="show"
-            className="inline-flex items-center gap-2 self-start mb-8 px-4 py-2 rounded-full glass-gold"
+            className="text-[11px] tracking-[0.28em] uppercase text-[#948BA8]"
           >
-            <Sparkles size={13} className="text-[#C9A96E]" />
-            <span className="text-xs font-medium tracking-[0.15em] uppercase text-[#C9A96E]">
-              Disponible para proyectos
-            </span>
-          </motion.div>
+            Content Specialist · Editor de Video
+          </motion.span>
 
-          {/* Main heading */}
           <motion.h1
-            className="text-5xl sm:text-6xl md:text-7xl xl:text-8xl font-bold leading-[1.0] tracking-tight"
+            className="mt-5 text-5xl sm:text-6xl lg:text-7xl font-bold leading-[0.95] tracking-tight"
             initial="hidden"
             animate="show"
           >
-            <motion.span
-              variants={fadeUp}
-              custom={0.2}
-              className="block text-[#F0F2F5]"
-            >
+            <motion.span variants={fadeUp} custom={0.1} className="block text-[#F2EEF8]">
               Joaquín
             </motion.span>
-            <motion.span
-              variants={fadeUp}
-              custom={0.32}
-              className="block gradient-text-gold"
-            >
+            <motion.span variants={fadeUp} custom={0.18} className="block gradient-text-gold">
               Rojas
             </motion.span>
           </motion.h1>
 
-          {/* Subtitle */}
-          <motion.div
-            variants={fadeUp}
-            custom={0.44}
-            initial="hidden"
-            animate="show"
-            className="mt-6 flex items-center gap-3"
-          >
-            <div className="h-px w-10 bg-[#C9A96E]/50" />
-            <p className="text-sm tracking-[0.2em] uppercase font-medium text-[#8892A4]">
-              Content Specialist · Editor de Video
-            </p>
-          </motion.div>
-
-          {/* Description */}
           <motion.p
             variants={fadeUp}
-            custom={0.56}
+            custom={0.3}
             initial="hidden"
             animate="show"
-            className="mt-7 text-[#8892A4] text-lg leading-relaxed max-w-lg"
+            className="mt-6 max-w-md mx-auto lg:mx-0 text-base md:text-lg text-[#948BA8] leading-relaxed"
           >
-            Edición de video, reels, carruseles, secuencias de stories y producción
-            de podcast. Contenido que funciona.
+            Convierto horas de material en contenido que la gente termina de ver,
+            comparte y recuerda.
           </motion.p>
 
-          {/* CTA Buttons */}
+          {/* +6M inline */}
           <motion.div
             variants={fadeUp}
-            custom={0.68}
+            custom={0.4}
             initial="hidden"
             animate="show"
-            className="mt-10 flex flex-wrap gap-4"
+            className="mt-7 inline-flex items-center gap-3 justify-center lg:justify-start"
           >
-            <motion.a
-              href="mailto:joaquinrojas.content@gmail.com"
-              className="group inline-flex items-center gap-3 px-7 py-4 rounded-full bg-[#C9A96E] text-[#0B0F19] text-sm font-bold tracking-[0.08em] uppercase hover:bg-[#D4B87A] transition-all duration-300 glow-gold-strong"
-              whileHover={{ scale: 1.04, y: -2 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              Hablemos de tu proyecto
-              <ArrowRight
-                size={16}
-                className="group-hover:translate-x-1 transition-transform duration-300"
-              />
-            </motion.a>
-            <motion.a
-              href="#portfolio"
-              className="group inline-flex items-center gap-3 px-7 py-4 rounded-full border border-white/10 text-[#F0F2F5] text-sm font-semibold tracking-[0.06em] hover:border-white/25 hover:bg-white/[0.04] transition-all duration-300"
-              whileHover={{ scale: 1.03, y: -2 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              <Play size={14} className="fill-current" />
-              Ver trabajo
-            </motion.a>
+            <span className="text-3xl md:text-4xl font-bold gradient-text-gold leading-none">
+              +6M
+            </span>
+            <span className="text-left text-[13px] text-[#948BA8] leading-tight">
+              de views generadas
+              <br />
+              entre mis clientes
+            </span>
           </motion.div>
 
-          {/* Stats */}
+          {/* CTAs */}
           <motion.div
             variants={fadeUp}
-            custom={0.8}
+            custom={0.5}
             initial="hidden"
             animate="show"
-            className="mt-16 flex gap-10 border-t border-white/[0.06] pt-10"
+            className="mt-9 flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-3"
           >
-            {stats.map((stat) => (
-              <div key={stat.label} className="flex flex-col">
-                <span className="text-2xl md:text-3xl font-bold gradient-text-gold leading-none">
-                  {stat.value}
-                </span>
-                <span className="mt-1.5 text-xs text-[#8892A4] leading-tight max-w-[90px]">
-                  {stat.label}
-                </span>
-              </div>
-            ))}
+            <a
+              href="#portfolio"
+              className="group inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-[#9B5CE5] text-white text-sm font-bold tracking-[0.06em] uppercase hover:bg-[#B47CF0] transition-colors duration-300"
+            >
+              Ver trabajos
+              <ArrowDown
+                size={16}
+                className="group-hover:translate-y-1 transition-transform duration-300"
+              />
+            </a>
+            <a
+              href="#contacto"
+              className="inline-flex items-center px-6 py-3.5 rounded-full border border-white/12 text-sm font-semibold tracking-[0.06em] uppercase text-[#F2EEF8] hover:border-[#9B5CE5]/50 transition-colors duration-300"
+            >
+              Trabajemos juntos
+            </a>
+          </motion.div>
+
+          {/* Software */}
+          <motion.div
+            variants={fadeUp}
+            custom={0.62}
+            initial="hidden"
+            animate="show"
+            className="mt-12"
+          >
+            <p className="text-[10px] tracking-[0.26em] uppercase text-[#948BA8] mb-4">
+              Herramientas
+            </p>
+            <div className="flex flex-wrap justify-center lg:justify-start gap-2.5">
+              {TOOLS.map((tool) => (
+                <ToolIcon key={tool.name} {...tool} />
+              ))}
+            </div>
           </motion.div>
         </div>
 
-        {/* ── Right: Portrait Placeholder ── */}
+        {/* ── Columna visual: foto + trabajo ── */}
         <motion.div
-          initial={{ opacity: 0, x: 60, scale: 0.94 }}
-          animate={{ opacity: 1, x: 0, scale: 1 }}
-          transition={{ duration: 1.0, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="relative flex justify-center lg:justify-end"
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+          className="relative mx-auto w-full max-w-[360px]"
         >
-          {/* Rotating ring */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div
-              className="w-[380px] h-[380px] xl:w-[430px] xl:h-[430px] rounded-full border border-[#C9A96E]/10 animate-slow-rotate"
-              style={{ borderStyle: "dashed" }}
-            />
+          {/* Foto */}
+          <div className="relative aspect-[4/5] rounded-[1.75rem] overflow-hidden border border-white/[0.08]">
+            {photoSrc ? (
+              <Image
+                src={photoSrc}
+                alt={PROFILE_PHOTO.alt}
+                fill
+                priority
+                sizes="360px"
+                className="object-cover object-top"
+              />
+            ) : (
+              <div className="absolute inset-0 bg-[#18121F]" />
+            )}
+            {/* Degradado para integrar con el fondo */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0A0711] via-transparent to-transparent" />
           </div>
 
-          {/* Portrait card */}
-          <div className="animate-float relative w-[300px] md:w-[340px] xl:w-[380px]">
-            {/* Ambient glow behind portrait */}
-            <div
-              className="absolute inset-0 rounded-3xl glow-gold opacity-70"
-              style={{ transform: "scale(0.9) translateY(20px)" }}
-            />
+          {/* Reel (vertical) → sección Reels */}
+          <HeroPeek
+            href="#reels"
+            label="Reels"
+            img={cloudPoster(REELS[0].publicId, REELS[0].posterTime)}
+            aspect="9/16"
+            posClass="-left-7 bottom-6 w-[116px]"
+            rotate={-7}
+            delay={0.55}
+            Icon={Play}
+          />
 
-            {/* Portrait frame */}
-            <div className="relative rounded-3xl overflow-hidden glass-gold aspect-[3/4]">
-              {(PROFILE_PHOTO.publicId || PROFILE_PHOTO.localSrc) ? (
-                <Image
-                  src={PROFILE_PHOTO.publicId
-                    ? cloudImage(PROFILE_PHOTO.publicId, "f_auto,q_auto,w_800,ar_3:4,c_fill,g_face")
-                    : PROFILE_PHOTO.localSrc}
-                  alt={PROFILE_PHOTO.alt}
-                  fill
-                  className="object-cover object-top"
-                  priority
-                />
-              ) : (
-                <>
-                  <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, #151C2C 0%, #0F1524 40%, #0B0F19 100%)" }} />
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-                    <div className="w-20 h-20 rounded-full border-2 border-[#C9A96E]/30 flex items-center justify-center">
-                      <svg viewBox="0 0 24 24" className="w-10 h-10 text-[#C9A96E]/40" fill="currentColor">
-                        <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
-                      </svg>
-                    </div>
-                    <p className="text-xs text-[#C9A96E]/40 tracking-[0.15em] uppercase">Foto de perfil</p>
-                  </div>
-                </>
-              )}
-
-              {/* Bottom info strip — always visible */}
-              <div className="absolute bottom-0 left-0 right-0 p-5 glass border-t border-white/[0.06]">
-                <p className="text-xs font-semibold tracking-[0.12em] uppercase text-[#C9A96E]">
-                  Joaquín Rojas
-                </p>
-                <p className="text-[11px] text-[#8892A4] mt-0.5">
-                  Content Specialist & Editor
-                </p>
-              </div>
-            </div>
-
-          </div>
+          {/* Portada de podcast (cuadrada) → sección YouTube */}
+          <HeroPeek
+            href="#youtube"
+            label="Podcast"
+            img={YOUTUBE[0]?.thumb ?? ""}
+            aspect="1/1"
+            posClass="-right-7 top-8 w-[140px]"
+            rotate={6}
+            delay={0.68}
+            Icon={Mic}
+          />
         </motion.div>
       </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, duration: 0.8 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-      >
-        <span className="text-[10px] tracking-[0.2em] uppercase text-[#8892A4]/60">
-          Scroll
-        </span>
-        <div className="w-px h-12 bg-gradient-to-b from-[#C9A96E]/40 to-transparent" />
-      </motion.div>
     </section>
   );
 }

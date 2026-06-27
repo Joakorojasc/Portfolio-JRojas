@@ -32,12 +32,12 @@ export default function Footer() {
           className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] rounded-full opacity-[0.06]"
           style={{
             background:
-              "radial-gradient(ellipse, rgba(201,169,110,1) 0%, transparent 70%)",
+              "radial-gradient(ellipse, rgba(155,92,229,1) 0%, transparent 70%)",
           }}
         />
       </div>
 
-      <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-16 lg:px-24 py-28">
+      <div className="relative z-10 max-w-[1180px] mx-auto px-5 md:px-10 py-28">
         {/* Main CTA block */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-24">
           {/* Left: Heading */}
@@ -47,16 +47,16 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
-            <p className="text-xs tracking-[0.3em] uppercase text-[#C9A96E] mb-4 font-medium">
+            <p className="text-xs tracking-[0.3em] uppercase text-[#9B5CE5] mb-4 font-medium">
               Empecemos
             </p>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[#F0F2F5] leading-tight">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[#F2EEF8] leading-tight">
               Tu próximo{" "}
               <span className="gradient-text-gold">proyecto</span>
               <br />
               merece lo mejor
             </h2>
-            <p className="mt-6 text-[#8892A4] text-lg leading-relaxed max-w-md">
+            <p className="mt-6 text-[#948BA8] text-lg leading-relaxed max-w-md">
               Ya sea un reel que rompa el algoritmo, un podcast que posicione tu autoridad,
               o una estrategia de contenido completa — estoy listo para construirlo contigo.
             </p>
@@ -73,20 +73,20 @@ export default function Footer() {
             {/* Email card */}
             <div className="glass-gold rounded-3xl p-8">
               <div className="flex items-center gap-3 mb-5">
-                <div className="w-10 h-10 rounded-xl bg-[#C9A96E]/10 flex items-center justify-center">
-                  <Mail size={18} className="text-[#C9A96E]" />
+                <div className="w-10 h-10 rounded-xl bg-[#9B5CE5]/10 flex items-center justify-center">
+                  <Mail size={18} className="text-[#9B5CE5]" />
                 </div>
                 <div>
-                  <p className="text-xs text-[#8892A4] tracking-widest uppercase">
+                  <p className="text-xs text-[#948BA8] tracking-widest uppercase">
                     Email de contacto
                   </p>
-                  <p className="text-sm font-semibold text-[#F0F2F5]">
+                  <p className="text-sm font-semibold text-[#F2EEF8]">
                     Respuesta en menos de 24h
                   </p>
                 </div>
               </div>
 
-              <p className="text-lg md:text-xl font-bold text-[#F0F2F5] mb-6 break-all">
+              <p className="text-lg md:text-xl font-bold text-[#F2EEF8] mb-6 break-all">
                 {EMAIL}
               </p>
 
@@ -94,7 +94,7 @@ export default function Footer() {
                 {/* Primary CTA */}
                 <motion.a
                   href={`mailto:${EMAIL}`}
-                  className="group flex-1 flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[#C9A96E] text-[#0B0F19] text-sm font-bold tracking-[0.06em] uppercase hover:bg-[#D4B87A] transition-all duration-300 glow-gold-strong"
+                  className="group flex-1 flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[#9B5CE5] text-white text-sm font-bold tracking-[0.06em] uppercase hover:bg-[#B47CF0] transition-all duration-300 glow-gold-strong"
                   whileHover={{ scale: 1.03, y: -1 }}
                   whileTap={{ scale: 0.97 }}
                 >
@@ -108,7 +108,7 @@ export default function Footer() {
                 {/* Copy button */}
                 <motion.button
                   onClick={handleCopy}
-                  className="flex items-center justify-center gap-2 px-5 py-3.5 rounded-full border border-white/10 text-[#8892A4] hover:text-[#F0F2F5] hover:border-white/20 text-sm font-medium transition-all duration-300"
+                  className="flex items-center justify-center gap-2 px-5 py-3.5 rounded-full border border-white/10 text-[#948BA8] hover:text-[#F2EEF8] hover:border-white/20 text-sm font-medium transition-all duration-300"
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
                 >
@@ -135,17 +135,17 @@ export default function Footer() {
                   <div className="absolute inset-0 rounded-full bg-emerald-400 animate-ping opacity-40" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-[#F0F2F5]">
+                  <p className="text-sm font-semibold text-[#F2EEF8]">
                     Disponible para proyectos
                   </p>
-                  <p className="text-xs text-[#8892A4]">
-                    Tomando clientes · Mayo 2026
+                  <p className="text-xs text-[#948BA8]">
+                    Tomando clientes · Junio 2026
                   </p>
                 </div>
               </div>
               <div className="hidden sm:block text-right">
-                <p className="text-xs text-[#8892A4]">Entrega estimada</p>
-                <p className="text-sm font-bold text-[#C9A96E]">5–10 días</p>
+                <p className="text-xs text-[#948BA8]">Entrega estimada</p>
+                <p className="text-sm font-bold text-[#9B5CE5]">5–10 días</p>
               </div>
             </div>
           </motion.div>
@@ -161,14 +161,14 @@ export default function Footer() {
         >
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full border border-[#C9A96E]/30 flex items-center justify-center">
-              <div className="w-2.5 h-2.5 rounded-full bg-[#C9A96E]" />
+            <div className="w-8 h-8 rounded-full border border-[#9B5CE5]/30 flex items-center justify-center">
+              <div className="w-2.5 h-2.5 rounded-full bg-[#9B5CE5]" />
             </div>
             <div>
-              <p className="text-sm font-bold text-[#F0F2F5] tracking-[0.06em]">
+              <p className="text-sm font-bold text-[#F2EEF8] tracking-[0.06em]">
                 Joaquín Rojas
               </p>
-              <p className="text-[10px] text-[#8892A4] tracking-widest uppercase">
+              <p className="text-[10px] text-[#948BA8] tracking-widest uppercase">
                 Content Specialist & Editor
               </p>
             </div>
@@ -181,7 +181,7 @@ export default function Footer() {
                 key={label}
                 href={href}
                 aria-label={label}
-                className="w-9 h-9 rounded-full glass flex items-center justify-center text-[#8892A4] hover:text-[#C9A96E] hover:border-[#C9A96E]/20 transition-all duration-200"
+                className="w-9 h-9 rounded-full glass flex items-center justify-center text-[#948BA8] hover:text-[#9B5CE5] hover:border-[#9B5CE5]/20 transition-all duration-200"
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -191,7 +191,7 @@ export default function Footer() {
           </div>
 
           {/* Copyright */}
-          <p className="text-[11px] text-[#8892A4]/50 tracking-wider">
+          <p className="text-[11px] text-[#948BA8]/50 tracking-wider">
             © {new Date().getFullYear()} Joaquín Rojas · Todos los derechos reservados
           </p>
         </motion.div>

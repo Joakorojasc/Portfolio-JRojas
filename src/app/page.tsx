@@ -1,10 +1,9 @@
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
-import Skills from "@/components/Skills";
 import ReelsSection from "@/components/ReelsSection";
-import PodcastSection from "@/components/PodcastSection";
+import YouTubeSection from "@/components/YouTubeSection";
 import CarouselSection from "@/components/CarouselSection";
-import StoriesSection from "@/components/StoriesSection";
+import ValuesSection from "@/components/ValuesSection";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -12,15 +11,15 @@ export default function Home() {
     <main className="relative">
       <Navigation />
       <Hero />
-      <Skills />
 
-      {/* Portfolio Section */}
-      <section id="portfolio" className="py-20 px-6 md:px-16 lg:px-24 max-w-[1400px] mx-auto">
+      {/* Portfolio — el trabajo, grande y arriba */}
+      <section id="portfolio" className="pt-24 pb-20 px-5 md:px-10 max-w-[1180px] mx-auto">
         <ReelsSection />
-        <PodcastSection />
+        <YouTubeSection />
         <CarouselSection />
-        <StoriesSection />
       </section>
+
+      <ValuesSection />
 
       <Footer />
     </main>
