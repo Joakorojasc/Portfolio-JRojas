@@ -10,6 +10,11 @@
   --color-violet-dim: #6D3FA8;
   --color-violet-cool: #7C6CF0;
   --color-muted: #948BA8;
+  /* Banda clara (mitad inferior del sitio) */
+  --color-paper: #F7F5FA;
+  --color-paper-sunk: #EDE9F2;
+  --color-ink: #16111F;
+  --color-ink-muted: #5C5468;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -92,6 +97,24 @@ body {
 
 .glow-blue {
   box-shadow: 0 0 50px rgba(124, 108, 240, 0.12);
+}
+
+/* Banda clara: el sitio pasa de negro a papel a partir de "Cómo trabajo".
+   El violeta se mantiene como acento único, ahora sobre fondo claro. */
+.paper {
+  background-color: #F7F5FA;
+  color: #16111F;
+}
+
+/* Transición negro → papel, para que el quiebre no sea un corte duro */
+.paper-fade {
+  height: 96px;
+  background: linear-gradient(180deg, #0A0711 0%, #F7F5FA 100%);
+}
+
+.paper ::selection {
+  background-color: rgba(155, 92, 229, 0.22);
+  color: #16111F;
 }
 
 /* Section gradient divider */

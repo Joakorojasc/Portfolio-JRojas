@@ -95,24 +95,33 @@ export const CAROUSEL_SLIDES: {
 ];
 
 // ─── YOUTUBE (portadas / miniaturas 16:9) ────────────────────────────────────
-// Slider de portadas de YouTube. Para cada una poné:
-//  - thumb: imagen 16:9 (localSrc en public/youtube/ o URL de Cloudinary)
-//  - url:   link al video (se abre en pestaña nueva al hacer click)
+// SOLO PORTADAS: es una galería visual, no reproduce ni linkea a ningún lado.
+// Para cada una poné:
+//  - thumb:   imagen 16:9 en public/youtube/ (o URL completa de Cloudinary)
+//  - title:   nombre real del video / episodio
+//  - channel: cliente o canal para el que se hizo
 // Mientras falte la imagen se muestra un placeholder sobrio (no se rompe nada).
 export const YOUTUBE: {
   title: string;
   channel: string;
-  views: string;
   thumb: string; // ej "/youtube/video-1.jpg"  o URL completa
-  url: string;   // ej "https://youtu.be/XXXX"
 }[] = [
-  { title: "Título del video 1", channel: "Cliente / Canal", views: "—", thumb: "/youtube/video-1.jpg", url: "#" },
-  { title: "Título del video 2", channel: "Cliente / Canal", views: "—", thumb: "/youtube/video-2.jpg", url: "#" },
-  { title: "Título del video 3", channel: "Cliente / Canal", views: "—", thumb: "/youtube/video-3.jpg", url: "#" },
-  { title: "Título del video 4", channel: "Cliente / Canal", views: "—", thumb: "/youtube/video-4.jpg", url: "#" },
+  { title: "Título del video 1", channel: "Cliente / Canal", thumb: "/youtube/video-1.jpg" },
+  { title: "Título del video 2", channel: "Cliente / Canal", thumb: "/youtube/video-2.jpg" },
+  { title: "Título del video 3", channel: "Cliente / Canal", thumb: "/youtube/video-3.jpg" },
+  { title: "Título del video 4", channel: "Cliente / Canal", thumb: "/youtube/video-4.jpg" },
 ];
 
-// ─── VALORES ─────────────────────────────────────────────────────────────────
+// ─── CÓMO TRABAJO ────────────────────────────────────────────────────────────
+// Párrafo en primera persona (reemplaza la vieja grilla de 5 tarjetas 01-05).
+// BORRADOR: revisalo y corregí lo que no sea verdad.
+export const WORK_INTRO = [
+  "Arranco preguntando más de lo que probablemente esperás. Antes de abrir el proyecto quiero saber a quién le hablás, qué querés que pase después de que terminen de ver, y qué cosas ya probaste que no funcionaron. Eso queda por escrito, y es lo que después me deja tomar decisiones sin tener que consultarte cada corte.",
+  "Durante la edición te muestro avances en etapas en vez de desaparecer y reaparecer con un final. Si algo del material no está rindiendo te lo digo, aunque sea incómodo: prefiero discutir una idea a tiempo que entregar algo prolijo que no mueve la aguja. Cuando pido feedback pido el específico, no el «me gusta».",
+  "Planifico siempre con margen de sobra —le digo metodología colchón— porque los imprevistos no son una posibilidad, son parte del trabajo. Y cuando el contenido sale, miro cómo rindió de verdad: qué retuvo, dónde se cayó la gente, qué se compartió. Eso vuelve al proyecto siguiente.",
+];
+
+// Etiquetas cortas que acompañan al párrafo (sin tarjetas, sin numeritos).
 export const VALUES: { title: string; copy: string }[] = [
   {
     title: "Comunicación efectiva",

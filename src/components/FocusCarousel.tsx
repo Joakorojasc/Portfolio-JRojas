@@ -1,8 +1,26 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+
+/** Mide el ancho disponible para que los bloques nunca excedan la pantalla. */
+function useContainerWidth<T extends HTMLElement>() {
+  const ref = useRef<T>(null);
+  const [width, setWidth] = useState(0);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) =>
+      setWidth(entry.contentRect.width)
+    );
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  return [ref, width] as const;
+}
 
 type FocusCarouselProps<T> = {
   items: T[];
@@ -42,6 +60,13 @@ export default function FocusCarousel<T>({
   tilt = 0,
 }: FocusCarouselProps<T>) {
   const [active, setActive] = useState(initialIndex);
+  const [wrapRef, wrapWidth] = useContainerWidth<HTMLDivElement>();
+
+  // `slotWidth` es el ancho deseado en desktop; en pantallas chicas se achica
+  // para que el bloque enfocado entre completo y asome algo de los laterales.
+  const effectiveSlot = wrapWidth
+    ? Math.min(slotWidth, Math.max(200, wrapWidth - 56))
+    : slotWidth;
 
   const clamp = (n: number) => Math.max(0, Math.min(items.length - 1, n));
   const go = (dir: 1 | -1) => setActive((p) => clamp(p + dir));
@@ -50,12 +75,12 @@ export default function FocusCarousel<T>({
   // primer slide quede un espacio vacío a la izquierda y en el último a la derecha.
   // Con el padding (50% - slotWidth/2) el primer elemento del track queda centrado
   // en x=0; para enfocar el item real `active` desplazamos su posición de track.
-  const step = slotWidth + gap;
+  const step = effectiveSlot + gap;
   const trackIndex = active + 1; // +1 por el fantasma inicial
-  const sidePad = `calc(50% - ${slotWidth / 2}px)`;
+  const sidePad = `calc(50% - ${effectiveSlot / 2}px)`;
 
   const ghost = (visible: boolean) => (
-    <div style={{ width: slotWidth, flexShrink: 0 }} className="self-center">
+    <div style={{ width: effectiveSlot, flexShrink: 0 }} className="self-center">
       <div
         className="w-full rounded-2xl border border-dashed border-white/10 transition-opacity duration-500"
         style={{ aspectRatio: aspect, opacity: visible ? 0.5 : 0 }}
@@ -66,11 +91,19 @@ export default function FocusCarousel<T>({
   return (
     <div>
       <div
+        ref={wrapRef}
         className="relative overflow-hidden"
         style={tilt ? { perspective: 1400 } : undefined}
       >
         <motion.div
           className="flex items-center"
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.12}
+          onDragEnd={(_, info) => {
+            if (info.offset.x < -60) go(1);
+            else if (info.offset.x > 60) go(-1);
+          }}
           style={{
             gap,
             paddingLeft: sidePad,
@@ -90,7 +123,7 @@ export default function FocusCarousel<T>({
               <motion.div
                 key={i}
                 style={{
-                  width: slotWidth,
+                  width: effectiveSlot,
                   flexShrink: 0,
                   transformStyle: tilt ? "preserve-3d" : undefined,
                 }}

@@ -19,6 +19,9 @@ export default function Home() {
         <CarouselSection />
       </section>
 
+      {/* Quiebre negro → papel: de acá para abajo el sitio es claro */}
+      <div className="paper-fade" aria-hidden />
+
       <ValuesSection />
 
       <Footer />
