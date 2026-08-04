@@ -239,19 +239,25 @@ export default function Hero() {
             label="Reels"
             img={REELS[0]?.poster ?? ""}
             aspect="9/16"
-            posClass="-left-7 bottom-6 w-[116px]"
+            posClass="-left-4 bottom-6 w-[104px] sm:-left-7 sm:w-[126px]"
             rotate={-7}
             delay={0.55}
             Icon={Play}
           />
 
-          {/* Portada de podcast (cuadrada) → sección YouTube */}
+          {/* Portada de podcast → sección YouTube.
+              Va en 16:9 porque ese es el formato real de las portadas: estaba
+              declarada 1/1 y `object-cover` recortaba casi la mitad a los
+              costados, dejando ver solo una franja del centro. */}
           <HeroPeek
             href="#youtube"
             label="Podcast"
             img={YOUTUBE[0]?.thumb ?? ""}
-            aspect="1/1"
-            posClass="-right-7 top-8 w-[140px]"
+            aspect="16/9"
+            /* En mobile la columna mide ~350px y el padre solo tiene 20px de
+               padding: si el peek se sale 40px, `overflow-x: hidden` le come el
+               borde. Chico y pegado en mobile, grande y volado en desktop. */
+            posClass="-right-4 top-6 w-[165px] sm:-right-10 sm:top-6 sm:w-[210px]"
             rotate={6}
             delay={0.68}
             Icon={Mic}

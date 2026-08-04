@@ -90,11 +90,15 @@ export default function CarouselSection() {
         >
           <FocusCarousel
             items={CAROUSELS}
-            slotWidth={330}
-            gap={40}
+            slotWidth={430}
+            gap={52}
+            padY={34}
             initialIndex={0}
             label="carrusel"
             aspect="3/4"
+            // Un poco más de presencia en los laterales: con la opacidad por
+            // defecto el mazo de las tarjetas de al lado casi no se leía.
+            sideOpacity={0.42}
             onFocusedClick={open}
             renderItem={(item, isFocused) => (
               <div className="relative">
@@ -110,22 +114,39 @@ export default function CarouselSection() {
                   />
                 )}
 
-                {/* Las dos hojas de atrás: esto es lo que hace leer la tarjeta
-                    como un mazo de slides y no como una imagen suelta. */}
-                <div
-                  className="absolute inset-0 rounded-3xl border border-white/[0.07] bg-[#18121F] transition-opacity duration-300"
-                  style={{
-                    transform: "translate(14px, 14px) scale(0.985)",
-                    opacity: isFocused ? 1 : 0.5,
-                  }}
-                />
-                <div
-                  className="absolute inset-0 rounded-3xl border border-white/[0.09] bg-[#221A2E] transition-opacity duration-300"
-                  style={{
-                    transform: "translate(7px, 7px) scale(0.993)",
-                    opacity: isFocused ? 1 : 0.6,
-                  }}
-                />
+                {/* Las hojas de atrás son las slides 2 y 3 REALES, apenas
+                    giradas y oscurecidas. Con rectángulos vacíos solo se
+                    entendía "hay algo más"; con las imágenes se ve qué hay. */}
+                {[
+                  { src: item.slides[2], x: 26, y: 15, rot: 3.6, s: 0.94, dim: 0.62 },
+                  { src: item.slides[1], x: 13, y: 8, rot: 1.8, s: 0.97, dim: 0.38 },
+                ]
+                  .filter((sheet) => sheet.src)
+                  .map((sheet) => (
+                    <div
+                      key={sheet.src}
+                      className="absolute inset-0 rounded-3xl overflow-hidden border border-white/[0.08] transition-opacity duration-300"
+                      style={{
+                        transform: `translate(${sheet.x}px, ${sheet.y}px) rotate(${sheet.rot}deg) scale(${sheet.s})`,
+                        opacity: isFocused ? 1 : 0.55,
+                        boxShadow: "0 18px 40px -22px rgba(0,0,0,0.9)",
+                      }}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={sheet.src}
+                        alt=""
+                        aria-hidden
+                        loading="lazy"
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
+                      {/* Oscurecer manda la hoja al fondo sin desenfocarla */}
+                      <div
+                        className="absolute inset-0 bg-[#0A0711]"
+                        style={{ opacity: sheet.dim }}
+                      />
+                    </div>
+                  ))}
 
                 {/* La portada */}
                 <div
@@ -149,21 +170,21 @@ export default function CarouselSection() {
                   />
 
                   {/* Cuántas slides — con la palabra, no solo el número */}
-                  <div className="absolute top-4 left-4">
-                    <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold tracking-wide px-2.5 py-1.5 rounded-full text-white bg-black/55 backdrop-blur-sm">
-                      <Layers size={12} />
+                  <div className="absolute top-5 left-5">
+                    <span className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-wide px-3 py-2 rounded-full text-white bg-black/60 backdrop-blur-sm">
+                      <Layers size={14} />
                       {item.slides.length} slides
                     </span>
                   </div>
 
                   <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 to-transparent" />
 
-                  <div className="absolute bottom-0 left-0 right-0 p-5 flex items-end justify-between gap-3">
+                  <div className="absolute bottom-0 left-0 right-0 p-6 flex items-end justify-between gap-3">
                     <div>
-                      <p className="text-[26px] font-bold leading-none tabular-nums text-[#F2EEF8]">
+                      <p className="text-[34px] font-bold leading-none tabular-nums text-[#F2EEF8]">
                         {item.comments}
                       </p>
-                      <p className="mt-1 text-[10px] font-bold tracking-[0.18em] uppercase text-[#948BA8]">
+                      <p className="mt-1.5 text-[10px] font-bold tracking-[0.18em] uppercase text-[#948BA8]">
                         Comentarios
                       </p>
                       {item.title && (
@@ -176,9 +197,9 @@ export default function CarouselSection() {
                     {/* La acción, visible siempre en el enfocado: en touch no
                         hay hover, así que esconderla detrás del mouse la mataría. */}
                     {isFocused && (
-                      <span className="shrink-0 inline-flex items-center gap-1 text-[11px] font-semibold px-3 py-2 rounded-full bg-white text-[#16111F]">
+                      <span className="shrink-0 inline-flex items-center gap-1 text-[12px] font-semibold px-4 py-2.5 rounded-full bg-white text-[#16111F]">
                         Ver todas
-                        <ChevronRight size={13} />
+                        <ChevronRight size={14} />
                       </span>
                     )}
                   </div>

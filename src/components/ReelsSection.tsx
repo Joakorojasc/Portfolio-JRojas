@@ -99,6 +99,7 @@ export default function ReelsSection() {
           sideScale={0.74}
           sideOpacity={0.4}
           tilt={32}
+          padY={30}
           onFocusedClick={(i) => setActiveReel(i)}
           renderItem={(reel, isFocused) => (
             <motion.div

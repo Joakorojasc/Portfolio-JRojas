@@ -56,6 +56,12 @@ type FocusCarouselProps<T> = {
    * la izquierda. 0 = de frente (comportamiento por defecto).
    */
   focusTilt?: number;
+  /**
+   * Aire vertical dentro del contenedor, en px. El wrapper recorta con
+   * `overflow-hidden`, así que lo que un item dibuje fuera de su caja (sombras
+   * grandes, hojas apiladas, rotaciones) se corta si no se le hace lugar.
+   */
+  padY?: number;
 };
 
 export default function FocusCarousel<T>({
@@ -71,6 +77,7 @@ export default function FocusCarousel<T>({
   sideOpacity = 0.32,
   tilt = 0,
   focusTilt = 0,
+  padY = 0,
 }: FocusCarouselProps<T>) {
   const [active, setActive] = useState(initialIndex);
   const [wrapRef, wrapWidth] = useContainerWidth<HTMLDivElement>();
@@ -127,7 +134,12 @@ export default function FocusCarousel<T>({
         aria-label={`Galería de ${label}: ${active + 1} de ${items.length}`}
         onKeyDown={onKeyDown}
         className="relative overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-[#9B5CE5] focus-visible:ring-offset-4 focus-visible:ring-offset-[#0A0711]"
-        style={is3D ? { perspective: 1400 } : undefined}
+        style={{
+          ...(is3D ? { perspective: 1400 } : null),
+          // `overflow-hidden` recorta en la caja de padding, así que este aire
+          // es lo que deja ver sombras y hojas apiladas fuera del item.
+          ...(padY ? { paddingTop: padY, paddingBottom: padY } : null),
+        }}
       >
         <motion.div
           className="flex items-center"

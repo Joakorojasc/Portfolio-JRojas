@@ -38,8 +38,9 @@ export default function YouTubeSection() {
       >
         <FocusCarousel
           items={YOUTUBE}
-          slotWidth={620}
-          gap={32}
+          slotWidth={840}
+          gap={44}
+          padY={40}
           initialIndex={0}
           label="portada"
           aspect="16/9"
