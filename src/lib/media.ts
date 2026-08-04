@@ -85,23 +85,64 @@ export const REELS: {
   },
 ];
 
-// ─── CARRUSELES (slides de Instagram) ────────────────────────────────────────
-// Cada slide es una imagen. El visor las muestra de a 3 con la del centro en foco;
-// al comienzo queda un espacio vacío a la izquierda y al final uno a la derecha.
-// Completá publicId (Cloudinary) o localSrc (public/) para mostrar la foto real.
-export const CAROUSEL_SLIDES: {
-  index: string;
-  caption: string;
+// ─── CARRUSELES (posts de Instagram) ─────────────────────────────────────────
+// Un item = un POST, con todas sus slides. La galería muestra la portada (la
+// primera slide) de cada post en coverflow; al hacer click en la del centro se
+// abre el visor y se pasan las slides de ese post.
+//
+// Las imágenes salen de public/carruseles/, nombradas cN-MM.webp (N = post en
+// el orden de abajo, MM = slide dentro del post). Ver AGENTS.md para bajarlas.
+//
+// `comments` es el dato real del post. `title` va vacío a propósito, igual que
+// en REELS: si se completa, la tarjeta lo muestra.
+const slidesOf = (post: number, count: number) =>
+  Array.from(
+    { length: count },
+    (_, i) => `/carruseles/c${post}-${String(i + 1).padStart(2, "0")}.webp`
+  );
+
+export const CAROUSELS: {
+  url: string;
+  comments: string;
   accent: string;
-  publicId: string;
-  localSrc: string;
+  title: string;
+  slides: string[];
 }[] = [
-  { index: "01", caption: "Slide 1", accent: "#9B5CE5", publicId: "", localSrc: "/carruseles/carrusel-1.png" },
-  { index: "02", caption: "Slide 2", accent: "#7C6CF0", publicId: "", localSrc: "/carruseles/carrusel-2.png" },
-  { index: "03", caption: "Slide 3", accent: "#B47CF0", publicId: "", localSrc: "/carruseles/carrusel-3.png" },
-  { index: "04", caption: "Slide 4", accent: "#9B5CE5", publicId: "", localSrc: "/carruseles/carrusel-4.png" },
-  { index: "05", caption: "Slide 5", accent: "#7C6CF0", publicId: "", localSrc: "/carruseles/carrusel-5.png" },
-  { index: "06", caption: "Slide 6", accent: "#B47CF0", publicId: "", localSrc: "/carruseles/carrusel-6.png" },
+  {
+    url: "https://www.instagram.com/p/DYXEujtkXko/",
+    comments: "90",
+    accent: "#9B5CE5",
+    title: "",
+    slides: slidesOf(1, 8),
+  },
+  {
+    url: "https://www.instagram.com/p/DXW9afwEc2t/",
+    comments: "308",
+    accent: "#7C6CF0",
+    title: "",
+    slides: slidesOf(2, 7),
+  },
+  {
+    url: "https://www.instagram.com/p/DYha0ztEXXg/",
+    comments: "56",
+    accent: "#B47CF0",
+    title: "",
+    slides: slidesOf(3, 5),
+  },
+  {
+    url: "https://www.instagram.com/p/DW6S-CHkV0v/",
+    comments: "147",
+    accent: "#9B5CE5",
+    title: "",
+    slides: slidesOf(4, 5),
+  },
+  {
+    url: "https://www.instagram.com/p/DYFPysKkUP1/",
+    comments: "82",
+    accent: "#7C6CF0",
+    title: "",
+    slides: slidesOf(5, 6),
+  },
 ];
 
 // ─── YOUTUBE (portadas / miniaturas 16:9) ────────────────────────────────────

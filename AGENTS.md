@@ -58,7 +58,7 @@ comparten la clase `paper`.
 | `Hero.tsx` | 2 columnas. Izq: kicker, nombre (gradiente), frase, `+6M` inline, CTAs, herramientas. Der: foto (`/profile-image.jpg`) con 2 `HeroPeek`: 1 reel (9:16 → `#reels`) y 1 portada de podcast (1:1 → `#youtube`), con hover (rota a la mitad) y scroll al click. |
 | `ReelsSection.tsx` | Portadas de reels en **coverflow 3D** (`FocusCarousel` con `tilt`). La tarjeta lleva las **reproducciones reales** como dato principal (el título solo aparece si se carga). Click en la central abre **modal con reproducción real** desde el mp4 local: play/pausa, mute, fullscreen, anterior/siguiente, Escape y link al post original. `id="reels"`. |
 | `YouTubeSection.tsx` | Galería 16:9 de **portadas** en coverflow 3D (`tilt` en laterales + `focusTilt` en la central, que queda inclinada hacia la izquierda con sombra direccional). No reproduce ni linkea. `id="youtube"`. El rótulo (canal + título) **solo se dibuja si hay datos reales** en `YOUTUBE`; vacío = portada limpia. Placeholder sobrio si falta la imagen. |
-| `CarouselSection.tsx` | Slides de Instagram (3:4) en `FocusCarousel`. |
+| `CarouselSection.tsx` | Un item = un **post** de Instagram. La galería muestra la portada (primera slide) de cada post en coverflow 3:4 con los comentarios reales como dato; click en la central abre un **visor** que pasa las slides de ese post (flechas, puntos, teclado, Escape) y linkea al post original. `id="carruseles"`. |
 | `ValuesSection.tsx` | "Cómo trabajo" — 5 valores en un bloque. `id="valores"`. |
 | `TestimonialSection.tsx` | Testimonio de cliente en la zona clara. Video 16:9 con reproductor propio: play/pausa, mute, barra de progreso accesible (`role="slider"`, flechas/Home/End) y tiempo. Sin `poster` usa el fragmento `#t=` para evitar el primer frame negro, y al primer play vuelve a 0. Cita, nombre y cargo se renderizan solo si están cargados. `id="testimonio"`. |
 | `Footer.tsx` | CTA de contacto y copiar email. `id="contacto"`. **No lleva iconos de redes**: Joaquín no tiene perfiles propios que mostrar, el trabajo vive en las cuentas de los clientes. No volver a agregarlos. |
@@ -72,7 +72,7 @@ No hardcodear contenido en los componentes. Editar estos exports:
 - `PROFILE_PHOTO` — foto (local `/profile-image.jpg` o Cloudinary).
 - `HEADLINE_STAT` — el dato grande del hero (`+6M`). Ver la nota del archivo antes de tocarlo.
 - `REELS` — reels verticales: `src` y `poster` locales (`public/reels/`), `url` del post original, `views` real, `accent`. `title`/`category` vacíos = tarjeta sin rótulo.
-- `CAROUSEL_SLIDES` — slides de carrusel (local en `public/carruseles/`).
+- `CAROUSELS` — un objeto por **post**: `url`, `comments` real, `accent`, `title` (vacío = sin rótulo) y `slides` (rutas a `public/carruseles/cN-MM.webp`, generadas con el helper `slidesOf`).
 - `YOUTUBE` — solo `thumb`. Sin título, sin canal, sin link: **es a propósito**, la portada se muestra sola.
 - `TESTIMONIAL` — testimonio: `src`, `poster`, `client`, `clientNote`, `quote`, `name`, `role`.
 - `VALUES` — valores de "Cómo trabajo".
@@ -100,6 +100,11 @@ sharp(src).resize({ width: 1600, withoutEnlargement: true }).webp({ quality: 82 
 
 1. **Reel de Instagram** — anda sin cookies:
    `python -m yt_dlp -o "public/reels/reel-N.%(ext)s" <url-del-post>`
+1b. **Slides de un carrusel** — `gallery-dl` rebota al login, así que no sirve. Lo que
+   funciona es usar yt-dlp como lector de metadata y bajar las imágenes a mano:
+   `python -m yt_dlp -J --ignore-no-formats-error <url>` devuelve un `entries[]` con una
+   entrada por slide; el **último** `thumbnails[]` de cada una es el original sin recortar
+   (1080x1440). Descargar esas URLs y pasarlas por sharp a WebP (ancho 1000, `quality: 80`).
 2. **Poster del video** — `ffmpeg -ss 1 -i video.mp4 -frames:v 1 tmp.png` y después
    pasarlo por sharp a WebP. Conviene chequear que el frame no salga casi negro.
 3. **Rotación de los verticales** — las dimensiones crudas mienten. El testimonio venía
@@ -111,7 +116,6 @@ sharp(src).resize({ width: 1600, withoutEnlargement: true }).webp({ quality: 82 
 
 - `public/icons/*.svg` — logos de apps (premiere, after-effects, canva, flow, claude, gemini, veo, notion). Fuente: simpleicons.org. Sin ellos se ve el monograma.
 - Revisar `HEADLINE_STAT`: los 4 reels suman 2,28M de views, no 6M.
-- Carruseles: hay 6 imágenes en `public/carruseles/` pero el material de origen trae 5 posts. Falta una o sobra.
 - Peso versionado: `public/reels/` (18,8 MB) + `public/testimonio/` (11,7 MB) ≈ 30 MB de video en git. Si molesta, mover a un CDN o a Git LFS.
 
 ## Dev
