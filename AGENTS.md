@@ -25,7 +25,12 @@ Reglas que mantienen ese criterio (respetarlas en cualquier cambio):
 - **El dato convence.** Prueba social concreta: `+6M de views entre clientes` (inline en el
   hero, NO una sección entera de stats).
 - **Evitar señales de IA:** métricas infladas, gradientes/blobs por todos lados, reproductores
-  falsos. Si algo es decorativo y no aporta, va fuera.
+  falsos. Si algo es decorativo y no aporta, va fuera. También cuenta como señal de IA la
+  **prosa genérica**: listas de virtudes abstractas ("comunicación efectiva", "mejora
+  continua"), párrafos parejos y largos, y texto que explica lo que el diseño ya muestra.
+  Menos texto y más concreto siempre gana.
+- **La acción tiene que ser evidente sin hover.** Buena parte del tráfico es táctil: si una
+  tarjeta se abre, el botón que lo dice va visible, no escondido detrás del mouse.
 
 ## Paleta (negro + violeta, tinte berenjena)
 
@@ -58,12 +63,17 @@ comparten la clase `paper`.
 | `Hero.tsx` | 2 columnas. Izq: kicker, nombre (gradiente), frase, `+6M` inline, CTAs, herramientas. Der: foto (`/profile-image.jpg`) con 2 `HeroPeek`: 1 reel (9:16 → `#reels`) y 1 portada de podcast (1:1 → `#youtube`), con hover (rota a la mitad) y scroll al click. |
 | `ReelsSection.tsx` | Portadas de reels en **coverflow 3D** (`FocusCarousel` con `tilt`). La tarjeta lleva las **reproducciones reales** como dato principal (el título solo aparece si se carga). Click en la central abre **modal con reproducción real** desde el mp4 local: play/pausa, mute, fullscreen, anterior/siguiente, Escape y link al post original. `id="reels"`. |
 | `YouTubeSection.tsx` | Galería 16:9 de **portadas** en coverflow 3D (`tilt` en laterales + `focusTilt` en la central, que queda inclinada hacia la izquierda con sombra direccional). No reproduce ni linkea. `id="youtube"`. El rótulo (canal + título) **solo se dibuja si hay datos reales** en `YOUTUBE`; vacío = portada limpia. Placeholder sobrio si falta la imagen. |
-| `CarouselSection.tsx` | Un item = un **post** de Instagram. La galería muestra la portada (primera slide) de cada post en coverflow 3:4 con los comentarios reales como dato; click en la central abre un **visor** que pasa las slides de ese post (flechas, puntos, teclado, Escape) y linkea al post original. `id="carruseles"`. |
-| `ValuesSection.tsx` | "Cómo trabajo" — 5 valores en un bloque. `id="valores"`. |
-| `TestimonialSection.tsx` | Testimonio de cliente en la zona clara. Video 16:9 con reproductor propio: play/pausa, mute, barra de progreso accesible (`role="slider"`, flechas/Home/End) y tiempo. Sin `poster` usa el fragmento `#t=` para evitar el primer frame negro, y al primer play vuelve a 0. Cita, nombre y cargo se renderizan solo si están cargados. `id="testimonio"`. |
+| `CarouselSection.tsx` | Un item = un **post** de Instagram. Para que se lea como un grupo y no como una foto suelta, la tarjeta se dibuja como un **mazo**: dos hojas offset detrás de la portada, badge "N slides" (con la palabra, no solo el número) y un botón "Ver todas" siempre visible en la enfocada — en touch no hay hover, así que no puede depender del mouse. El visor pasa las slides con flechas sobre la imagen, **tira de miniaturas**, arrastre, teclado y Escape. `id="carruseles"`. |
+| `ValuesSection.tsx` | "Cómo trabajo" — 2 párrafos en primera persona, nada más. `id="valores"`. |
+| `TestimonialSection.tsx` | Testimonio de cliente en la zona clara. Video **vertical 9:16** acotado a 320px con la atribución al costado. Reproductor propio: play/pausa, mute, barra de progreso accesible (`role="slider"`, flechas/Home/End) y tiempo. Cita, nombre y cargo se renderizan solo si están cargados. `id="testimonio"`. |
 | `Footer.tsx` | CTA de contacto y copiar email. `id="contacto"`. **No lleva iconos de redes**: Joaquín no tiene perfiles propios que mostrar, el trabajo vive en las cuentas de los clientes. No volver a agregarlos. |
-| `FocusCarousel.tsx` | Carrusel genérico reutilizable: bloque central en foco, laterales atenuados/escalados; fantasmas a los lados. `tilt` = grados de giro 3D de los laterales (coverflow); `focusTilt` = giro constante del bloque central (0 por defecto, así Reels y Carruseles quedan de frente). |
+| `FocusCarousel.tsx` | Carrusel genérico reutilizable: bloque central en foco, laterales atenuados/escalados; fantasmas a los lados. `tilt` = grados de giro 3D de los laterales (coverflow); `focusTilt` = giro constante del bloque central (0 por defecto, así Reels y Carruseles quedan de frente). Es **focusable y navegable con teclado** (flechas, Home/End, Enter/espacio dispara `onFocusedClick`). |
 | `ToolIcon.tsx` | Chip de herramienta. Muestra el SVG de `public/icons/` si existe; si no, monograma (fallback robusto que detecta 404 pre-hidratación). |
+| `MotionProvider.tsx` | Envuelve la app en `MotionConfig reducedMotion="user"`. La regla CSS de `prefers-reduced-motion` no alcanza sola porque framer-motion anima por JS. |
+
+Helper: `src/lib/useLockBodyScroll.ts` — bloquea el scroll del fondo con un modal
+abierto y compensa el ancho de la barra para que la página no salte. Lo usan los
+visores de Reels y Carruseles.
 
 ## Datos — TODO vive en `src/lib/media.ts`
 
@@ -75,7 +85,7 @@ No hardcodear contenido en los componentes. Editar estos exports:
 - `CAROUSELS` — un objeto por **post**: `url`, `comments` real, `accent`, `title` (vacío = sin rótulo) y `slides` (rutas a `public/carruseles/cN-MM.webp`, generadas con el helper `slidesOf`).
 - `YOUTUBE` — solo `thumb`. Sin título, sin canal, sin link: **es a propósito**, la portada se muestra sola.
 - `TESTIMONIAL` — testimonio: `src`, `poster`, `client`, `clientNote`, `quote`, `name`, `role`.
-- `VALUES` — valores de "Cómo trabajo".
+- `WORK_INTRO` — los 2 párrafos de "Cómo trabajo". Es la voz de Joaquín: no inflarlo ni volver a agregarle una grilla de valores abstractos.
 - `TOOLS` — software del hero (`file` en `public/icons/`, `mono` de respaldo, `color`).
 
 **Los videos ya no van por Cloudinary**: reels y testimonio son archivos locales en

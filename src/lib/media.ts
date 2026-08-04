@@ -178,36 +178,16 @@ export const TESTIMONIAL = {
 };
 
 // ─── CÓMO TRABAJO ────────────────────────────────────────────────────────────
-// Párrafo en primera persona (reemplaza la vieja grilla de 5 tarjetas 01-05).
-// BORRADOR: revisalo y corregí lo que no sea verdad.
+// Dos párrafos en primera persona. Antes eran tres, más una grilla de 5 valores
+// ("Comunicación efectiva", "Alineación continua"...) que se eliminó: repetía en
+// etiquetas abstractas lo que estos párrafos ya dicen con ejemplos concretos, y
+// esa clase de lista genérica es justo lo que hace ver un sitio como plantilla.
+// Está en el historial de git por si se quiere recuperar.
+//
+// Revisalo y corregí lo que no suene a vos: es tu voz, no la mía.
 export const WORK_INTRO = [
-  "Arranco preguntando más de lo que probablemente esperás. Antes de abrir el proyecto quiero saber a quién le hablás, qué querés que pase después de que terminen de ver, y qué cosas ya probaste que no funcionaron. Eso queda por escrito, y es lo que después me deja tomar decisiones sin tener que consultarte cada corte.",
-  "Durante la edición te muestro avances en etapas en vez de desaparecer y reaparecer con un final. Si algo del material no está rindiendo te lo digo, aunque sea incómodo: prefiero discutir una idea a tiempo que entregar algo prolijo que no mueve la aguja. Cuando pido feedback pido el específico, no el «me gusta».",
-  "Planifico siempre con margen de sobra —le digo metodología colchón— porque los imprevistos no son una posibilidad, son parte del trabajo. Y cuando el contenido sale, miro cómo rindió de verdad: qué retuvo, dónde se cayó la gente, qué se compartió. Eso vuelve al proyecto siguiente.",
-];
-
-// Etiquetas cortas que acompañan al párrafo (sin tarjetas, sin numeritos).
-export const VALUES: { title: string; copy: string }[] = [
-  {
-    title: "Comunicación efectiva",
-    copy: "Hablamos claro desde el brief. Todo queda por escrito, sin malentendidos.",
-  },
-  {
-    title: "Alineación continua",
-    copy: "Reviso la dirección en cada etapa para entregar justo lo que la marca necesita.",
-  },
-  {
-    title: "Feedback valioso",
-    copy: "Aporto criterio editorial: cada cambio suma y el contenido rinde más.",
-  },
-  {
-    title: "Mejora continua",
-    copy: "Mido resultados y aplico cada aprendizaje al siguiente proyecto.",
-  },
-  {
-    title: "Metodología colchón",
-    copy: "Planifico con margen para absorber imprevistos y entregar siempre a tiempo.",
-  },
+  "Arranco preguntando más de lo que esperás: a quién le hablás, qué querés que pase después de que terminen de ver, y qué ya probaste que no funcionó. Eso queda por escrito, y es lo que después me deja decidir sin consultarte cada corte.",
+  "Muestro avances en etapas en vez de desaparecer y volver con un final. Si algo no está rindiendo te lo digo, aunque incomode. Planifico con margen —le digo metodología colchón— porque los imprevistos son parte del trabajo, no una posibilidad. Y cuando el contenido sale miro cómo rindió: qué retuvo, dónde se cayó la gente, qué se compartió.",
 ];
 
 // ─── HERRAMIENTAS / SOFTWARE (iconos del hero) ───────────────────────────────

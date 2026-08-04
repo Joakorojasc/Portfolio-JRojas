@@ -17,7 +17,7 @@ export default function Footer() {
 
   return (
     <footer id="contacto" className="paper border-t border-[#16111F]/[0.07]">
-      <div className="max-w-[1180px] mx-auto px-5 md:px-10 pt-24 pb-14">
+      <div className="max-w-[1180px] mx-auto px-5 md:px-10 pt-20 pb-12">
         <div className="grid lg:grid-cols-[200px_1fr] gap-8 lg:gap-16">
           <span className="text-[11px] tracking-[0.28em] uppercase text-[#5C5468]">
             Contacto
@@ -89,7 +89,7 @@ export default function Footer() {
         </div>
 
         {/* Barra inferior */}
-        <div className="mt-24 pt-8 border-t border-[#16111F]/[0.09] flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="mt-16 pt-8 border-t border-[#16111F]/[0.09] flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <p className="text-sm font-semibold text-[#16111F] tracking-[0.01em]">
               Joaquín Rojas

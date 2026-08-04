@@ -72,8 +72,8 @@ export default function TestimonialSection() {
 
   return (
     <section id="testimonio" className="paper scroll-mt-28">
-      <div className="max-w-[1180px] mx-auto px-5 md:px-10 pb-28" ref={ref}>
-        <div className="border-t border-[#16111F]/10 pt-16">
+      <div className="max-w-[1180px] mx-auto px-5 md:px-10 pb-20" ref={ref}>
+        <div className="border-t border-[#16111F]/10 pt-14">
           <div className="grid lg:grid-cols-[200px_1fr] gap-8 lg:gap-16">
             <motion.span
               initial={{ opacity: 0 }}

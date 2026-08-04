@@ -14,6 +14,7 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import { REELS } from "@/lib/media";
+import { useLockBodyScroll } from "@/lib/useLockBodyScroll";
 import FocusCarousel from "./FocusCarousel";
 
 export default function ReelsSection() {
@@ -49,14 +50,25 @@ export default function ReelsSection() {
     }
   }, [activeReel]);
 
-  // Escape para cerrar
+  useLockBodyScroll(activeReel !== null);
+
+  // Teclado del modal: Escape cierra, flechas cambian de reel, espacio
+  // reproduce. Solo se engancha con el modal abierto — antes el listener
+  // quedaba vivo todo el tiempo aunque no hubiera nada que cerrar.
   useEffect(() => {
+    if (activeReel === null) return;
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") close();
+      else if (e.key === "ArrowRight") next();
+      else if (e.key === "ArrowLeft") prev();
+      else if (e.key === " ") {
+        e.preventDefault();
+        togglePlay();
+      }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, []);
+  }, [activeReel]);
 
   const reel = activeReel !== null ? REELS[activeReel] : null;
 

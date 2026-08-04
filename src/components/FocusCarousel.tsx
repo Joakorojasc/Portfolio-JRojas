@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type KeyboardEvent,
+  type ReactNode,
+} from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -98,11 +104,29 @@ export default function FocusCarousel<T>({
     </div>
   );
 
+  // Teclado: flechas para moverse, Home/End a los extremos y Enter/espacio
+  // para activar el bloque enfocado (el equivalente al click del centro).
+  const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "ArrowRight") go(1);
+    else if (e.key === "ArrowLeft") go(-1);
+    else if (e.key === "Home") setActive(0);
+    else if (e.key === "End") setActive(items.length - 1);
+    else if ((e.key === "Enter" || e.key === " ") && onFocusedClick)
+      onFocusedClick(active);
+    else return;
+    e.preventDefault();
+  };
+
   return (
     <div>
       <div
         ref={wrapRef}
-        className="relative overflow-hidden"
+        tabIndex={0}
+        role="group"
+        aria-roledescription="carrusel"
+        aria-label={`Galería de ${label}: ${active + 1} de ${items.length}`}
+        onKeyDown={onKeyDown}
+        className="relative overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-[#9B5CE5] focus-visible:ring-offset-4 focus-visible:ring-offset-[#0A0711]"
         style={is3D ? { perspective: 1400 } : undefined}
       >
         <motion.div

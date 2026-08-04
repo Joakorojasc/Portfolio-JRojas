@@ -31,6 +31,23 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Quien pide menos movimiento en su sistema no deberia comerse el coverflow,
+   los flotados ni el scroll animado. No se apaga la opacidad: sin ella los
+   bloques que entran con `animate` quedarian invisibles. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
 body {
   background-color: #0A0711;
   color: #F2EEF8;
