@@ -44,6 +44,12 @@ type FocusCarouselProps<T> = {
   sideOpacity?: number;
   /** grados de rotación 3D (coverflow) de los bloques laterales. 0 = sin 3D */
   tilt?: number;
+  /**
+   * Grados de rotación 3D constante del bloque enfocado, para que quede
+   * apoyado hacia un lado en vez de plano de frente. Negativo = girado hacia
+   * la izquierda. 0 = de frente (comportamiento por defecto).
+   */
+  focusTilt?: number;
 };
 
 export default function FocusCarousel<T>({
@@ -58,6 +64,7 @@ export default function FocusCarousel<T>({
   sideScale = 0.82,
   sideOpacity = 0.32,
   tilt = 0,
+  focusTilt = 0,
 }: FocusCarouselProps<T>) {
   const [active, setActive] = useState(initialIndex);
   const [wrapRef, wrapWidth] = useContainerWidth<HTMLDivElement>();
@@ -79,6 +86,9 @@ export default function FocusCarousel<T>({
   const trackIndex = active + 1; // +1 por el fantasma inicial
   const sidePad = `calc(50% - ${effectiveSlot / 2}px)`;
 
+  // Hay escena 3D si giran los laterales (coverflow) o si el central va inclinado.
+  const is3D = Boolean(tilt || focusTilt);
+
   const ghost = (visible: boolean) => (
     <div style={{ width: effectiveSlot, flexShrink: 0 }} className="self-center">
       <div
@@ -93,7 +103,7 @@ export default function FocusCarousel<T>({
       <div
         ref={wrapRef}
         className="relative overflow-hidden"
-        style={tilt ? { perspective: 1400 } : undefined}
+        style={is3D ? { perspective: 1400 } : undefined}
       >
         <motion.div
           className="flex items-center"
@@ -108,7 +118,7 @@ export default function FocusCarousel<T>({
             gap,
             paddingLeft: sidePad,
             paddingRight: sidePad,
-            transformStyle: tilt ? "preserve-3d" : undefined,
+            transformStyle: is3D ? "preserve-3d" : undefined,
           }}
           animate={{ x: -trackIndex * step }}
           transition={{ type: "spring", stiffness: 260, damping: 32 }}
@@ -117,15 +127,22 @@ export default function FocusCarousel<T>({
 
           {items.map((item, i) => {
             const isFocused = i === active;
-            // Coverflow: los de la izquierda giran hacia adentro, los de la derecha al revés
-            const rotateY = !isFocused && tilt ? (i < active ? tilt : -tilt) : 0;
+            // Coverflow: los de la izquierda giran hacia adentro, los de la derecha al revés.
+            // El enfocado queda con `focusTilt` (0 = de frente, como siempre).
+            const rotateY = isFocused
+              ? focusTilt
+              : tilt
+                ? i < active
+                  ? tilt
+                  : -tilt
+                : 0;
             return (
               <motion.div
                 key={i}
                 style={{
                   width: effectiveSlot,
                   flexShrink: 0,
-                  transformStyle: tilt ? "preserve-3d" : undefined,
+                  transformStyle: is3D ? "preserve-3d" : undefined,
                 }}
                 animate={{
                   opacity: isFocused ? 1 : sideOpacity,

@@ -44,22 +44,32 @@ export default function YouTubeSection() {
           label="portada"
           aspect="16/9"
           sideScale={0.8}
-          sideOpacity={0.3}
-          renderItem={(video, isFocused) => (
+          // Ahora que las portadas son imágenes reales conviene que las
+          // laterales se lean: con 0.3 quedaban demasiado apagadas.
+          sideOpacity={0.45}
+          tilt={26}
+          focusTilt={-9}
+          renderItem={(video, isFocused, i) => (
             <div
-              className="relative w-full rounded-2xl overflow-hidden border transition-colors duration-300"
+              className="relative w-full rounded-2xl overflow-hidden border transition-all duration-300"
               style={{
                 aspectRatio: "16/9",
                 borderColor: isFocused
                   ? "rgba(155,92,229,0.4)"
                   : "rgba(255,255,255,0.06)",
+                // La sombra cae hacia el lado contrario a la inclinación: es lo
+                // que hace leer la portada como una placa apoyada en el espacio.
+                boxShadow: isFocused
+                  ? "34px 26px 60px -18px rgba(0,0,0,0.75), 0 0 0 1px rgba(155,92,229,0.10)"
+                  : "none",
               }}
             >
               {video.thumb ? (
                 /* eslint-disable-next-line @next/next/no-img-element */
                 <img
                   src={video.thumb}
-                  alt={video.title}
+                  alt={`Portada de podcast ${i + 1}`}
+                  loading="lazy"
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).style.display = "none";
                   }}
@@ -81,18 +91,7 @@ export default function YouTubeSection() {
                 </span>
               </div>
 
-              {/* Degradado inferior, solo lo suficiente para que se lea el título */}
-              <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent" />
-
-              {/* Info inferior */}
-              <div className="absolute bottom-0 left-0 right-0 p-5">
-                <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-[#9B5CE5] mb-1">
-                  {video.channel}
-                </p>
-                <p className="text-base md:text-lg font-bold text-[#F2EEF8] leading-tight">
-                  {video.title}
-                </p>
-              </div>
+              {/* Sin rótulo a propósito: la portada se muestra sola, limpia. */}
             </div>
           )}
         />

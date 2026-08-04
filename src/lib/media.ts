@@ -6,15 +6,9 @@ export function cloudImage(publicId: string, opts = "f_auto,q_auto,w_800") {
   return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${opts}/${publicId}`;
 }
 
-/** Optimized Cloudinary video URL */
-export function cloudVideo(publicId: string, opts = "f_auto,q_auto") {
-  return `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/${opts}/${publicId}.mp4`;
-}
-
-/** Poster (still frame) from a Cloudinary video */
-export function cloudPoster(publicId: string, time = 0) {
-  return `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/so_${time}/${publicId}.jpg`;
-}
+// Los videos ya no se sirven desde Cloudinary: reels y testimonio son archivos
+// locales en public/. Solo queda `cloudImage`, que usan la foto de perfil y los
+// carruseles como alternativa a la copia local.
 
 // ─── PROFILE PHOTO ───────────────────────────────────────────────────────────
 // Opción A (local): poné tu foto en public/profile-image.jpg y dejá publicId ""
@@ -25,53 +19,69 @@ export const PROFILE_PHOTO = {
   alt: "Joaquín Rojas — Content Specialist & Editor de Video",
 };
 
+// ─── DATO DEL HERO ───────────────────────────────────────────────────────────
+// REVISAR: los 4 reels de abajo suman 2,28M de views (1.1M + 987K + 188K + 5K).
+// Si el "+6M" incluye carruseles, podcasts y otro trabajo de clientes, está bien
+// como está; si no, conviene bajarlo al número que se pueda sostener. El
+// AGENTS.md es explícito en no inflar métricas.
+export const HEADLINE_STAT = {
+  value: "+6M",
+  line1: "de views generadas",
+  line2: "entre mis clientes",
+};
+
 // ─── REELS (videos verticales 9:16) ──────────────────────────────────────────
-// Agregá los que quieras: el carrusel los muestra de a 3 con el del centro en foco.
-// Opción A (local): poné los videos en public/reel-1.mp4, etc.
-// Opción B (Cloudinary): completá publicId ej. "portfolio-jrojas/reel-1"
+// Videos propios en public/reels/, bajados de los posts originales, con el
+// poster ya extraído al lado. `url` es el post de Instagram (se abre al hacer
+// click en "Ver en Instagram" dentro del modal) y `views` es el número real.
+//
+// `title` y `category` van vacíos a propósito: la prueba es la métrica, no un
+// rótulo inventado. Si algún día se completan, la tarjeta los muestra sola.
+// Ordenados de más a menos views.
 export const REELS: {
+  views: string;
+  url: string;
+  src: string;
+  poster: string;
+  accent: string;
   title: string;
   category: string;
-  views: string;
-  likes: string;
-  comments: string;
-  accent: string;
-  publicId: string;
-  localSrc: string;
-  posterTime: number; // segundo del video que se muestra como preview
 }[] = [
   {
-    title: "Campaña de Marca",
-    category: "Brand Story",
-    views: "84K",
-    likes: "6.2K",
-    comments: "312",
+    views: "1.1M",
+    url: "https://www.instagram.com/reel/DVtN8xojWVH/",
+    src: "/reels/reel-1.mp4",
+    poster: "/reels/reel-1.webp",
     accent: "#9B5CE5",
-    publicId: "Reel_bb_vu4z7r",
-    localSrc: "/reel-1.mp4",
-    posterTime: 4,
+    title: "",
+    category: "",
   },
   {
-    title: "Lanzamiento de Producto",
-    category: "Commercial",
-    views: "112K",
-    likes: "9.8K",
-    comments: "540",
+    views: "987K",
+    url: "https://www.instagram.com/reel/DW1NGVGEYev/",
+    src: "/reels/reel-4.mp4",
+    poster: "/reels/reel-4.webp",
     accent: "#7C6CF0",
-    publicId: "reel_esqueletos_j77441",
-    localSrc: "/reel-2.mp4",
-    posterTime: 0,
+    title: "",
+    category: "",
   },
   {
-    title: "Narrativa Personal",
-    category: "Storytelling",
-    views: "53K",
-    likes: "4.1K",
-    comments: "188",
+    views: "188K",
+    url: "https://www.instagram.com/reel/DV9QircmZ5I/",
+    src: "/reels/reel-2.mp4",
+    poster: "/reels/reel-2.webp",
     accent: "#B47CF0",
-    publicId: "reel1_optimizado_nldy8h",
-    localSrc: "/reel-3.mp4",
-    posterTime: 5,
+    title: "",
+    category: "",
+  },
+  {
+    views: "5K",
+    url: "https://www.instagram.com/reel/DW1Nwn1ke5-/",
+    src: "/reels/reel-3.mp4",
+    poster: "/reels/reel-3.webp",
+    accent: "#9B5CE5",
+    title: "",
+    category: "",
   },
 ];
 
@@ -95,22 +105,36 @@ export const CAROUSEL_SLIDES: {
 ];
 
 // ─── YOUTUBE (portadas / miniaturas 16:9) ────────────────────────────────────
-// SOLO PORTADAS: es una galería visual, no reproduce ni linkea a ningún lado.
-// Para cada una poné:
-//  - thumb:   imagen 16:9 en public/youtube/ (o URL completa de Cloudinary)
-//  - title:   nombre real del video / episodio
-//  - channel: cliente o canal para el que se hizo
-// Mientras falte la imagen se muestra un placeholder sobrio (no se rompe nada).
-export const YOUTUBE: {
-  title: string;
-  channel: string;
-  thumb: string; // ej "/youtube/video-1.jpg"  o URL completa
-}[] = [
-  { title: "Título del video 1", channel: "Cliente / Canal", thumb: "/youtube/video-1.jpg" },
-  { title: "Título del video 2", channel: "Cliente / Canal", thumb: "/youtube/video-2.jpg" },
-  { title: "Título del video 3", channel: "Cliente / Canal", thumb: "/youtube/video-3.jpg" },
-  { title: "Título del video 4", channel: "Cliente / Canal", thumb: "/youtube/video-4.jpg" },
+// SOLO LA PORTADA, a propósito: sin título, sin canal, sin texto encima y sin
+// link. Es una galería visual — el diseño de la portada es el trabajo que se
+// muestra. No agregar rótulos acá.
+export const YOUTUBE: { thumb: string }[] = [
+  { thumb: "/youtube/video-1.webp" },
+  { thumb: "/youtube/video-2.webp" },
+  { thumb: "/youtube/video-3.webp" },
+  { thumb: "/youtube/video-4.webp" },
 ];
+
+// ─── TESTIMONIO (sección clara, abajo) ───────────────────────────────────────
+// Video horizontal 16:9 en public/testimonio/. Se reproduce inline, con sonido
+// al darle play (arranca en silencio para no asustar a nadie).
+//
+// `quote` va vacío a propósito: el testimonio es el video, no una frase suelta.
+// Si algún día se transcribe una cita, se muestra automáticamente arriba.
+// OJO: el video es VERTICAL 9:16 (576x1024). El original venía con la rotación
+// en metadatos (1024x576 + displaymatrix -90°); se regrabó derecho para que no
+// dependa de cómo interprete cada navegador esa rotación.
+export const TESTIMONIAL = {
+  src: "/testimonio/barbertendence.mp4",
+  /** Frame extraído del propio video (9:16). */
+  poster: "/testimonio/poster.webp",
+  client: "BarberTendence",
+  /** Qué es el cliente, para que el testimonio tenga peso. */
+  clientNote: "Consultora n°1 de Latinoamérica de dueños de barberías",
+  quote: "",
+  name: "Emmanuel",
+  role: "Operator",
+};
 
 // ─── CÓMO TRABAJO ────────────────────────────────────────────────────────────
 // Párrafo en primera persona (reemplaza la vieja grilla de 5 tarjetas 01-05).

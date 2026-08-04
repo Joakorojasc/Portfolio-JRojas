@@ -9,8 +9,8 @@ import {
   REELS,
   YOUTUBE,
   TOOLS,
+  HEADLINE_STAT,
   cloudImage,
-  cloudPoster,
 } from "@/lib/media";
 import ToolIcon from "./ToolIcon";
 
@@ -154,12 +154,12 @@ export default function Hero() {
             className="mt-7 inline-flex items-center gap-3 justify-center lg:justify-start"
           >
             <span className="text-3xl md:text-4xl font-bold gradient-text-gold leading-none">
-              +6M
+              {HEADLINE_STAT.value}
             </span>
             <span className="text-left text-[13px] text-[#948BA8] leading-tight">
-              de views generadas
+              {HEADLINE_STAT.line1}
               <br />
-              entre mis clientes
+              {HEADLINE_STAT.line2}
             </span>
           </motion.div>
 
@@ -237,7 +237,7 @@ export default function Hero() {
           <HeroPeek
             href="#reels"
             label="Reels"
-            img={cloudPoster(REELS[0].publicId, REELS[0].posterTime)}
+            img={REELS[0]?.poster ?? ""}
             aspect="9/16"
             posClass="-left-7 bottom-6 w-[116px]"
             rotate={-7}

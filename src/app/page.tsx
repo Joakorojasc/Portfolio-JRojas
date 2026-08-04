@@ -4,6 +4,7 @@ import ReelsSection from "@/components/ReelsSection";
 import YouTubeSection from "@/components/YouTubeSection";
 import CarouselSection from "@/components/CarouselSection";
 import ValuesSection from "@/components/ValuesSection";
+import TestimonialSection from "@/components/TestimonialSection";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -23,6 +24,7 @@ export default function Home() {
       <div className="paper-fade" aria-hidden />
 
       <ValuesSection />
+      <TestimonialSection />
 
       <Footer />
     </main>

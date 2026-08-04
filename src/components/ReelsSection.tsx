@@ -11,8 +11,9 @@ import {
   ChevronLeft,
   ChevronRight,
   Maximize,
+  ArrowUpRight,
 } from "lucide-react";
-import { REELS, cloudVideo, cloudPoster } from "@/lib/media";
+import { REELS } from "@/lib/media";
 import FocusCarousel from "./FocusCarousel";
 
 export default function ReelsSection() {
@@ -116,11 +117,12 @@ export default function ReelsSection() {
                     : "none",
                 }}
               >
-                {reel.publicId ? (
+                {reel.poster ? (
                   /* eslint-disable-next-line @next/next/no-img-element */
                   <img
-                    src={cloudPoster(reel.publicId, reel.posterTime)}
-                    alt={reel.title}
+                    src={reel.poster}
+                    alt={reel.title || `Reel con ${reel.views} reproducciones`}
+                    loading="lazy"
                     className="absolute inset-0 w-full h-full object-cover"
                   />
                 ) : (
@@ -143,21 +145,31 @@ export default function ReelsSection() {
                   </div>
                 )}
 
-                {/* Categoría */}
-                <div className="absolute top-0 left-0 right-0 p-5">
-                  <p
-                    className="text-[10px] font-bold tracking-[0.18em] uppercase"
-                    style={{ color: reel.accent }}
-                  >
-                    {reel.category}
-                  </p>
-                </div>
+                {/* Categoría — solo si hay una cargada */}
+                {reel.category && (
+                  <div className="absolute top-0 left-0 right-0 p-5">
+                    <p
+                      className="text-[10px] font-bold tracking-[0.18em] uppercase"
+                      style={{ color: reel.accent }}
+                    >
+                      {reel.category}
+                    </p>
+                  </div>
+                )}
 
-                {/* Título */}
+                {/* El dato es la prueba: la métrica lleva el peso, no un rótulo */}
                 <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <p className="text-lg font-bold text-[#F2EEF8] leading-tight">
-                    {reel.title}
+                  <p className="text-[28px] font-bold leading-none tabular-nums text-[#F2EEF8]">
+                    {reel.views}
                   </p>
+                  <p className="mt-1 text-[10px] font-bold tracking-[0.18em] uppercase text-[#948BA8]">
+                    Reproducciones
+                  </p>
+                  {reel.title && (
+                    <p className="mt-2.5 text-base font-semibold text-[#F2EEF8] leading-tight">
+                      {reel.title}
+                    </p>
+                  )}
                 </div>
               </div>
             </motion.div>
@@ -194,8 +206,8 @@ export default function ReelsSection() {
                 <video
                   ref={videoRef}
                   key={activeReel}
-                  src={cloudVideo(reel.publicId)}
-                  poster={cloudPoster(reel.publicId, reel.posterTime)}
+                  src={reel.src}
+                  poster={reel.poster}
                   muted={muted}
                   loop
                   playsInline
@@ -226,7 +238,9 @@ export default function ReelsSection() {
 
                 {/* Controles superiores */}
                 <div className="absolute top-0 left-0 right-0 flex items-center justify-between p-4 bg-gradient-to-b from-black/60 to-transparent pointer-events-none">
-                  <p className="text-sm font-semibold text-white/90">{reel.title}</p>
+                  <p className="text-sm font-semibold text-white/90 tabular-nums">
+                    {reel.title || `${reel.views} reproducciones`}
+                  </p>
                   <div className="flex items-center gap-2 pointer-events-auto">
                     <button
                       onClick={() => setMuted((m) => !m)}
@@ -281,6 +295,21 @@ export default function ReelsSection() {
                   <ChevronRight size={18} />
                 </button>
               </div>
+
+              {reel.url && (
+                <a
+                  href={reel.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center gap-1.5 text-xs tracking-[0.02em] text-white/55 hover:text-white transition-colors"
+                >
+                  Ver el post original
+                  <ArrowUpRight
+                    size={13}
+                    className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200"
+                  />
+                </a>
+              )}
             </motion.div>
           </motion.div>
         )}
