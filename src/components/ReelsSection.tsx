@@ -16,6 +16,7 @@ import {
 import { REELS } from "@/lib/media";
 import { useLockBodyScroll } from "@/lib/useLockBodyScroll";
 import FocusCarousel from "./FocusCarousel";
+import FadeImage from "./FadeImage";
 
 export default function ReelsSection() {
   const [activeReel, setActiveReel] = useState<number | null>(null);
@@ -103,7 +104,7 @@ export default function ReelsSection() {
           onFocusedClick={(i) => setActiveReel(i)}
           renderItem={(reel, isFocused) => (
             <motion.div
-              className="relative"
+              className="relative group"
               whileHover={isFocused ? { scale: 1.02 } : undefined}
               transition={{ type: "spring", stiffness: 300, damping: 24 }}
             >
@@ -131,8 +132,7 @@ export default function ReelsSection() {
                 }}
               >
                 {reel.poster ? (
-                  /* eslint-disable-next-line @next/next/no-img-element */
-                  <img
+                  <FadeImage
                     src={reel.poster}
                     alt={reel.title || `Reel con ${reel.views} reproducciones`}
                     loading="lazy"
@@ -145,16 +145,15 @@ export default function ReelsSection() {
                 {/* Degradado inferior */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-black/10" />
 
-                {/* Botón play (solo el enfocado) */}
+                {/* Botón play (solo el enfocado). Reacciona al hover de toda
+                    la tarjeta, no solo del círculo: lo clickeable es la
+                    tarjeta entera, así que apuntarle justo al botón para que
+                    respondiera no tenía sentido. */}
                 {isFocused && (
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <motion.div
-                      className="w-16 h-16 rounded-full flex items-center justify-center border border-white/25 bg-black/25 backdrop-blur-sm"
-                      whileHover={{ scale: 1.08 }}
-                      whileTap={{ scale: 0.92 }}
-                    >
+                    <div className="w-16 h-16 rounded-full flex items-center justify-center border border-white/25 bg-black/25 backdrop-blur-sm transition-all duration-300 group-hover:scale-110 group-hover:bg-[#9B5CE5] group-hover:border-[#9B5CE5]">
                       <Play size={24} fill="currentColor" className="text-white ml-1" />
-                    </motion.div>
+                    </div>
                   </div>
                 )}
 

@@ -5,6 +5,7 @@ import { motion, useInView } from "framer-motion";
 import { Film } from "lucide-react";
 import { YOUTUBE } from "@/lib/media";
 import FocusCarousel from "./FocusCarousel";
+import FadeImage from "./FadeImage";
 
 export default function YouTubeSection() {
   const ref = useRef<HTMLDivElement>(null);
@@ -66,8 +67,7 @@ export default function YouTubeSection() {
               }}
             >
               {video.thumb ? (
-                /* eslint-disable-next-line @next/next/no-img-element */
-                <img
+                <FadeImage
                   src={video.thumb}
                   alt={`Portada de podcast ${i + 1}`}
                   loading="lazy"

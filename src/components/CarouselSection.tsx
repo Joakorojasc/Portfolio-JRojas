@@ -12,6 +12,7 @@ import {
 import { CAROUSELS } from "@/lib/media";
 import { useLockBodyScroll } from "@/lib/useLockBodyScroll";
 import FocusCarousel from "./FocusCarousel";
+import FadeImage from "./FadeImage";
 
 export default function CarouselSection() {
   const ref = useRef<HTMLDivElement>(null);
@@ -92,7 +93,9 @@ export default function CarouselSection() {
             items={CAROUSELS}
             slotWidth={430}
             gap={52}
-            padY={34}
+            // Extra respecto del reposo: en hover el mazo se abre y necesita
+            // más aire, si no `overflow-hidden` le come el borde a las hojas.
+            padY={48}
             initialIndex={0}
             label="carrusel"
             aspect="3/4"
@@ -101,7 +104,16 @@ export default function CarouselSection() {
             sideOpacity={0.42}
             onFocusedClick={open}
             renderItem={(item, isFocused) => (
-              <div className="relative">
+              /* `whileHover` con etiqueta propaga el estado a los hijos: al
+                 pasar el mouse por la enfocada, el mazo se abre en abanico y
+                 la portada se levanta. Refuerza que es un grupo justo en el
+                 momento en que la persona está por abrirlo. */
+              <motion.div
+                className="relative group"
+                initial="rest"
+                animate="rest"
+                whileHover={isFocused ? "hover" : undefined}
+              >
                 {/* Glow del enfocado. Va primero en el DOM para quedar al fondo
                     sin depender de z-index negativos dentro de la escena 3D. */}
                 {isFocused && (
@@ -123,17 +135,30 @@ export default function CarouselSection() {
                 ]
                   .filter((sheet) => sheet.src)
                   .map((sheet) => (
-                    <div
+                    <motion.div
                       key={sheet.src}
                       className="absolute inset-0 rounded-3xl overflow-hidden border border-white/[0.08] transition-opacity duration-300"
                       style={{
-                        transform: `translate(${sheet.x}px, ${sheet.y}px) rotate(${sheet.rot}deg) scale(${sheet.s})`,
                         opacity: isFocused ? 1 : 0.55,
                         boxShadow: "0 18px 40px -22px rgba(0,0,0,0.9)",
                       }}
+                      variants={{
+                        rest: {
+                          x: sheet.x,
+                          y: sheet.y,
+                          rotate: sheet.rot,
+                          scale: sheet.s,
+                        },
+                        hover: {
+                          x: sheet.x * 1.55,
+                          y: sheet.y * 1.45,
+                          rotate: sheet.rot * 1.4,
+                          scale: sheet.s,
+                        },
+                      }}
+                      transition={{ type: "spring", stiffness: 300, damping: 26 }}
                     >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
+                      <FadeImage
                         src={sheet.src}
                         alt=""
                         aria-hidden
@@ -145,11 +170,11 @@ export default function CarouselSection() {
                         className="absolute inset-0 bg-[#0A0711]"
                         style={{ opacity: sheet.dim }}
                       />
-                    </div>
+                    </motion.div>
                   ))}
 
                 {/* La portada */}
-                <div
+                <motion.div
                   className="relative w-full rounded-3xl overflow-hidden border transition-colors duration-300"
                   style={{
                     aspectRatio: "3/4",
@@ -157,9 +182,10 @@ export default function CarouselSection() {
                       ? item.accent + "55"
                       : "rgba(255,255,255,0.06)",
                   }}
+                  variants={{ rest: { y: 0 }, hover: { y: -10 } }}
+                  transition={{ type: "spring", stiffness: 300, damping: 26 }}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <FadeImage
                     src={item.slides[0]}
                     alt={
                       item.title ||
@@ -197,14 +223,17 @@ export default function CarouselSection() {
                     {/* La acción, visible siempre en el enfocado: en touch no
                         hay hover, así que esconderla detrás del mouse la mataría. */}
                     {isFocused && (
-                      <span className="shrink-0 inline-flex items-center gap-1 text-[12px] font-semibold px-4 py-2.5 rounded-full bg-white text-[#16111F]">
+                      <span className="shrink-0 inline-flex items-center gap-1 text-[12px] font-semibold px-4 py-2.5 rounded-full bg-white text-[#16111F] transition-colors duration-300 group-hover:bg-[#9B5CE5] group-hover:text-white">
                         Ver todas
-                        <ChevronRight size={14} />
+                        <ChevronRight
+                          size={14}
+                          className="transition-transform duration-300 group-hover:translate-x-0.5"
+                        />
                       </span>
                     )}
                   </div>
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             )}
           />
         </motion.div>
@@ -292,17 +321,19 @@ export default function CarouselSection() {
                     onClick={() => setSlide(i)}
                     aria-label={`Ir a la slide ${i + 1}`}
                     aria-current={i === slide}
-                    className="relative shrink-0 rounded-md overflow-hidden transition-opacity duration-200"
+                    className={`relative shrink-0 rounded-md overflow-hidden transition-all duration-200 hover:scale-105 ${
+                      i === slide
+                        ? "opacity-100"
+                        : "opacity-[0.45] hover:opacity-90"
+                    }`}
                     style={{
                       width: 40,
                       height: 53,
                       outline: i === slide ? "2px solid #9B5CE5" : "none",
                       outlineOffset: 2,
-                      opacity: i === slide ? 1 : 0.45,
                     }}
                   >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
+                    <FadeImage
                       src={src}
                       alt=""
                       loading="lazy"

@@ -187,8 +187,25 @@ export default function FocusCarousel<T>({
                   filter: isFocused ? "blur(0px)" : "blur(1.5px)",
                 }}
                 transition={{ type: "spring", stiffness: 260, damping: 32 }}
+                /* Los laterales se clickean para traerlos al centro, pero no
+                   daban ninguna señal: al pasar el mouse se aclaran y crecen
+                   un poco. El enfocado no lleva hover acá — cada sección
+                   define el suyo, que depende de lo que hace al clickearlo. */
+                whileHover={
+                  isFocused
+                    ? undefined
+                    : {
+                        opacity: Math.min(sideOpacity + 0.3, 1),
+                        scale: sideScale + 0.035,
+                        filter: "blur(0px)",
+                      }
+                }
                 onClick={() => (isFocused ? onFocusedClick?.(i) : setActive(i))}
-                className="cursor-pointer"
+                /* El cursor no debe prometer un click que no existe: el
+                   enfocado solo es interactivo si hay `onFocusedClick`. */
+                className={
+                  isFocused && !onFocusedClick ? "cursor-default" : "cursor-pointer"
+                }
               >
                 {renderItem(item, isFocused, i)}
               </motion.div>
@@ -206,7 +223,7 @@ export default function FocusCarousel<T>({
           disabled={active === 0}
           whileTap={{ scale: 0.9 }}
           aria-label={`Anterior ${label}`}
-          className="w-11 h-11 rounded-full glass flex items-center justify-center text-[#948BA8] hover:text-[#F2EEF8] disabled:opacity-25 transition-colors"
+          className="w-11 h-11 rounded-full glass flex items-center justify-center text-[#948BA8] hover:text-[#F2EEF8] hover:bg-white/[0.07] hover:scale-105 disabled:opacity-25 disabled:hover:scale-100 transition-all duration-300 outline-none focus-visible:ring-2 focus-visible:ring-[#9B5CE5] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0711]"
         >
           <ChevronLeft size={18} />
         </motion.button>
@@ -218,13 +235,20 @@ export default function FocusCarousel<T>({
               key={i}
               onClick={() => setActive(i)}
               aria-label={`Ir a ${label} ${i + 1}`}
-              className="rounded-full transition-all duration-300"
-              style={{
-                width: i === active ? 22 : 7,
-                height: 7,
-                background: i === active ? "#9B5CE5" : "rgba(255,255,255,0.22)",
-              }}
-            />
+              aria-current={i === active}
+              /* El punto mide 7px pero el botón ocupa 20px de alto: el área
+                 clickeable no puede ser del tamaño del dibujo. */
+              className="group h-5 flex items-center outline-none"
+            >
+              <span
+                className="block rounded-full transition-all duration-300 group-hover:bg-white/60 group-focus-visible:ring-2 group-focus-visible:ring-[#9B5CE5]"
+                style={{
+                  width: i === active ? 22 : 7,
+                  height: 7,
+                  background: i === active ? "#9B5CE5" : "rgba(255,255,255,0.22)",
+                }}
+              />
+            </button>
           ))}
         </div>
 
@@ -233,7 +257,7 @@ export default function FocusCarousel<T>({
           disabled={active === items.length - 1}
           whileTap={{ scale: 0.9 }}
           aria-label={`Siguiente ${label}`}
-          className="w-11 h-11 rounded-full glass flex items-center justify-center text-[#948BA8] hover:text-[#F2EEF8] disabled:opacity-25 transition-colors"
+          className="w-11 h-11 rounded-full glass flex items-center justify-center text-[#948BA8] hover:text-[#F2EEF8] hover:bg-white/[0.07] hover:scale-105 disabled:opacity-25 disabled:hover:scale-100 transition-all duration-300 outline-none focus-visible:ring-2 focus-visible:ring-[#9B5CE5] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0711]"
         >
           <ChevronRight size={18} />
         </motion.button>

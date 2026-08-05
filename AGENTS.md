@@ -31,6 +31,13 @@ Reglas que mantienen ese criterio (respetarlas en cualquier cambio):
   Menos texto y más concreto siempre gana.
 - **La acción tiene que ser evidente sin hover.** Buena parte del tráfico es táctil: si una
   tarjeta se abre, el botón que lo dice va visible, no escondido detrás del mouse.
+- **El hover confirma, no informa.** Todo lo interactivo responde al mouse, y responde en el
+  elemento entero (si la tarjeta es clickeable, el botón de adentro reacciona al hover de la
+  tarjeta, no solo del círculo). Al revés también vale: **lo que no hace nada no lleva
+  `cursor-pointer` ni hover** — prometer un click que no existe es peor que no dar feedback.
+- **Nada aparece de golpe.** Imágenes con `FadeImage`, cambios de estado con `transition`, y
+  los movimientos con el mismo resorte (`stiffness: 300, damping: 26`) o el easing de entrada
+  `[0.22, 1, 0.36, 1]`. Consistencia antes que variedad.
 
 ## Paleta (negro + violeta, tinte berenjena)
 
@@ -70,6 +77,7 @@ comparten la clase `paper`.
 | `FocusCarousel.tsx` | Carrusel genérico reutilizable: bloque central en foco, laterales atenuados/escalados; fantasmas a los lados. `tilt` = grados de giro 3D de los laterales (coverflow); `focusTilt` = giro constante del bloque central (0 por defecto, así Reels y Carruseles quedan de frente). Es **focusable y navegable con teclado** (flechas, Home/End, Enter/espacio dispara `onFocusedClick`). `padY` = aire vertical dentro del wrapper: como recorta con `overflow-hidden`, sin eso se cortan las sombras grandes y las hojas apiladas que dibujan los items fuera de su caja. |
 | `ToolIcon.tsx` | Chip de herramienta. Muestra el SVG de `public/icons/` si existe; si no, monograma (fallback robusto que detecta 404 pre-hidratación). |
 | `MotionProvider.tsx` | Envuelve la app en `MotionConfig reducedMotion="user"`. La regla CSS de `prefers-reduced-motion` no alcanza sola porque framer-motion anima por JS. |
+| `FadeImage.tsx` | `<img>` que entra con un fundido en vez de saltar. Reemplaza al `<img>` crudo en las galerías. Contempla el caso de la imagen cacheada (si `load` disparó antes de hidratar, se quedaría invisible). No es `next/image` porque las galerías dependen de `onError` para caer a su placeholder. |
 
 Helper: `src/lib/useLockBodyScroll.ts` — bloquea el scroll del fondo con un modal
 abierto y compensa el ancho de la barra para que la página no salte. Lo usan los
