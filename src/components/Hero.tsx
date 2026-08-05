@@ -57,12 +57,16 @@ function HeroPeek({ href, label, img, aspect, posClass, rotate, delay, Icon }: P
       style={{ aspectRatio: aspect }}
     >
       {!failed && img ? (
+        /* `object-contain`, no `cover`: acá la gracia es ver la portada
+           entera. Con `cover`, cualquier diferencia entre el alto de la
+           imagen y el de la caja se come un pedazo. El fondo oscuro hace que
+           las bandas, si aparecen, se lean como parte del diseño. */
         /* eslint-disable-next-line @next/next/no-img-element */
         <img
           src={img}
           alt={label}
           onError={() => setFailed(true)}
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-contain bg-[#0A0711]"
         />
       ) : (
         <div
@@ -76,18 +80,19 @@ function HeroPeek({ href, label, img, aspect, posClass, rotate, delay, Icon }: P
         </div>
       )}
 
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/5 transition-colors duration-300" />
+      {/* Velo apenas insinuado: la portada tiene que poder leerse. */}
+      <div className="absolute inset-0 bg-black/[0.08] group-hover:bg-transparent transition-colors duration-300" />
 
-      {/* Botón */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-9 h-9 rounded-full bg-[#9B5CE5]/95 flex items-center justify-center scale-90 group-hover:scale-100 transition-transform duration-300">
-          <Icon size={15} fill="currentColor" className="text-white" />
+      {/* Botón chico y en una esquina. Centrado y a 36px tapaba justo el
+          medio de la portada, que es donde vive el texto. */}
+      <div className="absolute top-1.5 right-1.5">
+        <div className="w-6 h-6 rounded-full bg-[#9B5CE5] flex items-center justify-center opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">
+          <Icon size={11} fill="currentColor" className="text-white" />
         </div>
       </div>
 
       {/* Etiqueta */}
-      <div className="absolute bottom-0 inset-x-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
+      <div className="absolute bottom-0 inset-x-0 px-2 pt-5 pb-1.5 bg-gradient-to-t from-black/85 to-transparent">
         <span className="text-[9px] font-bold tracking-[0.18em] uppercase text-white/90">
           {label}
         </span>
