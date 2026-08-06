@@ -4,10 +4,10 @@ Estado y pendientes del portfolio. Para las convenciones del proyecto (paleta,
 componentes, cómo bajar material) ver `AGENTS.md` — este archivo es solo la lista
 de lo que quedó abierto.
 
-Última actualización: 5 de agosto de 2026 · se agregaron 7 reels (Mariana
-Bennet, Barbertendence y Héctor Muerza — este último re-encodeado del export
-original porque Instagram no lo sirve sin login) y 25 portadas nuevas
-(video-5 a video-29), pendiente de commit.
+Última actualización: 5 de agosto de 2026 · 11 reels, 29 portadas, la sección
+"Valores" pasó a llamarse **Estrategia** (con la foto del escritorio al
+costado), el dato del hero va en **naranjo torino** y el quiebre negro → papel
+es una ola con cresta que se dibuja al scrollear.
 
 ---
 
@@ -55,7 +55,8 @@ Se dejaron vacíos para no inventar contenido.
 
 | Campo | Dónde | Qué es |
 |-------|-------|--------|
-| `title` | `REELS` | Nombre de cada reel. `category` ya lleva el cliente (Barbertendence / Mariana Bennet); la tarjeta lo muestra arriba con el color del accent. |
+| `title` | `REELS` | Nombre de cada reel. `category` ya lleva el cliente (Barbertendence / Mariana Bennet / Héctor Muerza); la tarjeta lo muestra arriba con el color del accent. |
+| `likes` / `comments` | `REELS` | Opcionales. Hoy solo los tiene el reel de Héctor Muerza (848 / 725), donde la interacción dice más que las views. Si se cargan en otro, la tarjeta los muestra sola. |
 | `title` | `CAROUSELS` | Nombre de cada carrusel. Hoy muestra solo los comentarios. |
 | `quote` | `TESTIMONIAL` | Una frase textual de Emmanuel. El video ya es el testimonio; la cita es un plus. |
 

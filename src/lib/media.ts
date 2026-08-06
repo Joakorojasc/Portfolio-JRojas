@@ -19,6 +19,11 @@ export const PROFILE_PHOTO = {
   alt: "Joaquín Rojas — Content Specialist & Editor de Video",
 };
 
+// ─── HERO ────────────────────────────────────────────────────────────────────
+/** La línea que va debajo del nombre. Es la promesa, no un currículum. */
+export const HERO_TAGLINE =
+  "Te ayudo a crear el contenido que tu marca necesita";
+
 // ─── DATO DEL HERO ───────────────────────────────────────────────────────────
 // REVISAR: los 4 reels de abajo suman 2,28M de views (1.1M + 987K + 188K + 5K).
 // Si el "+6M" incluye carruseles, podcasts y otro trabajo de clientes, está bien
@@ -292,13 +297,12 @@ export const WORK_INTRO = [
   "Entiendo profundamente tus requerimientos, para minimizar al máximo el tiempo que le dediques a revisión, solicito feedback constante en una etapa inicial. Mis entregas las hago con entrega anticipada, le digo la metodología colchón. Trabajo solamente con gente que sé que podré ayudar.",
 ];
 
-// Diagrama del flujo de trabajo que va a la derecha de esos párrafos.
-// Joaquín lo está armando en Canva: cuando esté, guardarlo en public/
-// (ej "/work/flujo.webp") y completar `src`. Mientras esté vacío se muestra
-// un placeholder sobrio.
+// Foto que acompaña a esos párrafos, a la derecha. Es el escritorio real de
+// Joaquín editando — vale más que un diagrama genérico. Si se reemplaza,
+// dejar el archivo en public/work/ y actualizar `src`; vacío = placeholder.
 export const WORK_IMAGE = {
-  src: "",
-  alt: "Flujo de trabajo y herramientas",
+  src: "/work/foto-trabajo.webp",
+  alt: "El escritorio de Joaquín: monitor con una pieza en edición, notebook y teclado",
 };
 
 // ─── HERRAMIENTAS / SOFTWARE (iconos del hero) ───────────────────────────────

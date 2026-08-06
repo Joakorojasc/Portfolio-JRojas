@@ -13,6 +13,7 @@ import { CAROUSELS } from "@/lib/media";
 import { useLockBodyScroll } from "@/lib/useLockBodyScroll";
 import FocusCarousel from "./FocusCarousel";
 import FadeImage from "./FadeImage";
+import Parallax from "./Parallax";
 
 export default function CarouselSection() {
   const ref = useRef<HTMLDivElement>(null);
@@ -49,40 +50,37 @@ export default function CarouselSection() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openPost, post]);
 
-  const totalSlides = CAROUSELS.reduce((a, c) => a + c.slides.length, 0);
-
   return (
     <>
       <div id="carruseles" className="mb-32 scroll-mt-28" ref={ref}>
         {/* Sub-header */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="flex items-center gap-4 mb-4"
-        >
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-[#9B5CE5]" />
-            <h3 className="text-xl md:text-2xl font-bold tracking-[0.04em] text-[#F2EEF8]">
-              Carruseles
-            </h3>
-          </div>
-          <div className="h-px flex-1 bg-white/[0.05]" />
-          <span className="text-xs text-[#948BA8] tracking-widest uppercase">
-            {CAROUSELS.length} posts · {totalSlides} slides
-          </span>
-        </motion.div>
+        <Parallax distance={22}>
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6 }}
+            className="flex items-center gap-4 mb-4"
+          >
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-[#9B5CE5]" />
+              <h3 className="text-xl md:text-2xl font-bold tracking-[0.04em] text-[#F2EEF8]">
+                Carruseles
+              </h3>
+            </div>
+            <div className="h-px flex-1 bg-white/[0.05]" />
+          </motion.div>
 
-        {/* Explicar el formato en una línea sale más barato que esperar que se
-            deduzca del diseño. */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-sm text-[#948BA8] mb-10 max-w-[52ch]"
-        >
-          Cada tarjeta es un post completo. Abrila para pasar todas sus slides.
-        </motion.p>
+          {/* Explicar el formato en una línea sale más barato que esperar que
+              se deduzca del diseño. */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-sm text-[#948BA8] mb-10 max-w-[52ch]"
+          >
+            Cada tarjeta es un post completo. Abrila para pasar todas sus slides.
+          </motion.p>
+        </Parallax>
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}

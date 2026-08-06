@@ -9,6 +9,10 @@
   --color-violet-bright: #B47CF0;
   --color-violet-dim: #6D3FA8;
   --color-violet-cool: #7C6CF0;
+  /* Naranjo torino: único punto cálido del sitio, reservado para el dato
+     grande del hero. Si se empieza a repartir, deja de significar algo. */
+  --color-torino: #FF6B1A;
+  --color-torino-deep: #F25C05;
   --color-muted: #948BA8;
   /* Banda clara (mitad inferior del sitio) */
   --color-paper: #F7F5FA;
@@ -79,6 +83,34 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* Naranjo torino con reflejo: el brillo vive DENTRO del degradado (una banda
+   clara al 40%) y se pasea moviendo `background-position`. Los dos extremos
+   son el mismo naranjo plano, así que el loop no se nota: reposo → barrido →
+   reposo. Solo para el dato del hero. */
+.gradient-text-torino {
+  background: linear-gradient(
+    100deg,
+    #F25C05 0%,
+    #F25C05 22%,
+    #FF6B1A 32%,
+    #FFCE95 41%,
+    #FF7A22 50%,
+    #F25C05 62%,
+    #F25C05 100%
+  );
+  background-size: 300% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: torino-sheen 7s ease-in-out infinite;
+}
+
+@keyframes torino-sheen {
+  0%, 18% { background-position: 100% 0; }
+  82%, 100% { background-position: 0% 0; }
 }
 
 .gradient-text-silver {

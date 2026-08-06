@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { Play, Pause, Volume2, VolumeX } from "lucide-react";
 import { TESTIMONIAL } from "@/lib/media";
+import Parallax from "./Parallax";
 
 /** Segundos → "m:ss" */
 function fmt(seconds: number) {
@@ -87,6 +88,7 @@ export default function TestimonialSection() {
             {/* El video es vertical: va acotado a un ancho chico y la
                 atribución lo acompaña al costado en vez de quedar debajo. */}
             <div className="flex flex-col md:flex-row md:items-end gap-8 md:gap-10">
+              <Parallax distance={28} className="w-full max-w-[320px] shrink-0">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -97,7 +99,7 @@ export default function TestimonialSection() {
                 }}
                 onMouseEnter={() => setHover(true)}
                 onMouseLeave={() => setHover(false)}
-                className="relative w-full max-w-[320px] shrink-0 rounded-2xl overflow-hidden bg-[#0A0711]"
+                className="relative w-full rounded-2xl overflow-hidden bg-[#0A0711]"
                 style={{
                   aspectRatio: "9/16",
                   boxShadow: "0 30px 60px -28px rgba(22,17,31,0.45)",
@@ -181,6 +183,7 @@ export default function TestimonialSection() {
                   </div>
                 </div>
               </motion.div>
+              </Parallax>
 
               {/* Cita (si algún día se transcribe) + atribución */}
               <motion.div

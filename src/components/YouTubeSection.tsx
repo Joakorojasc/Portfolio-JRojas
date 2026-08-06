@@ -6,6 +6,7 @@ import { Film } from "lucide-react";
 import { YOUTUBE } from "@/lib/media";
 import FocusCarousel from "./FocusCarousel";
 import FadeImage from "./FadeImage";
+import Parallax from "./Parallax";
 
 export default function YouTubeSection() {
   const ref = useRef<HTMLDivElement>(null);
@@ -14,23 +15,22 @@ export default function YouTubeSection() {
   return (
     <div id="youtube" className="mb-32 scroll-mt-28" ref={ref}>
       {/* Sub-header */}
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={inView ? { opacity: 1, x: 0 } : {}}
-        transition={{ duration: 0.6 }}
-        className="flex items-center gap-4 mb-12"
-      >
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-[#9B5CE5]" />
-          <h3 className="text-xl md:text-2xl font-bold tracking-[0.04em] text-[#F2EEF8]">
-            YouTube
-          </h3>
-        </div>
-        <div className="h-px flex-1 bg-white/[0.05]" />
-        <span className="text-xs text-[#948BA8] tracking-widest uppercase">
-          Portadas · 16:9
-        </span>
-      </motion.div>
+      <Parallax distance={22}>
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={inView ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="flex items-center gap-4 mb-12"
+        >
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-[#9B5CE5]" />
+            <h3 className="text-xl md:text-2xl font-bold tracking-[0.04em] text-[#F2EEF8]">
+              YouTube
+            </h3>
+          </div>
+          <div className="h-px flex-1 bg-white/[0.05]" />
+        </motion.div>
+      </Parallax>
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}

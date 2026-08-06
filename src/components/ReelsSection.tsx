@@ -19,6 +19,7 @@ import { REELS } from "@/lib/media";
 import { useLockBodyScroll } from "@/lib/useLockBodyScroll";
 import FocusCarousel from "./FocusCarousel";
 import FadeImage from "./FadeImage";
+import Parallax from "./Parallax";
 
 export default function ReelsSection() {
   const [activeReel, setActiveReel] = useState<number | null>(null);
@@ -78,19 +79,19 @@ export default function ReelsSection() {
   return (
     <>
       <div id="reels" className="mb-32 scroll-mt-28">
-        {/* Header */}
-        <div className="flex items-center gap-4 mb-12">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-[#9B5CE5]" />
-            <h3 className="text-xl md:text-2xl font-bold tracking-[0.04em] text-[#F2EEF8]">
-              Reels Verticales
-            </h3>
+        {/* Header. Sin rótulo de formato a la derecha: el 9:16 se ve.
+            El parallax lo desfasa apenas del carrusel de abajo. */}
+        <Parallax distance={22}>
+          <div className="flex items-center gap-4 mb-12">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-[#9B5CE5]" />
+              <h3 className="text-xl md:text-2xl font-bold tracking-[0.04em] text-[#F2EEF8]">
+                Reels
+              </h3>
+            </div>
+            <div className="h-px flex-1 bg-white/[0.05]" />
           </div>
-          <div className="h-px flex-1 bg-white/[0.05]" />
-          <span className="text-xs text-[#948BA8] tracking-widest uppercase">
-            Formato 9:16
-          </span>
-        </div>
+        </Parallax>
 
         <FocusCarousel
           items={REELS}

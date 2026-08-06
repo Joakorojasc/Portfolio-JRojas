@@ -33,8 +33,18 @@ export default function Footer() {
               transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
               className="text-3xl md:text-[42px] font-bold tracking-[-0.02em] leading-[1.12] text-[#16111F]"
             >
-              ¡Hablemos! Soy buena onda 😁
+              ¡Hablemos!
             </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.65, delay: 0.08 }}
+              className="mt-3 text-lg text-[#5C5468]"
+            >
+              Soy buena onda 😁
+            </motion.p>
 
             {/* Contacto directo: WhatsApp y email, cada uno con su icono.
                 Sin botón de copiar: el link de mailto ya alcanza. */}
@@ -73,7 +83,7 @@ export default function Footer() {
         {/* Barra inferior: solo el cierre, sin © ni cargo (pedido de Joaquín) */}
         <div className="mt-16 pt-8 border-t border-[#16111F]/[0.09] flex justify-center">
           <p className="text-lg font-bold tracking-[-0.01em] text-[#16111F]">
-            ¡Trabajemos juntos!
+            ¡A darle con todo!
           </p>
         </div>
       </div>

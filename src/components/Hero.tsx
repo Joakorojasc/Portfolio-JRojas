@@ -1,7 +1,15 @@
 "use client";
 
-import { useState } from "react";
-import { motion, type Variants } from "framer-motion";
+import { useRef, useState } from "react";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+  type MotionValue,
+  type Variants,
+} from "framer-motion";
 import { ArrowDown, Play, Mic, type LucideIcon } from "lucide-react";
 import Image from "next/image";
 import {
@@ -10,6 +18,7 @@ import {
   YOUTUBE,
   TOOLS,
   HEADLINE_STAT,
+  HERO_TAGLINE,
   cloudImage,
 } from "@/lib/media";
 import ToolIcon from "./ToolIcon";
@@ -31,19 +40,20 @@ const photoSrc = PROFILE_PHOTO.publicId
   ? cloudImage(PROFILE_PHOTO.publicId, "f_auto,q_auto,w_900,ar_3:4,c_fill,g_face")
   : PROFILE_PHOTO.localSrc;
 
-// Tarjeta de trabajo que asoma junto a la foto (hover + lleva a su sección)
+// Tarjeta de trabajo que asoma junto a la foto (hover + lleva a su sección).
+// La posición y el desplazamiento por scroll los pone el wrapper de afuera:
+// acá adentro `y` ya lo usa la animación de entrada y el hover.
 type PeekProps = {
   href: string;
   label: string;
   img: string;
   aspect: string;
-  posClass: string;
   rotate: number;
   delay: number;
   Icon: LucideIcon;
 };
 
-function HeroPeek({ href, label, img, aspect, posClass, rotate, delay, Icon }: PeekProps) {
+function HeroPeek({ href, label, img, aspect, rotate, delay, Icon }: PeekProps) {
   const [failed, setFailed] = useState(false);
 
   return (
@@ -53,7 +63,7 @@ function HeroPeek({ href, label, img, aspect, posClass, rotate, delay, Icon }: P
       animate={{ opacity: 1, y: 0, rotate }}
       whileHover={{ scale: 1.07, rotate: rotate / 2, y: -5 }}
       transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
-      className={`group absolute ${posClass} rounded-xl overflow-hidden shadow-2xl shadow-black/60 cursor-pointer`}
+      className="group relative block w-full rounded-xl overflow-hidden shadow-2xl shadow-black/60 cursor-pointer"
       style={{ aspectRatio: aspect }}
     >
       {!failed && img ? (
@@ -101,21 +111,74 @@ function HeroPeek({ href, label, img, aspect, posClass, rotate, delay, Icon }: P
   );
 }
 
-export default function Hero() {
+/** Envuelve un peek: lo posiciona y lo desplaza con el scroll. */
+function PeekSlot({
+  className,
+  y,
+  children,
+}: {
+  className: string;
+  y: MotionValue<number> | undefined;
+  children: React.ReactNode;
+}) {
   return (
-    <section id="inicio" className="relative overflow-hidden px-5 md:px-10">
-      {/* Halo violeta único, sutil */}
-      <div
-        className="pointer-events-none absolute right-0 top-10 w-[640px] h-[640px] rounded-full opacity-[0.14]"
+    <motion.div className={`absolute ${className}`} style={y ? { y } : undefined}>
+      {children}
+    </motion.div>
+  );
+}
+
+export default function Hero() {
+  const ref = useRef<HTMLElement>(null);
+  const reduce = useReducedMotion();
+
+  // Profundidad al salir del hero: cada bloque se va a su velocidad en vez de
+  // subir todo en bloque. El resorte es lo que lo hace sentir suave.
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+  const p = useSpring(scrollYProgress, {
+    stiffness: 90,
+    damping: 26,
+    mass: 0.4,
+  });
+  const textY = useTransform(p, [0, 1], [0, 70]); // se queda atrás
+  const photoY = useTransform(p, [0, 1], [0, -60]); // se adelanta
+  const reelY = useTransform(p, [0, 1], [0, -130]); // el que más
+  const podcastY = useTransform(p, [0, 1], [0, 40]);
+  const haloY = useTransform(p, [0, 1], [0, 110]);
+
+  return (
+    <section id="inicio" ref={ref} className="relative overflow-hidden px-5 md:px-10">
+      {/* Halo violeta, respirando despacio */}
+      <motion.div
+        className="pointer-events-none absolute right-0 top-10 w-[640px] h-[640px] rounded-full opacity-[0.14] animate-float"
         style={{
           background:
             "radial-gradient(circle at center, rgba(155,92,229,0.55) 0%, transparent 70%)",
+          ...(reduce ? null : { y: haloY }),
+        }}
+      />
+
+      {/* Brasa cálida abajo a la izquierda: rompe el lavado violeta y le da
+          contexto al dato en naranjo, que es lo único cálido del sitio. */}
+      <motion.div
+        className="pointer-events-none absolute -left-24 top-[46%] w-[520px] h-[520px] rounded-full opacity-[0.10] animate-float"
+        style={{
+          background:
+            "radial-gradient(circle at center, rgba(255,107,26,0.6) 0%, transparent 68%)",
+          animationDelay: "-3.5s",
+          ...(reduce ? null : { y: haloY }),
         }}
       />
 
       <div className="relative z-10 max-w-[1180px] mx-auto w-full pt-32 pb-20 grid lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-10 items-center">
         {/* ── Columna texto ── */}
-        <div className="text-center lg:text-left">
+        <motion.div
+          className="text-center lg:text-left"
+          style={reduce ? undefined : { y: textY }}
+        >
           <motion.span
             variants={fadeUp}
             custom={0}
@@ -146,22 +209,30 @@ export default function Hero() {
             animate="show"
             className="mt-6 max-w-md mx-auto lg:mx-0 text-base md:text-lg text-[#948BA8] leading-relaxed"
           >
-            Convierto horas de material en contenido que la gente termina de ver,
-            comparte y recuerda.
+            {HERO_TAGLINE}
           </motion.p>
 
-          {/* +6M inline */}
+          {/* El dato, en naranjo torino: es el único punto cálido de la página
+              y por eso se lleva la mirada sin necesidad de agrandarlo más. */}
           <motion.div
             variants={fadeUp}
             custom={0.4}
             initial="hidden"
             animate="show"
-            className="mt-7 inline-flex items-center gap-3 justify-center lg:justify-start"
+            className="relative mt-7 inline-flex items-center gap-3 justify-center lg:justify-start"
           >
-            <span className="text-3xl md:text-4xl font-bold gradient-text-gold leading-none">
+            <span
+              aria-hidden
+              className="pointer-events-none absolute -left-6 -top-4 w-[150px] h-[110px] rounded-full opacity-40 blur-2xl"
+              style={{
+                background:
+                  "radial-gradient(circle at center, rgba(255,107,26,0.55) 0%, transparent 70%)",
+              }}
+            />
+            <span className="relative text-4xl md:text-5xl font-bold gradient-text-torino leading-none">
               {HEADLINE_STAT.value}
             </span>
-            <span className="text-left text-[13px] text-[#948BA8] leading-tight">
+            <span className="relative text-left text-[13px] text-[#948BA8] leading-tight">
               {HEADLINE_STAT.line1}
               <br />
               {HEADLINE_STAT.line2}
@@ -211,7 +282,7 @@ export default function Hero() {
               ))}
             </div>
           </motion.div>
-        </div>
+        </motion.div>
 
         {/* ── Columna visual: foto + trabajo ── */}
         <motion.div
@@ -219,6 +290,7 @@ export default function Hero() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
           className="relative mx-auto w-full max-w-[360px]"
+          style={reduce ? undefined : { y: photoY }}
         >
           {/* Foto */}
           <div className="relative aspect-[4/5] rounded-[1.75rem] overflow-hidden border border-white/[0.08]">
@@ -238,35 +310,46 @@ export default function Hero() {
                 oscurecerle la zona de abajo. */}
           </div>
 
+          {/* Los dos peeks se separan al scrollear (uno se adelanta, el otro
+              se queda): es lo que da la sensación de capas y no de estampa. */}
+
           {/* Reel (vertical) → sección Reels */}
-          <HeroPeek
-            href="#reels"
-            label="Reels"
-            img={REELS[0]?.poster ?? ""}
-            aspect="9/16"
-            posClass="-left-4 bottom-6 w-[104px] sm:-left-7 sm:w-[126px]"
-            rotate={-7}
-            delay={0.55}
-            Icon={Play}
-          />
+          <PeekSlot
+            className="-left-4 bottom-6 w-[104px] sm:-left-7 sm:w-[126px]"
+            y={reduce ? undefined : reelY}
+          >
+            <HeroPeek
+              href="#reels"
+              label="Reels"
+              img={REELS[0]?.poster ?? ""}
+              aspect="9/16"
+              rotate={-7}
+              delay={0.55}
+              Icon={Play}
+            />
+          </PeekSlot>
 
           {/* Portada de podcast → sección YouTube.
               Va en 16:9 porque ese es el formato real de las portadas: estaba
               declarada 1/1 y `object-cover` recortaba casi la mitad a los
-              costados, dejando ver solo una franja del centro. */}
-          <HeroPeek
-            href="#youtube"
-            label="Podcast"
-            img={YOUTUBE[0]?.thumb ?? ""}
-            aspect="16/9"
-            /* En mobile la columna mide ~350px y el padre solo tiene 20px de
-               padding: si el peek se sale 40px, `overflow-x: hidden` le come el
-               borde. Chico y pegado en mobile, grande y volado en desktop. */
-            posClass="-right-4 top-6 w-[165px] sm:-right-10 sm:top-6 sm:w-[210px]"
-            rotate={6}
-            delay={0.68}
-            Icon={Mic}
-          />
+              costados, dejando ver solo una franja del centro.
+              En mobile la columna mide ~350px y el padre solo tiene 20px de
+              padding: si el peek se sale 40px, `overflow-x: hidden` le come el
+              borde. Chico y pegado en mobile, grande y volado en desktop. */}
+          <PeekSlot
+            className="-right-4 top-6 w-[165px] sm:-right-10 sm:top-6 sm:w-[210px]"
+            y={reduce ? undefined : podcastY}
+          >
+            <HeroPeek
+              href="#youtube"
+              label="Podcast"
+              img={YOUTUBE[0]?.thumb ?? ""}
+              aspect="16/9"
+              rotate={6}
+              delay={0.68}
+              Icon={Mic}
+            />
+          </PeekSlot>
         </motion.div>
       </div>
     </section>
