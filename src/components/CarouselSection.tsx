@@ -94,7 +94,9 @@ export default function CarouselSection() {
             // Extra respecto del reposo: en hover el mazo se abre y necesita
             // más aire, si no `overflow-hidden` le come el borde a las hojas.
             padY={48}
-            initialIndex={0}
+            // Arranca en el segundo: con el primero enfocado queda el hueco
+            // del fantasma a la izquierda y la fila se ve desbalanceada.
+            initialIndex={1}
             label="carrusel"
             aspect="3/4"
             // Un poco más de presencia en los laterales: con la opacidad por

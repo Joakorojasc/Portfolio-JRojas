@@ -42,7 +42,9 @@ export default function YouTubeSection() {
           slotWidth={840}
           gap={44}
           padY={40}
-          initialIndex={0}
+          // Igual que Reels y Carruseles: empieza en la segunda para que se
+          // vea una portada a cada lado y no el hueco del fantasma.
+          initialIndex={1}
           label="portada"
           aspect="16/9"
           sideScale={0.8}

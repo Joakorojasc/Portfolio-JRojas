@@ -82,16 +82,24 @@ export default function FocusCarousel<T>({
   const [active, setActive] = useState(initialIndex);
   const [wrapRef, wrapWidth] = useContainerWidth<HTMLDivElement>();
   const activeDotRef = useRef<HTMLButtonElement>(null);
+  const dotsRef = useRef<HTMLDivElement>(null);
 
   // Cuando hay muchos items (la galería de portadas tiene 29) la fila de
   // puntos no entra entera en una pantalla chica. En vez de envolver a una
   // segunda línea (quedaba desprolijo, 2 puntos huérfanos abajo) se desliza:
-  // una sola fila que scrollea, y el punto activo se trae a la vista solo.
+  // una sola fila que scrollea, y el punto activo se centra solo.
+  //
+  // OJO: acá NO va `scrollIntoView`. Al montar, los puntos están abajo del
+  // fold, así que traerlos "a la vista" scrolleaba la PÁGINA hasta la galería
+  // — se entraba al sitio y saltaba solo a Trabajos. Movemos el contenedor a
+  // mano, que es lo único que queremos mover.
   useEffect(() => {
-    activeDotRef.current?.scrollIntoView({
+    const dot = activeDotRef.current;
+    const row = dotsRef.current;
+    if (!dot || !row) return;
+    row.scrollTo({
+      left: dot.offsetLeft - row.clientWidth / 2 + dot.offsetWidth / 2,
       behavior: "smooth",
-      inline: "center",
-      block: "nearest",
     });
   }, [active]);
 
@@ -244,7 +252,10 @@ export default function FocusCarousel<T>({
         {/* Puntos: una sola fila que scrollea en vez de envolver. Con pocos
             items entra entero y no se nota; con muchos (29 en YouTube) el
             punto activo se trae solo a la vista al cambiar. */}
-        <div className="flex items-center gap-2 min-w-0 max-w-full overflow-x-auto no-scrollbar scroll-smooth py-1">
+        <div
+          ref={dotsRef}
+          className="flex items-center gap-2 min-w-0 max-w-full overflow-x-auto no-scrollbar py-1"
+        >
           {items.map((_, i) => (
             <button
               key={i}
