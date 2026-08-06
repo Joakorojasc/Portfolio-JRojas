@@ -6,6 +6,7 @@ import CarouselSection from "@/components/CarouselSection";
 import ValuesSection from "@/components/ValuesSection";
 import TestimonialSection from "@/components/TestimonialSection";
 import Footer from "@/components/Footer";
+import PaperBreak from "@/components/PaperBreak";
 
 export default function Home() {
   return (
@@ -21,7 +22,7 @@ export default function Home() {
       </section>
 
       {/* Quiebre negro → papel: de acá para abajo el sitio es claro */}
-      <div className="paper-fade" aria-hidden />
+      <PaperBreak />
 
       <ValuesSection />
       <TestimonialSection />

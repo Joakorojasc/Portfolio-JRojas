@@ -2,7 +2,8 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { WORK_INTRO } from "@/lib/media";
+import { Workflow } from "lucide-react";
+import { WORK_INTRO, WORK_IMAGE } from "@/lib/media";
 
 export default function ValuesSection() {
   const ref = useRef<HTMLDivElement>(null);
@@ -22,26 +23,61 @@ export default function ValuesSection() {
             Cómo trabajo
           </motion.span>
 
-          <div className="max-w-[62ch]">
-            {WORK_INTRO.map((para, i) => (
-              <motion.p
-                key={i}
-                initial={{ opacity: 0, y: 18 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{
-                  duration: 0.65,
-                  delay: i * 0.12,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                className={
-                  i === 0
-                    ? "text-xl md:text-[26px] leading-[1.5] tracking-[-0.01em] text-[#16111F]"
-                    : "mt-6 text-base md:text-lg leading-[1.65] text-[#5C5468]"
-                }
-              >
-                {para}
-              </motion.p>
-            ))}
+          <div className="flex flex-col lg:flex-row gap-10 lg:gap-14 lg:items-start">
+            <div className="max-w-[58ch] flex-1">
+              {/* Los dos párrafos van del mismo tamaño a propósito (pedido de
+                  Joaquín). Entran con un barrido de izquierda a derecha, como
+                  si el texto se revelara — acompaña la onda del quiebre. */}
+              {WORK_INTRO.map((para, i) => (
+                <motion.p
+                  key={i}
+                  initial={{ opacity: 0, clipPath: "inset(0 100% 0 0)" }}
+                  animate={
+                    inView
+                      ? { opacity: 1, clipPath: "inset(0 0% 0 0)" }
+                      : {}
+                  }
+                  transition={{
+                    duration: 0.9,
+                    delay: 0.1 + i * 0.2,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  className={`${i > 0 ? "mt-6 " : ""}text-lg md:text-[22px] leading-[1.55] tracking-[-0.01em] text-[#16111F]`}
+                >
+                  {para}
+                </motion.p>
+              ))}
+            </div>
+
+            {/* Diagrama del flujo de trabajo (Canva). Hasta que Joaquín suba
+                la imagen, un placeholder sobrio que no promete interacción. */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              className="w-full lg:w-[35%] shrink-0"
+            >
+              {WORK_IMAGE.src ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  src={WORK_IMAGE.src}
+                  alt={WORK_IMAGE.alt}
+                  loading="lazy"
+                  className="w-full rounded-2xl border border-[#16111F]/[0.08]"
+                  style={{ boxShadow: "0 24px 48px -24px rgba(22,17,31,0.35)" }}
+                />
+              ) : (
+                <div
+                  className="w-full rounded-2xl border border-dashed border-[#16111F]/15 bg-[#16111F]/[0.03] flex flex-col items-center justify-center gap-3"
+                  style={{ aspectRatio: "4/3" }}
+                >
+                  <Workflow size={26} className="text-[#16111F]/20" />
+                  <span className="text-[10px] tracking-[0.18em] uppercase text-[#16111F]/30">
+                    Flujo de trabajo
+                  </span>
+                </div>
+              )}
+            </motion.div>
           </div>
         </div>
       </div>

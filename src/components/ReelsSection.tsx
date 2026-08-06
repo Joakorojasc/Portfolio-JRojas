@@ -12,6 +12,8 @@ import {
   ChevronRight,
   Maximize,
   ArrowUpRight,
+  Heart,
+  MessageCircle,
 } from "lucide-react";
 import { REELS } from "@/lib/media";
 import { useLockBodyScroll } from "@/lib/useLockBodyScroll";
@@ -177,6 +179,22 @@ export default function ReelsSection() {
                   <p className="mt-1 text-[10px] font-bold tracking-[0.18em] uppercase text-[#948BA8]">
                     Reproducciones
                   </p>
+                  {(reel.likes || reel.comments) && (
+                    <div className="mt-2.5 flex items-center gap-3.5 text-[#F2EEF8]/85">
+                      {reel.likes && (
+                        <span className="inline-flex items-center gap-1.5 text-[13px] font-semibold tabular-nums">
+                          <Heart size={13} fill="currentColor" className="text-[#B47CF0]" />
+                          {reel.likes}
+                        </span>
+                      )}
+                      {reel.comments && (
+                        <span className="inline-flex items-center gap-1.5 text-[13px] font-semibold tabular-nums">
+                          <MessageCircle size={13} className="text-[#B47CF0]" />
+                          {reel.comments}
+                        </span>
+                      )}
+                    </div>
+                  )}
                   {reel.title && (
                     <p className="mt-2.5 text-base font-semibold text-[#F2EEF8] leading-tight">
                       {reel.title}

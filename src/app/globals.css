@@ -123,11 +123,8 @@ body {
   color: #16111F;
 }
 
-/* Transición negro → papel, para que el quiebre no sea un corte duro */
-.paper-fade {
-  height: 96px;
-  background: linear-gradient(180deg, #0A0711 0%, #F7F5FA 100%);
-}
+/* El quiebre negro → papel vive en PaperBreak.tsx (onda SVG con parallax);
+   el degradado lineal que había acá pasaba por un gris barroso. */
 
 .paper ::selection {
   background-color: rgba(155, 92, 229, 0.22);

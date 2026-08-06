@@ -234,8 +234,8 @@ export default function Hero() {
             ) : (
               <div className="absolute inset-0 bg-[#18121F]" />
             )}
-            {/* Degradado para integrar con el fondo */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0A0711] via-transparent to-transparent" />
+            {/* Sin degradado inferior: Joaquín quiere la foto limpia, sin
+                oscurecerle la zona de abajo. */}
           </div>
 
           {/* Reel (vertical) → sección Reels */}

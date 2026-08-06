@@ -197,24 +197,24 @@ export default function TestimonialSection() {
 
                 <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                   {TESTIMONIAL.name && (
-                    <span className="text-[15px] font-semibold text-[#16111F]">
+                    <span className="text-lg font-semibold text-[#16111F]">
                       {TESTIMONIAL.name}
                     </span>
                   )}
                   {TESTIMONIAL.role && (
-                    <span className="text-[13px] text-[#5C5468]">
+                    <span className="text-[15px] text-[#5C5468]">
                       {TESTIMONIAL.role}
                     </span>
                   )}
                 </div>
 
                 {TESTIMONIAL.client && (
-                  <p className="mt-2 text-[11px] tracking-[0.18em] uppercase text-[#9B5CE5]">
+                  <p className="mt-2 text-[13px] tracking-[0.18em] uppercase text-[#9B5CE5]">
                     {TESTIMONIAL.client}
                   </p>
                 )}
                 {TESTIMONIAL.clientNote && (
-                  <p className="mt-1.5 text-[13px] leading-relaxed text-[#5C5468]">
+                  <p className="mt-1.5 text-[15px] leading-relaxed text-[#5C5468]">
                     {TESTIMONIAL.clientNote}
                   </p>
                 )}

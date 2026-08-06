@@ -35,9 +35,17 @@ export const HEADLINE_STAT = {
 // poster ya extraído al lado. `url` es el post de Instagram (se abre al hacer
 // click en "Ver en Instagram" dentro del modal) y `views` es el número real.
 //
-// `title` y `category` van vacíos a propósito: la prueba es la métrica, no un
-// rótulo inventado. Si algún día se completan, la tarjeta los muestra sola.
-// Ordenados de más a menos views.
+// `category` lleva el nombre del cliente (dato real, no rótulo inventado);
+// `title` sigue vacío a propósito: la prueba es la métrica.
+//
+// El orden intercala clientes a propósito: la vista inicial del carrusel
+// (initialIndex 1 → se ven los items 0-2) muestra un reel de cada cliente,
+// no tres del mismo. Dentro de ese intercalado van de más a menos views.
+// El accent es fijo por cliente, así el rótulo de color agrupa solo.
+//
+// `likes`/`comments` son opcionales: si están, la tarjeta los muestra en una
+// fila chica con iconos debajo de las reproducciones. Solo cargarlos donde el
+// dato sume (el reel de Héctor Muerza destaca por interacción, no por views).
 export const REELS: {
   views: string;
   url: string;
@@ -46,6 +54,8 @@ export const REELS: {
   accent: string;
   title: string;
   category: string;
+  likes?: string;
+  comments?: string;
 }[] = [
   {
     views: "1.1M",
@@ -54,25 +64,92 @@ export const REELS: {
     poster: "/reels/reel-1.webp",
     accent: "#9B5CE5",
     title: "",
-    category: "",
+    category: "Barbertendence",
+  },
+  {
+    views: "801K",
+    url: "https://www.instagram.com/p/DK--lb4NPbV/",
+    src: "/reels/reel-6.mp4",
+    poster: "/reels/reel-6.webp",
+    accent: "#7C6CF0",
+    title: "",
+    category: "Mariana Bennet",
+  },
+  {
+    // Re-encodeado del export original (109 MB, 1080x1920) a 720p/crf 24:
+    // Instagram no lo sirve sin login, así que este vino del archivo fuente.
+    views: "25K",
+    url: "https://www.instagram.com/reel/DYmbsSZpkU8/",
+    src: "/reels/reel-5.mp4",
+    poster: "/reels/reel-5.webp",
+    accent: "#B47CF0",
+    title: "",
+    category: "Héctor Muerza",
+    likes: "848",
+    comments: "725",
   },
   {
     views: "987K",
     url: "https://www.instagram.com/reel/DW1NGVGEYev/",
     src: "/reels/reel-4.mp4",
     poster: "/reels/reel-4.webp",
+    accent: "#9B5CE5",
+    title: "",
+    category: "Barbertendence",
+  },
+  {
+    views: "300K",
+    url: "https://www.instagram.com/reel/DK03EPWtWyT/",
+    src: "/reels/reel-7.mp4",
+    poster: "/reels/reel-7.webp",
     accent: "#7C6CF0",
     title: "",
-    category: "",
+    category: "Mariana Bennet",
+  },
+  {
+    views: "279K",
+    url: "https://www.instagram.com/reel/DWoYFcQEbCA/",
+    src: "/reels/reel-11.mp4",
+    poster: "/reels/reel-11.webp",
+    accent: "#9B5CE5",
+    title: "",
+    category: "Barbertendence",
+  },
+  {
+    views: "30K",
+    url: "https://www.instagram.com/reel/DLIKQOSs9CI/",
+    src: "/reels/reel-8.mp4",
+    poster: "/reels/reel-8.webp",
+    accent: "#7C6CF0",
+    title: "",
+    category: "Mariana Bennet",
   },
   {
     views: "188K",
     url: "https://www.instagram.com/reel/DV9QircmZ5I/",
     src: "/reels/reel-2.mp4",
     poster: "/reels/reel-2.webp",
-    accent: "#B47CF0",
+    accent: "#9B5CE5",
     title: "",
-    category: "",
+    category: "Barbertendence",
+  },
+  {
+    views: "7K",
+    url: "https://www.instagram.com/p/DWRsGumj-H8/",
+    src: "/reels/reel-9.mp4",
+    poster: "/reels/reel-9.webp",
+    accent: "#9B5CE5",
+    title: "",
+    category: "Barbertendence",
+  },
+  {
+    views: "5.5K",
+    url: "https://www.instagram.com/reel/DWTv0whEaI5/",
+    src: "/reels/reel-10.mp4",
+    poster: "/reels/reel-10.webp",
+    accent: "#9B5CE5",
+    title: "",
+    category: "Barbertendence",
   },
   {
     views: "5K",
@@ -81,7 +158,7 @@ export const REELS: {
     poster: "/reels/reel-3.webp",
     accent: "#9B5CE5",
     title: "",
-    category: "",
+    category: "Barbertendence",
   },
 ];
 
@@ -149,11 +226,41 @@ export const CAROUSELS: {
 // SOLO LA PORTADA, a propósito: sin título, sin canal, sin texto encima y sin
 // link. Es una galería visual — el diseño de la portada es el trabajo que se
 // muestra. No agregar rótulos acá.
+//
+// 26 portadas (video-1 a video-26). El orden está barajado a propósito para
+// que al pasar la galería se alternen poses y composiciones distintas en vez
+// de verse seguidas las que se parecen — no "ordenar" por número de archivo.
 export const YOUTUBE: { thumb: string }[] = [
-  { thumb: "/youtube/video-1.webp" },
-  { thumb: "/youtube/video-2.webp" },
-  { thumb: "/youtube/video-3.webp" },
+  // Estas 3 (otro estilo) van primero a pedido de Joaquín.
+  { thumb: "/youtube/video-27.webp" },
+  { thumb: "/youtube/video-28.webp" },
+  { thumb: "/youtube/video-29.webp" },
+  { thumb: "/youtube/video-21.webp" },
+  { thumb: "/youtube/video-18.webp" },
+  { thumb: "/youtube/video-22.webp" },
   { thumb: "/youtube/video-4.webp" },
+  { thumb: "/youtube/video-2.webp" },
+  { thumb: "/youtube/video-17.webp" },
+  { thumb: "/youtube/video-12.webp" },
+  { thumb: "/youtube/video-9.webp" },
+  { thumb: "/youtube/video-7.webp" },
+  { thumb: "/youtube/video-24.webp" },
+  { thumb: "/youtube/video-26.webp" },
+  { thumb: "/youtube/video-5.webp" },
+  { thumb: "/youtube/video-11.webp" },
+  { thumb: "/youtube/video-3.webp" },
+  { thumb: "/youtube/video-8.webp" },
+  { thumb: "/youtube/video-19.webp" },
+  { thumb: "/youtube/video-15.webp" },
+  { thumb: "/youtube/video-14.webp" },
+  { thumb: "/youtube/video-6.webp" },
+  { thumb: "/youtube/video-16.webp" },
+  { thumb: "/youtube/video-23.webp" },
+  { thumb: "/youtube/video-1.webp" },
+  { thumb: "/youtube/video-20.webp" },
+  { thumb: "/youtube/video-25.webp" },
+  { thumb: "/youtube/video-13.webp" },
+  { thumb: "/youtube/video-10.webp" },
 ];
 
 // ─── TESTIMONIO (sección clara, abajo) ───────────────────────────────────────
@@ -178,17 +285,21 @@ export const TESTIMONIAL = {
 };
 
 // ─── CÓMO TRABAJO ────────────────────────────────────────────────────────────
-// Dos párrafos en primera persona. Antes eran tres, más una grilla de 5 valores
-// ("Comunicación efectiva", "Alineación continua"...) que se eliminó: repetía en
-// etiquetas abstractas lo que estos párrafos ya dicen con ejemplos concretos, y
-// esa clase de lista genérica es justo lo que hace ver un sitio como plantilla.
-// Está en el historial de git por si se quiere recuperar.
-//
-// Revisalo y corregí lo que no suene a vos: es tu voz, no la mía.
+// Dos párrafos en primera persona, texto dictado por Joaquín (agosto 2026).
+// Los dos se muestran del mismo tamaño, a pedido suyo.
 export const WORK_INTRO = [
-  "Arranco preguntando más de lo que esperás: a quién le hablás, qué querés que pase después de que terminen de ver, y qué ya probaste que no funcionó. Eso queda por escrito, y es lo que después me deja decidir sin consultarte cada corte.",
-  "Muestro avances en etapas en vez de desaparecer y volver con un final. Si algo no está rindiendo te lo digo, aunque incomode. Planifico con margen —le digo metodología colchón— porque los imprevistos son parte del trabajo, no una posibilidad. Y cuando el contenido sale miro cómo rindió: qué retuvo, dónde se cayó la gente, qué se compartió.",
+  "Me gusta trabajar con personas motivadas, entendiendo bien sus necesidades y siendo un estratega proactivo del equipo. Trabajo con entrega anticipada y soy flexible a lo que necesites.",
+  "Entiendo profundamente tus requerimientos, para minimizar al máximo el tiempo que le dediques a revisión, solicito feedback constante en una etapa inicial. Mis entregas las hago con entrega anticipada, le digo la metodología colchón. Trabajo solamente con gente que sé que podré ayudar.",
 ];
+
+// Diagrama del flujo de trabajo que va a la derecha de esos párrafos.
+// Joaquín lo está armando en Canva: cuando esté, guardarlo en public/
+// (ej "/work/flujo.webp") y completar `src`. Mientras esté vacío se muestra
+// un placeholder sobrio.
+export const WORK_IMAGE = {
+  src: "",
+  alt: "Flujo de trabajo y herramientas",
+};
 
 // ─── HERRAMIENTAS / SOFTWARE (iconos del hero) ───────────────────────────────
 // Para mostrar el ícono real de cada app, descargá el SVG/PNG y guardalo en

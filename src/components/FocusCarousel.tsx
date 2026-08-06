@@ -228,8 +228,10 @@ export default function FocusCarousel<T>({
           <ChevronLeft size={18} />
         </motion.button>
 
-        {/* Puntos */}
-        <div className="flex items-center gap-2">
+        {/* Puntos. Con muchos items (la galería de portadas tiene 26) la fila
+            supera el ancho de un teléfono, y los puntos no pueden encogerse:
+            se envuelven en más filas en vez de desbordar. */}
+        <div className="flex flex-wrap justify-center items-center gap-2 max-w-[420px]">
           {items.map((_, i) => (
             <button
               key={i}

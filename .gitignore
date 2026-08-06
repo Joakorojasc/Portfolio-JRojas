@@ -42,3 +42,6 @@ next-env.d.ts
 
 # Claude Code (config local)
 .claude/settings.local.json
+
+# material fuente (PNG originales de portadas); el sitio usa los .webp de public/
+portadas_nuevas/

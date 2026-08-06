@@ -4,7 +4,10 @@ Estado y pendientes del portfolio. Para las convenciones del proyecto (paleta,
 componentes, cómo bajar material) ver `AGENTS.md` — este archivo es solo la lista
 de lo que quedó abierto.
 
-Última actualización: 4 de agosto de 2026 · `main` en `9ef3fed`, todo subido.
+Última actualización: 5 de agosto de 2026 · se agregaron 7 reels (Mariana
+Bennet, Barbertendence y Héctor Muerza — este último re-encodeado del export
+original porque Instagram no lo sirve sin login) y 25 portadas nuevas
+(video-5 a video-29), pendiente de commit.
 
 ---
 
@@ -12,16 +15,9 @@ de lo que quedó abierto.
 
 **Dónde:** `src/lib/media.ts` → `HEADLINE_STAT`
 
-El hero dice "+6M de views generadas entre mis clientes". Los 4 reels cargados
-suman **2,28M**:
-
-| Reel | Views |
-|------|-------|
-| `reel-1` | 1.1M |
-| `reel-4` | 987K |
-| `reel-2` | 188K |
-| `reel-3` | 5K |
-| **Total** | **2,28M** |
+El hero dice "+6M de views generadas entre mis clientes". Los 11 reels cargados
+suman **~3,73M** (1.1M + 987K + 801K + 300K + 279K + 188K + 30K + 25K + 7K +
+5.5K + 5K).
 
 Si los 6M salen de sumar también carruseles, podcasts y trabajo de clientes que
 no está en el sitio, está bien como está. Si no, conviene bajarlo al número que
@@ -59,7 +55,7 @@ Se dejaron vacíos para no inventar contenido.
 
 | Campo | Dónde | Qué es |
 |-------|-------|--------|
-| `title` / `category` | `REELS` | Nombre de cada reel. Hoy la tarjeta muestra solo las reproducciones. |
+| `title` | `REELS` | Nombre de cada reel. `category` ya lleva el cliente (Barbertendence / Mariana Bennet); la tarjeta lo muestra arriba con el color del accent. |
 | `title` | `CAROUSELS` | Nombre de cada carrusel. Hoy muestra solo los comentarios. |
 | `quote` | `TESTIMONIAL` | Una frase textual de Emmanuel. El video ya es el testimonio; la cita es un plus. |
 
@@ -86,7 +82,7 @@ Se puede borrar.
 
 ## 5. Peso del repo
 
-`public/reels/` (18,8 MB) + `public/testimonio/` (11,7 MB) ≈ **30 MB de video
+`public/reels/` (65 MB) + `public/testimonio/` (11,7 MB) ≈ **77 MB de video
 versionados en git**. Hoy funciona bien. Si el repo se vuelve incómodo de
 clonar, las salidas son mover esos archivos a un CDN o a Git LFS.
 
