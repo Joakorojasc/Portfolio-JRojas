@@ -81,6 +81,19 @@ export default function FocusCarousel<T>({
 }: FocusCarouselProps<T>) {
   const [active, setActive] = useState(initialIndex);
   const [wrapRef, wrapWidth] = useContainerWidth<HTMLDivElement>();
+  const activeDotRef = useRef<HTMLButtonElement>(null);
+
+  // Cuando hay muchos items (la galería de portadas tiene 29) la fila de
+  // puntos no entra entera en una pantalla chica. En vez de envolver a una
+  // segunda línea (quedaba desprolijo, 2 puntos huérfanos abajo) se desliza:
+  // una sola fila que scrollea, y el punto activo se trae a la vista solo.
+  useEffect(() => {
+    activeDotRef.current?.scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+      block: "nearest",
+    });
+  }, [active]);
 
   // `slotWidth` es el ancho deseado en desktop; en pantallas chicas se achica
   // para que el bloque enfocado entre completo y asome algo de los laterales.
@@ -223,24 +236,26 @@ export default function FocusCarousel<T>({
           disabled={active === 0}
           whileTap={{ scale: 0.9 }}
           aria-label={`Anterior ${label}`}
-          className="w-11 h-11 rounded-full glass flex items-center justify-center text-[#948BA8] hover:text-[#F2EEF8] hover:bg-white/[0.07] hover:scale-105 disabled:opacity-25 disabled:hover:scale-100 transition-all duration-300 outline-none focus-visible:ring-2 focus-visible:ring-[#9B5CE5] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0711]"
+          className="w-11 h-11 rounded-full glass border border-transparent flex items-center justify-center text-[#948BA8] hover:text-[#F2EEF8] hover:bg-[#9B5CE5]/[0.16] hover:border-[#9B5CE5]/40 hover:scale-105 disabled:opacity-25 disabled:hover:scale-100 disabled:hover:bg-transparent disabled:hover:border-transparent transition-all duration-300 outline-none focus-visible:ring-2 focus-visible:ring-[#9B5CE5] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0711]"
         >
           <ChevronLeft size={18} />
         </motion.button>
 
-        {/* Puntos. Con muchos items (la galería de portadas tiene 26) la fila
-            supera el ancho de un teléfono, y los puntos no pueden encogerse:
-            se envuelven en más filas en vez de desbordar. */}
-        <div className="flex flex-wrap justify-center items-center gap-2 max-w-[420px]">
+        {/* Puntos: una sola fila que scrollea en vez de envolver. Con pocos
+            items entra entero y no se nota; con muchos (29 en YouTube) el
+            punto activo se trae solo a la vista al cambiar. */}
+        <div className="flex items-center gap-2 min-w-0 max-w-full overflow-x-auto no-scrollbar scroll-smooth py-1">
           {items.map((_, i) => (
             <button
               key={i}
+              ref={i === active ? activeDotRef : undefined}
               onClick={() => setActive(i)}
               aria-label={`Ir a ${label} ${i + 1}`}
               aria-current={i === active}
               /* El punto mide 7px pero el botón ocupa 20px de alto: el área
-                 clickeable no puede ser del tamaño del dibujo. */
-              className="group h-5 flex items-center outline-none"
+                 clickeable no puede ser del tamaño del dibujo. shrink-0 para
+                 que no se aplasten al desbordar la fila. */
+              className="group h-5 shrink-0 flex items-center outline-none"
             >
               <span
                 className="block rounded-full transition-all duration-300 group-hover:bg-white/60 group-focus-visible:ring-2 group-focus-visible:ring-[#9B5CE5]"
@@ -259,7 +274,7 @@ export default function FocusCarousel<T>({
           disabled={active === items.length - 1}
           whileTap={{ scale: 0.9 }}
           aria-label={`Siguiente ${label}`}
-          className="w-11 h-11 rounded-full glass flex items-center justify-center text-[#948BA8] hover:text-[#F2EEF8] hover:bg-white/[0.07] hover:scale-105 disabled:opacity-25 disabled:hover:scale-100 transition-all duration-300 outline-none focus-visible:ring-2 focus-visible:ring-[#9B5CE5] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0711]"
+          className="w-11 h-11 rounded-full glass border border-transparent flex items-center justify-center text-[#948BA8] hover:text-[#F2EEF8] hover:bg-[#9B5CE5]/[0.16] hover:border-[#9B5CE5]/40 hover:scale-105 disabled:opacity-25 disabled:hover:scale-100 disabled:hover:bg-transparent disabled:hover:border-transparent transition-all duration-300 outline-none focus-visible:ring-2 focus-visible:ring-[#9B5CE5] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0711]"
         >
           <ChevronRight size={18} />
         </motion.button>

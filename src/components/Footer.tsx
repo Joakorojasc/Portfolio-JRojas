@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Copy, Check, ArrowUpRight } from "lucide-react";
+import { Mail, ArrowUpRight } from "lucide-react";
 
 const EMAIL = "joaquinrojas.content@gmail.com";
 const WHATSAPP = "+56 9 9171 7490";
@@ -18,14 +17,6 @@ function WhatsAppIcon({ size = 15 }: { size?: number }) {
 }
 
 export default function Footer() {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(EMAIL);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2200);
-  };
-
   return (
     <footer id="contacto" className="paper border-t border-[#16111F]/[0.07]">
       <div className="max-w-[1180px] mx-auto px-5 md:px-10 pt-20 pb-12">
@@ -42,30 +33,17 @@ export default function Footer() {
               transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
               className="text-3xl md:text-[42px] font-bold tracking-[-0.02em] leading-[1.12] text-[#16111F]"
             >
-              Contame qué estás
-              <br />
-              tratando de lograr.
+              ¡Hablemos! Soy buena onda 😁
             </motion.h2>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.65, delay: 0.08 }}
-              className="mt-5 text-base md:text-lg leading-[1.65] text-[#5C5468]"
-            >
-              No hace falta que tengas el brief armado ni que sepas exactamente qué
-              formato necesitás. Escribime con el problema y lo pensamos juntos —
-              si no soy la persona indicada para eso, te lo digo.
-            </motion.p>
-
-            {/* Contacto directo: WhatsApp y email, cada uno con su icono */}
+            {/* Contacto directo: WhatsApp y email, cada uno con su icono.
+                Sin botón de copiar: el link de mailto ya alcanza. */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.65, delay: 0.16 }}
-              className="mt-10 flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3"
+              className="mt-8 flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3"
             >
               <a
                 href={WHATSAPP_URL}
@@ -88,24 +66,6 @@ export default function Footer() {
                 <Mail size={15} />
                 {EMAIL}
               </a>
-
-              <button
-                onClick={handleCopy}
-                aria-label="Copiar email"
-                className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-full border border-[#16111F]/15 text-[#5C5468] hover:text-[#16111F] hover:border-[#16111F]/35 text-sm font-medium transition-colors duration-300"
-              >
-                {copied ? (
-                  <>
-                    <Check size={14} className="text-[#9B5CE5]" />
-                    <span className="text-[#9B5CE5]">Copiado</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy size={14} />
-                    Copiar
-                  </>
-                )}
-              </button>
             </motion.div>
           </div>
         </div>

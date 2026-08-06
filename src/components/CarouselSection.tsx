@@ -291,12 +291,14 @@ export default function CarouselSection() {
                   {slide + 1} / {post.slides.length}
                 </div>
 
-                {/* Flechas sobre la imagen: el camino corto para pasar slides */}
+                {/* Flechas sobre la imagen: el camino corto para pasar
+                    slides. El hover tiñe de violeta en vez de solo oscurecer
+                    más el negro, para que no se sientan un control genérico. */}
                 {slide > 0 && (
                   <button
                     onClick={() => step(-1)}
                     aria-label="Slide anterior"
-                    className="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center text-white bg-black/45 hover:bg-black/70 backdrop-blur-sm transition-colors"
+                    className="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center text-white bg-black/45 border border-transparent hover:bg-[#9B5CE5]/70 hover:border-[#9B5CE5]/60 hover:scale-110 active:scale-95 backdrop-blur-sm transition-all duration-300"
                   >
                     <ChevronLeft size={18} />
                   </button>
@@ -305,7 +307,7 @@ export default function CarouselSection() {
                   <button
                     onClick={() => step(1)}
                     aria-label="Slide siguiente"
-                    className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center text-white bg-black/45 hover:bg-black/70 backdrop-blur-sm transition-colors"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center text-white bg-black/45 border border-transparent hover:bg-[#9B5CE5]/70 hover:border-[#9B5CE5]/60 hover:scale-110 active:scale-95 backdrop-blur-sm transition-all duration-300"
                   >
                     <ChevronRight size={18} />
                   </button>
@@ -347,8 +349,7 @@ export default function CarouselSection() {
                 <button
                   onClick={close}
                   aria-label="Cerrar"
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-white/60 hover:text-white transition-colors"
-                  style={{ background: "rgba(255,255,255,0.1)" }}
+                  className="w-10 h-10 rounded-full flex items-center justify-center text-white/60 bg-white/10 border border-transparent hover:text-white hover:bg-[#9B5CE5]/30 hover:border-[#9B5CE5]/50 hover:scale-105 active:scale-95 transition-all duration-300"
                 >
                   <X size={18} />
                 </button>

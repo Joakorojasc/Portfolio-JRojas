@@ -296,22 +296,22 @@ export default function ReelsSection() {
                 </div>
               </div>
 
-              {/* Navegación */}
+              {/* Navegación. El violeta en el hover (en vez de solo aclarar
+                  el gris) es lo que las hace sentir parte del sistema y no
+                  un control genérico plantado encima. */}
               <div className="flex items-center gap-4">
                 <button
                   onClick={prev}
                   disabled={activeReel === 0}
                   aria-label="Reel anterior"
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-white/60 hover:text-white disabled:opacity-20 transition-colors"
-                  style={{ background: "rgba(255,255,255,0.1)" }}
+                  className="w-10 h-10 rounded-full flex items-center justify-center text-white/60 bg-white/10 border border-transparent hover:text-white hover:bg-[#9B5CE5]/30 hover:border-[#9B5CE5]/50 hover:scale-105 active:scale-95 disabled:opacity-20 disabled:hover:scale-100 disabled:hover:bg-white/10 disabled:hover:border-transparent transition-all duration-300"
                 >
                   <ChevronLeft size={18} />
                 </button>
                 <button
                   onClick={close}
                   aria-label="Cerrar"
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-white/60 hover:text-white transition-colors"
-                  style={{ background: "rgba(255,255,255,0.1)" }}
+                  className="w-10 h-10 rounded-full flex items-center justify-center text-white/60 bg-white/10 border border-transparent hover:text-white hover:bg-[#9B5CE5]/30 hover:border-[#9B5CE5]/50 hover:scale-105 active:scale-95 transition-all duration-300"
                 >
                   <X size={18} />
                 </button>
@@ -319,8 +319,7 @@ export default function ReelsSection() {
                   onClick={next}
                   disabled={activeReel === REELS.length - 1}
                   aria-label="Reel siguiente"
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-white/60 hover:text-white disabled:opacity-20 transition-colors"
-                  style={{ background: "rgba(255,255,255,0.1)" }}
+                  className="w-10 h-10 rounded-full flex items-center justify-center text-white/60 bg-white/10 border border-transparent hover:text-white hover:bg-[#9B5CE5]/30 hover:border-[#9B5CE5]/50 hover:scale-105 active:scale-95 disabled:opacity-20 disabled:hover:scale-100 disabled:hover:bg-white/10 disabled:hover:border-transparent transition-all duration-300"
                 >
                   <ChevronRight size={18} />
                 </button>
