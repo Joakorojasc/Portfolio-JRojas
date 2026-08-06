@@ -47,10 +47,14 @@ export default function ReelsSection() {
     else el.requestFullscreen();
   };
 
-  // Al abrir/cambiar de reel, intenta reproducir
+  // Al abrir/cambiar de reel, intenta reproducir. De paso precarga los
+  // posters de al lado, así pasar al siguiente no muestra un hueco negro.
   useEffect(() => {
-    if (activeReel !== null && videoRef.current) {
-      videoRef.current.play().catch(() => {});
+    if (activeReel === null) return;
+    videoRef.current?.play().catch(() => {});
+    for (const i of [activeReel + 1, activeReel - 1]) {
+      const poster = REELS[i]?.poster;
+      if (poster) new window.Image().src = poster;
     }
   }, [activeReel]);
 
@@ -168,10 +172,7 @@ export default function ReelsSection() {
                 {/* Categoría — solo si hay una cargada */}
                 {reel.category && (
                   <div className="absolute top-0 left-0 right-0 p-5">
-                    <p
-                      className="text-[10px] font-bold tracking-[0.18em] uppercase"
-                      style={{ color: reel.accent }}
-                    >
+                    <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-white">
                       {reel.category}
                     </p>
                   </div>
@@ -234,10 +235,17 @@ export default function ReelsSection() {
               onClick={(e) => e.stopPropagation()}
             >
               {/* Video */}
+              {/* El poster va de fondo del contenedor: al cambiar de reel el
+                  <video> se recrea y tarda un instante en pintar el suyo, y en
+                  ese hueco se veía negro. */}
               <div
                 ref={containerRef}
-                className="relative rounded-2xl overflow-hidden shadow-2xl bg-black"
-                style={{ height: "80vh", aspectRatio: "9/16" }}
+                className="relative rounded-2xl overflow-hidden shadow-2xl bg-black bg-cover bg-center"
+                style={{
+                  height: "80vh",
+                  aspectRatio: "9/16",
+                  backgroundImage: reel.poster ? `url(${reel.poster})` : undefined,
+                }}
               >
                 <video
                   ref={videoRef}

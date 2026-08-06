@@ -33,7 +33,9 @@ export default function FadeImage({
         setLoaded(true);
         onLoad?.(e);
       }}
-      className={`${className} transition-opacity duration-500 ease-out ${
+      /* Fundido corto: con 500ms, al scrollear se veía el fondo oscuro un
+         rato largo antes de que apareciera la imagen, y parecía un negro. */
+      className={`${className} transition-opacity duration-200 ease-out ${
         loaded ? "opacity-100" : "opacity-0"
       }`}
     />

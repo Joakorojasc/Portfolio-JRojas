@@ -25,7 +25,7 @@ export default function YouTubeSection() {
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-[#9B5CE5]" />
             <h3 className="text-xl md:text-2xl font-bold tracking-[0.04em] text-[#F2EEF8]">
-              YouTube
+              Portadas de mis Podcasts · YouTube
             </h3>
           </div>
           <div className="h-px flex-1 bg-white/[0.05]" />

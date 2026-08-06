@@ -69,7 +69,7 @@ export default function CarouselSection() {
             initial={{ opacity: 0, x: -20 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="flex items-center gap-4 mb-4"
+            className="flex items-center gap-4 mb-12"
           >
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-[#9B5CE5]" />
@@ -79,17 +79,6 @@ export default function CarouselSection() {
             </div>
             <div className="h-px flex-1 bg-white/[0.05]" />
           </motion.div>
-
-          {/* Explicar el formato en una línea sale más barato que esperar que
-              se deduzca del diseño. */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-sm text-[#948BA8] mb-10 max-w-[52ch]"
-          >
-            Cada tarjeta es un post completo. Abrila para pasar todas sus slides.
-          </motion.p>
         </Parallax>
 
         <motion.div

@@ -179,15 +179,10 @@ body {
   display: none;
 }
 
-/* Respiración del fondo de una tarjeta cuya imagen todavía no llegó: la
-   diferencia entre "esto está cargando" y "esto está roto". */
-@keyframes breathe {
-  0%, 100% { opacity: 0.55; }
-  50% { opacity: 1; }
-}
-
+/* Fondo de una tarjeta cuya imagen todavía no llegó. Es una superficie fija,
+   no un parpadeo: pulsar la opacidad sobre negro se leía como un flash. */
 .animate-breathe {
-  animation: breathe 1.8s ease-in-out infinite;
+  background-image: linear-gradient(160deg, #241C31 0%, #18121F 55%, #140F1C 100%);
 }
 
 /* Float animation */
