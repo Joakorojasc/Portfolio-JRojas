@@ -53,7 +53,7 @@ export default function YouTubeSection() {
           sideOpacity={0.45}
           tilt={26}
           focusTilt={-9}
-          renderItem={(video, isFocused, i) => (
+          renderItem={(video, isFocused, i, near) => (
             <div
               className="relative w-full rounded-2xl overflow-hidden border transition-all duration-300"
               style={{
@@ -72,7 +72,10 @@ export default function YouTubeSection() {
                 <FadeImage
                   src={video.thumb}
                   alt={`Portada de podcast ${i + 1}`}
-                  loading="lazy"
+                  /* Las cercanas al foco van en `eager`: al saltar a un punto
+                     lejano de la fila, la portada llegaba después y la tarjeta
+                     se veía vacía. */
+                  loading={near ? "eager" : "lazy"}
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).style.display = "none";
                   }}
@@ -80,18 +83,17 @@ export default function YouTubeSection() {
                 />
               ) : null}
 
-              {/* Placeholder de fondo (queda detrás si falta la imagen) */}
+              {/* Fondo que asoma mientras la portada carga (y queda si falta).
+                  Respira despacio para que se lea como "cargando" y no como
+                  una tarjeta rota. */}
               <div
-                className="absolute inset-0 -z-10 flex flex-col items-center justify-center gap-3"
+                className="absolute inset-0 -z-10 flex flex-col items-center justify-center gap-3 animate-breathe"
                 style={{
                   background:
-                    "linear-gradient(160deg, #18121F 0%, #120D1C 60%, #0A0711 100%)",
+                    "linear-gradient(160deg, #221A2E 0%, #18121F 55%, #120D1C 100%)",
                 }}
               >
-                <Film size={30} className="text-white/15" />
-                <span className="text-[10px] tracking-[0.18em] uppercase text-white/25">
-                  Portada de YouTube
-                </span>
+                <Film size={26} className="text-white/10" />
               </div>
 
               {/* Sin rótulo a propósito: la portada se muestra sola, limpia. */}

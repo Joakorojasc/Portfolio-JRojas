@@ -37,6 +37,16 @@ export default function CarouselSection() {
     setSlide((s) => Math.min(Math.max(s + dir, 0), post.slides.length - 1));
   };
 
+  // Precarga la slide anterior y la siguiente. Sin esto, al pasar de slide se
+  // ve el hueco negro del visor mientras la imagen recién empieza a bajar.
+  useEffect(() => {
+    if (!post) return;
+    for (const i of [slide + 1, slide - 1]) {
+      const src = post.slides[i];
+      if (src) new window.Image().src = src;
+    }
+  }, [post, slide]);
+
   // Teclado: Escape cierra, flechas pasan slides.
   useEffect(() => {
     if (openPost === null) return;
@@ -103,7 +113,7 @@ export default function CarouselSection() {
             // defecto el mazo de las tarjetas de al lado casi no se leía.
             sideOpacity={0.42}
             onFocusedClick={open}
-            renderItem={(item, isFocused) => (
+            renderItem={(item, isFocused, _i, near) => (
               /* `whileHover` con etiqueta propaga el estado a los hijos: al
                  pasar el mouse por la enfocada, el mazo se abre en abanico y
                  la portada se levanta. Refuerza que es un grupo justo en el
@@ -162,7 +172,7 @@ export default function CarouselSection() {
                         src={sheet.src}
                         alt=""
                         aria-hidden
-                        loading="lazy"
+                        loading={near ? "eager" : "lazy"}
                         className="absolute inset-0 w-full h-full object-cover"
                       />
                       {/* Oscurecer manda la hoja al fondo sin desenfocarla */}
@@ -185,13 +195,17 @@ export default function CarouselSection() {
                   variants={{ rest: { y: 0 }, hover: { y: -10 } }}
                   transition={{ type: "spring", stiffness: 300, damping: 26 }}
                 >
+                  {/* Va primero en el DOM: la portada lo tapa al cargar. Sin
+                      esto la tarjeta se ve vacía si se salta a un post lejano. */}
+                  <div className="absolute inset-0 bg-[#18121F] animate-breathe" />
+
                   <FadeImage
                     src={item.slides[0]}
                     alt={
                       item.title ||
                       `Portada de un carrusel de ${item.slides.length} slides`
                     }
-                    loading="lazy"
+                    loading={near ? "eager" : "lazy"}
                     className="absolute inset-0 w-full h-full object-cover"
                   />
 

@@ -105,7 +105,7 @@ export default function ReelsSection() {
           tilt={32}
           padY={30}
           onFocusedClick={(i) => setActiveReel(i)}
-          renderItem={(reel, isFocused) => (
+          renderItem={(reel, isFocused, _i, near) => (
             <motion.div
               className="relative group"
               whileHover={isFocused ? { scale: 1.02 } : undefined}
@@ -134,16 +134,21 @@ export default function ReelsSection() {
                     : "none",
                 }}
               >
+                {/* Va primero en el DOM: el poster lo tapa al cargar, sin
+                    depender de z-index. Respira para que se lea como
+                    "cargando" y no como una tarjeta vacía. */}
+                <div className="absolute inset-0 bg-[#18121F] animate-breathe" />
+
                 {reel.poster ? (
                   <FadeImage
                     src={reel.poster}
                     alt={reel.title || `Reel con ${reel.views} reproducciones`}
-                    loading="lazy"
+                    /* Cerca del foco, `eager`: si no, saltar a un reel lejano
+                       deja la tarjeta vacía hasta que baja el poster. */
+                    loading={near ? "eager" : "lazy"}
                     className="absolute inset-0 w-full h-full object-cover"
                   />
-                ) : (
-                  <div className="absolute inset-0 bg-[#120D1C]" />
-                )}
+                ) : null}
 
                 {/* Degradado inferior */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-black/10" />

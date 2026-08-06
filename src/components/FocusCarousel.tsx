@@ -36,8 +36,18 @@ type FocusCarouselProps<T> = {
   gap?: number;
   /** índice enfocado inicial */
   initialIndex?: number;
-  /** render de cada item: recibe si está enfocado (centro) y su índice */
-  renderItem: (item: T, isFocused: boolean, index: number) => ReactNode;
+  /**
+   * Render de cada item: recibe si está enfocado (centro), su índice, y si
+   * está **cerca** del foco. `near` existe para las imágenes: con todas en
+   * `loading="lazy"`, saltar a un item lejano mostraba la tarjeta vacía
+   * mientras recién empezaba a bajar la imagen. Las cercanas van en `eager`.
+   */
+  renderItem: (
+    item: T,
+    isFocused: boolean,
+    index: number,
+    near: boolean
+  ) => ReactNode;
   /** se dispara al hacer click en el bloque ya enfocado (centro) */
   onFocusedClick?: (index: number) => void;
   /** etiqueta de accesibilidad para las flechas */
@@ -184,6 +194,10 @@ export default function FocusCarousel<T>({
 
           {items.map((item, i) => {
             const isFocused = i === active;
+            // Ventana de precarga: el enfocado y sus vecinos inmediatos, que
+            // son los que se pueden llegar a ver antes de que termine el
+            // desplazamiento.
+            const near = Math.abs(i - active) <= 2;
             // Coverflow: los de la izquierda giran hacia adentro, los de la derecha al revés.
             // El enfocado queda con `focusTilt` (0 = de frente, como siempre).
             const rotateY = isFocused
@@ -228,7 +242,7 @@ export default function FocusCarousel<T>({
                   isFocused && !onFocusedClick ? "cursor-default" : "cursor-pointer"
                 }
               >
-                {renderItem(item, isFocused, i)}
+                {renderItem(item, isFocused, i, near)}
               </motion.div>
             );
           })}
