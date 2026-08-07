@@ -63,6 +63,19 @@ export const REELS: {
   comments?: string;
 }[] = [
   {
+    // Re-encodeado del export original (109 MB, 1080x1920) a 720p/crf 24:
+    // Instagram no lo sirve sin login, así que este vino del archivo fuente.
+    views: "25K",
+    url: "https://www.instagram.com/reel/DYmbsSZpkU8/",
+    src: "/reels/reel-5.mp4",
+    poster: "/reels/reel-5.webp",
+    accent: "#B47CF0",
+    title: "",
+    category: "Héctor Muerza",
+    likes: "848",
+    comments: "725",
+  },
+  {
     views: "1.1M",
     url: "https://www.instagram.com/reel/DVtN8xojWVH/",
     src: "/reels/reel-1.mp4",
@@ -79,19 +92,6 @@ export const REELS: {
     accent: "#7C6CF0",
     title: "",
     category: "Mariana Bennet",
-  },
-  {
-    // Re-encodeado del export original (109 MB, 1080x1920) a 720p/crf 24:
-    // Instagram no lo sirve sin login, así que este vino del archivo fuente.
-    views: "25K",
-    url: "https://www.instagram.com/reel/DYmbsSZpkU8/",
-    src: "/reels/reel-5.mp4",
-    poster: "/reels/reel-5.webp",
-    accent: "#B47CF0",
-    title: "",
-    category: "Héctor Muerza",
-    likes: "848",
-    comments: "725",
   },
   {
     views: "987K",
