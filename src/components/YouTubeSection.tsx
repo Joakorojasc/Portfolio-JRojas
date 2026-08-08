@@ -42,8 +42,9 @@ export default function YouTubeSection() {
           slotWidth={840}
           gap={44}
           padY={40}
-          // Igual que Reels y Carruseles: empieza en la segunda para que se
-          // vea una portada a cada lado y no el hueco del fantasma.
+          // Igual que Carruseles: empieza en la segunda para que se vea una
+          // portada a cada lado y no el hueco del fantasma. (Reels no: ahí
+          // Joaquín quiere que se abra en el primero.)
           initialIndex={1}
           label="portada"
           aspect="16/9"

@@ -101,7 +101,10 @@ export default function ReelsSection() {
           items={REELS}
           slotWidth={400}
           gap={36}
-          initialIndex={1}
+          // Abre en el primer reel (a diferencia de YouTube y Carruseles, que
+          // abren en la segunda): el orden ya está pensado para que el 1º sea
+          // el que abre la galería.
+          initialIndex={0}
           label="reel"
           aspect="9/16"
           sideScale={0.74}

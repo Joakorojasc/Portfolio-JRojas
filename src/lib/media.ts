@@ -43,9 +43,10 @@ export const HEADLINE_STAT = {
 // `category` lleva el nombre del cliente (dato real, no rótulo inventado);
 // `title` sigue vacío a propósito: la prueba es la métrica.
 //
-// El orden intercala clientes a propósito: la vista inicial del carrusel
-// (initialIndex 1 → se ven los items 0-2) muestra un reel de cada cliente,
-// no tres del mismo. Dentro de ese intercalado van de más a menos views.
+// El orden intercala clientes a propósito: la galería abre en el primero
+// (initialIndex 0), así que los primeros items a la vista muestran un reel de
+// cada cliente, no tres del mismo. Dentro de ese intercalado van de más a
+// menos views.
 // El accent es fijo por cliente, así el rótulo de color agrupa solo.
 //
 // `likes`/`comments` son opcionales: si están, la tarjeta los muestra en una
