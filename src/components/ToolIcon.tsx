@@ -26,7 +26,7 @@ export default function ToolIcon({ name, file, mono, color }: ToolIconProps) {
     <motion.div
       title={name}
       whileHover={{ y: -3, scale: 1.06 }}
-      className="w-11 h-11 rounded-2xl glass border border-white/[0.06] flex items-center justify-center hover:border-[#9B5CE5]/30 transition-colors duration-300"
+      className="w-11 h-11 rounded-2xl glass border border-black/[0.08] flex items-center justify-center hover:border-[#6D28D9]/40 transition-colors duration-300"
     >
       {showImg ? (
         /* eslint-disable-next-line @next/next/no-img-element */

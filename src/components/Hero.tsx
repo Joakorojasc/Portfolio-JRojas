@@ -53,7 +53,7 @@ function HeroPeek({ href, label, img, aspect, posClass, rotate, delay, Icon }: P
       animate={{ opacity: 1, y: 0, rotate }}
       whileHover={{ scale: 1.07, rotate: rotate / 2, y: -5 }}
       transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
-      className={`group absolute ${posClass} rounded-xl overflow-hidden shadow-2xl shadow-black/60 cursor-pointer`}
+      className={`group absolute ${posClass} rounded-xl overflow-hidden shadow-2xl shadow-black/25 cursor-pointer`}
       style={{ aspectRatio: aspect }}
     >
       {!failed && img ? (
@@ -69,10 +69,10 @@ function HeroPeek({ href, label, img, aspect, posClass, rotate, delay, Icon }: P
           className="absolute inset-0 flex items-center justify-center"
           style={{
             background:
-              "linear-gradient(155deg, #221A2E 0%, #18121F 60%, #120D1C 100%)",
+              "linear-gradient(155deg, #DFD9CE 0%, #EAE5DC 60%, #F1EDE6 100%)",
           }}
         >
-          <Icon size={22} className="text-white/25" />
+          <Icon size={22} className="text-black/25" />
         </div>
       )}
 
@@ -81,14 +81,14 @@ function HeroPeek({ href, label, img, aspect, posClass, rotate, delay, Icon }: P
 
       {/* Botón */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-9 h-9 rounded-full bg-[#9B5CE5]/95 flex items-center justify-center scale-90 group-hover:scale-100 transition-transform duration-300">
+        <div className="w-9 h-9 rounded-full bg-[#6D28D9]/95 flex items-center justify-center scale-90 group-hover:scale-100 transition-transform duration-300">
           <Icon size={15} fill="currentColor" className="text-white" />
         </div>
       </div>
 
       {/* Etiqueta */}
       <div className="absolute bottom-0 inset-x-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
-        <span className="text-[9px] font-bold tracking-[0.18em] uppercase text-white/90">
+        <span className="text-[9px] font-bold tracking-[0.03em] text-white/90">
           {label}
         </span>
       </div>
@@ -99,14 +99,8 @@ function HeroPeek({ href, label, img, aspect, posClass, rotate, delay, Icon }: P
 export default function Hero() {
   return (
     <section id="inicio" className="relative overflow-hidden px-5 md:px-10">
-      {/* Halo violeta único, sutil */}
-      <div
-        className="pointer-events-none absolute right-0 top-10 w-[640px] h-[640px] rounded-full opacity-[0.14]"
-        style={{
-          background:
-            "radial-gradient(circle at center, rgba(155,92,229,0.55) 0%, transparent 70%)",
-        }}
-      />
+      {/* El halo radial violeta se eliminó: era un glow decorativo (y encima
+          seguía con el violeta viejo). Sobre papel, un halo no existe. */}
 
       <div className="relative z-10 max-w-[1180px] mx-auto w-full pt-32 pb-20 grid lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-10 items-center">
         {/* ── Columna texto ── */}
@@ -116,20 +110,26 @@ export default function Hero() {
             custom={0}
             initial="hidden"
             animate="show"
-            className="text-[11px] tracking-[0.28em] uppercase text-[#948BA8]"
+            className="text-[11px] tracking-[0.02em] text-[#6B655C]"
           >
             Content Specialist · Editor de Video
           </motion.span>
 
+          {/* Sin gradiente y sin segunda familia: el contraste sale del peso
+              (800 contra el kicker de 400) y del salto de tamaño. */}
           <motion.h1
-            className="mt-5 text-5xl sm:text-6xl lg:text-7xl font-bold leading-[0.95] tracking-tight"
+            className="mt-5 text-6xl sm:text-7xl lg:text-8xl font-extrabold leading-[0.88] tracking-[-0.045em]"
             initial="hidden"
             animate="show"
           >
-            <motion.span variants={fadeUp} custom={0.1} className="block text-[#F2EEF8]">
+            <motion.span variants={fadeUp} custom={0.1} className="block text-[#141210]">
               Joaquín
             </motion.span>
-            <motion.span variants={fadeUp} custom={0.18} className="block gradient-text-gold">
+            <motion.span
+              variants={fadeUp}
+              custom={0.18}
+              className="block text-[#6D28D9]"
+            >
               Rojas
             </motion.span>
           </motion.h1>
@@ -139,7 +139,7 @@ export default function Hero() {
             custom={0.3}
             initial="hidden"
             animate="show"
-            className="mt-6 max-w-md mx-auto lg:mx-0 text-base md:text-lg text-[#948BA8] leading-relaxed"
+            className="mt-6 max-w-md mx-auto lg:mx-0 text-base md:text-lg text-[#6B655C] leading-relaxed"
           >
             Convierto horas de material en contenido que la gente termina de ver,
             comparte y recuerda.
@@ -153,10 +153,12 @@ export default function Hero() {
             animate="show"
             className="mt-7 inline-flex items-center gap-3 justify-center lg:justify-start"
           >
-            <span className="text-3xl md:text-4xl font-bold gradient-text-gold leading-none">
+            {/* Ámbar: la regla de la paleta es que los números van en el
+                segundo color, y este es el dato principal del sitio. */}
+            <span className="text-3xl md:text-4xl font-bold text-[#C2410C] leading-none">
               +6M
             </span>
-            <span className="text-left text-[13px] text-[#948BA8] leading-tight">
+            <span className="text-left text-[13px] text-[#6B655C] leading-tight">
               de views generadas
               <br />
               entre mis clientes
@@ -172,10 +174,10 @@ export default function Hero() {
             className="mt-9 flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-3"
           >
             <a
-              href="#portfolio"
-              className="group inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-[#9B5CE5] text-white text-sm font-bold tracking-[0.06em] uppercase hover:bg-[#B47CF0] transition-colors duration-300"
+              href="#casos"
+              className="group inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-[#6D28D9] text-white text-sm font-bold tracking-[0.01em] hover:bg-[#5B21B6] transition-colors duration-300"
             >
-              Ver trabajos
+              Ver casos
               <ArrowDown
                 size={16}
                 className="group-hover:translate-y-1 transition-transform duration-300"
@@ -183,7 +185,7 @@ export default function Hero() {
             </a>
             <a
               href="#contacto"
-              className="inline-flex items-center px-6 py-3.5 rounded-full border border-white/12 text-sm font-semibold tracking-[0.06em] uppercase text-[#F2EEF8] hover:border-[#9B5CE5]/50 transition-colors duration-300"
+              className="inline-flex items-center px-6 py-3.5 rounded-full border border-black/15 text-sm font-semibold tracking-[0.01em] text-[#141210] hover:border-[#6D28D9]/50 transition-colors duration-300"
             >
               Trabajemos juntos
             </a>
@@ -197,7 +199,7 @@ export default function Hero() {
             animate="show"
             className="mt-12"
           >
-            <p className="text-[10px] tracking-[0.26em] uppercase text-[#948BA8] mb-4">
+            <p className="text-[11px] tracking-[0.02em] text-[#6B655C] mb-4">
               Herramientas
             </p>
             <div className="flex flex-wrap justify-center lg:justify-start gap-2.5">
@@ -216,7 +218,7 @@ export default function Hero() {
           className="relative mx-auto w-full max-w-[360px]"
         >
           {/* Foto */}
-          <div className="relative aspect-[4/5] rounded-[1.75rem] overflow-hidden border border-white/[0.08]">
+          <div className="relative aspect-[4/5] rounded-[1.75rem] overflow-hidden border border-black/[0.10]">
             {photoSrc ? (
               <Image
                 src={photoSrc}
@@ -227,10 +229,10 @@ export default function Hero() {
                 className="object-cover object-top"
               />
             ) : (
-              <div className="absolute inset-0 bg-[#18121F]" />
+              <div className="absolute inset-0 bg-[#EAE5DC]" />
             )}
             {/* Degradado para integrar con el fondo */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0A0711] via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#F7F4EF] via-transparent to-transparent" />
           </div>
 
           {/* Reel (vertical) → sección Reels */}

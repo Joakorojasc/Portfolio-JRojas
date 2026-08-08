@@ -60,10 +60,10 @@ export default function Footer() {
   };
 
   return (
-    <footer id="contacto" className="paper border-t border-[#16111F]/[0.07]">
+    <footer id="contacto" className="paper border-t border-[#141210]/[0.07]">
       <div className="max-w-[1180px] mx-auto px-5 md:px-10 pt-24 pb-14">
         <div className="grid lg:grid-cols-[200px_1fr] gap-8 lg:gap-16">
-          <span className="text-[11px] tracking-[0.28em] uppercase text-[#5C5468]">
+          <span className="text-[11px] tracking-[0.02em] text-[#6B655C]">
             Contacto
           </span>
 
@@ -73,9 +73,9 @@ export default function Footer() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-              className="text-3xl md:text-[42px] font-bold tracking-[-0.02em] leading-[1.12] text-[#16111F]"
+              className="text-4xl md:text-[52px] font-extrabold tracking-[-0.03em] leading-[1.02] text-[#141210]"
             >
-              Contame qué estás
+              Cuéntame qué estás
               <br />
               tratando de lograr.
             </motion.h2>
@@ -85,11 +85,11 @@ export default function Footer() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.65, delay: 0.08 }}
-              className="mt-5 text-base md:text-lg leading-[1.65] text-[#5C5468]"
+              className="mt-5 text-base md:text-lg leading-[1.65] text-[#6B655C]"
             >
-              No hace falta que tengas el brief armado ni que sepas exactamente qué
-              formato necesitás. Escribime con el problema y lo pensamos juntos —
-              si no soy la persona indicada para eso, te lo digo.
+              No necesitas tener el brief listo ni saber exactamente qué formato
+              te sirve. Escríbeme con el problema y lo pensamos juntos. Y si no
+              soy la persona indicada para resolverlo, te lo digo.
             </motion.p>
 
             {/* Email — sin tarjeta de cristal, sin glow */}
@@ -102,7 +102,7 @@ export default function Footer() {
             >
               <a
                 href={`mailto:${EMAIL}`}
-                className="group inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full bg-[#16111F] text-white text-sm font-semibold tracking-[0.02em] hover:bg-[#9B5CE5] transition-colors duration-300"
+                className="group inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full bg-[#141210] text-white text-sm font-semibold tracking-[0.02em] hover:bg-[#6D28D9] transition-colors duration-300"
               >
                 <Mail size={15} />
                 {EMAIL}
@@ -114,12 +114,12 @@ export default function Footer() {
 
               <button
                 onClick={handleCopy}
-                className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-full border border-[#16111F]/15 text-[#5C5468] hover:text-[#16111F] hover:border-[#16111F]/35 text-sm font-medium transition-colors duration-300"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-full border border-[#141210]/15 text-[#6B655C] hover:text-[#141210] hover:border-[#141210]/35 text-sm font-medium transition-colors duration-300"
               >
                 {copied ? (
                   <>
-                    <Check size={14} className="text-[#9B5CE5]" />
-                    <span className="text-[#9B5CE5]">Copiado</span>
+                    <Check size={14} className="text-[#6D28D9]" />
+                    <span className="text-[#6D28D9]">Copiado</span>
                   </>
                 ) : (
                   <>
@@ -133,12 +133,12 @@ export default function Footer() {
         </div>
 
         {/* Barra inferior */}
-        <div className="mt-24 pt-8 border-t border-[#16111F]/[0.09] flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="mt-24 pt-8 border-t border-[#141210]/[0.09] flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
-            <p className="text-sm font-semibold text-[#16111F] tracking-[0.01em]">
+            <p className="text-sm font-semibold text-[#141210] tracking-[0.01em]">
               Joaquín Rojas
             </p>
-            <p className="text-[11px] text-[#5C5468] tracking-[0.14em] uppercase mt-0.5">
+            <p className="text-[11px] text-[#6B655C] tracking-[0.01em] mt-0.5">
               Content Specialist &amp; Editor de Video
             </p>
           </div>
@@ -149,14 +149,14 @@ export default function Footer() {
                 key={label}
                 href={href}
                 aria-label={label}
-                className="w-9 h-9 rounded-full border border-[#16111F]/12 flex items-center justify-center text-[#5C5468] hover:text-[#9B5CE5] hover:border-[#9B5CE5]/40 transition-colors duration-200"
+                className="w-9 h-9 rounded-full border border-[#141210]/12 flex items-center justify-center text-[#6B655C] hover:text-[#6D28D9] hover:border-[#6D28D9]/40 transition-colors duration-200"
               >
                 <Icon size={16} />
               </a>
             ))}
           </div>
 
-          <p className="text-[11px] text-[#5C5468] tracking-wide">
+          <p className="text-[11px] text-[#6B655C] tracking-wide">
             © {new Date().getFullYear()} Joaquín Rojas
           </p>
         </div>

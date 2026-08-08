@@ -20,13 +20,13 @@ export default function YouTubeSection() {
         className="flex items-center gap-4 mb-12"
       >
         <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-[#9B5CE5]" />
-          <h3 className="text-xl md:text-2xl font-bold tracking-[0.04em] text-[#F2EEF8]">
+          <div className="w-2 h-2 rounded-full bg-[#6D28D9]" />
+          <h3 className="text-xl md:text-2xl font-bold tracking-[0.04em] text-[#141210]">
             YouTube
           </h3>
         </div>
-        <div className="h-px flex-1 bg-white/[0.05]" />
-        <span className="text-xs text-[#948BA8] tracking-widest uppercase">
+        <div className="h-px flex-1 bg-black/[0.10]" />
+        <span className="text-xs text-[#6B655C] tracking-normal">
           Portadas · 16:9
         </span>
       </motion.div>
@@ -51,8 +51,8 @@ export default function YouTubeSection() {
               style={{
                 aspectRatio: "16/9",
                 borderColor: isFocused
-                  ? "rgba(155,92,229,0.4)"
-                  : "rgba(255,255,255,0.06)",
+                  ? "rgba(109,40,217,0.45)"
+                  : "rgba(20,18,16,0.10)",
               }}
             >
               {video.thumb ? (
@@ -72,11 +72,11 @@ export default function YouTubeSection() {
                 className="absolute inset-0 -z-10 flex flex-col items-center justify-center gap-3"
                 style={{
                   background:
-                    "linear-gradient(160deg, #18121F 0%, #120D1C 60%, #0A0711 100%)",
+                    "linear-gradient(160deg, #EAE5DC 0%, #F1EDE6 60%, #F7F4EF 100%)",
                 }}
               >
-                <Film size={30} className="text-white/15" />
-                <span className="text-[10px] tracking-[0.18em] uppercase text-white/25">
+                <Film size={30} className="text-black/15" />
+                <span className="text-[11px] tracking-[0.03em] text-black/25">
                   Portada de YouTube
                 </span>
               </div>
@@ -86,10 +86,10 @@ export default function YouTubeSection() {
 
               {/* Info inferior */}
               <div className="absolute bottom-0 left-0 right-0 p-5">
-                <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-[#9B5CE5] mb-1">
+                <p className="text-[11px] font-bold tracking-[0.03em] text-[#6D28D9] mb-1">
                   {video.channel}
                 </p>
-                <p className="text-base md:text-lg font-bold text-[#F2EEF8] leading-tight">
+                <p className="text-base md:text-lg font-bold text-white leading-tight">
                   {video.title}
                 </p>
               </div>

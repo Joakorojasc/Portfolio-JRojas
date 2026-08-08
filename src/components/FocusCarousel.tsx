@@ -82,7 +82,7 @@ export default function FocusCarousel<T>({
   const ghost = (visible: boolean) => (
     <div style={{ width: effectiveSlot, flexShrink: 0 }} className="self-center">
       <div
-        className="w-full rounded-2xl border border-dashed border-white/10 transition-opacity duration-500"
+        className="w-full rounded-2xl border border-dashed border-black/10 transition-opacity duration-500"
         style={{ aspectRatio: aspect, opacity: visible ? 0.5 : 0 }}
       />
     </div>
@@ -153,7 +153,7 @@ export default function FocusCarousel<T>({
           disabled={active === 0}
           whileTap={{ scale: 0.9 }}
           aria-label={`Anterior ${label}`}
-          className="w-11 h-11 rounded-full glass flex items-center justify-center text-[#948BA8] hover:text-[#F2EEF8] disabled:opacity-25 transition-colors"
+          className="w-11 h-11 rounded-full glass flex items-center justify-center text-[#6B655C] hover:text-[#141210] disabled:opacity-25 transition-colors"
         >
           <ChevronLeft size={18} />
         </motion.button>
@@ -169,7 +169,7 @@ export default function FocusCarousel<T>({
               style={{
                 width: i === active ? 22 : 7,
                 height: 7,
-                background: i === active ? "#9B5CE5" : "rgba(255,255,255,0.22)",
+                background: i === active ? "#6D28D9" : "rgba(20,18,16,0.18)",
               }}
             />
           ))}
@@ -180,7 +180,7 @@ export default function FocusCarousel<T>({
           disabled={active === items.length - 1}
           whileTap={{ scale: 0.9 }}
           aria-label={`Siguiente ${label}`}
-          className="w-11 h-11 rounded-full glass flex items-center justify-center text-[#948BA8] hover:text-[#F2EEF8] disabled:opacity-25 transition-colors"
+          className="w-11 h-11 rounded-full glass flex items-center justify-center text-[#6B655C] hover:text-[#141210] disabled:opacity-25 transition-colors"
         >
           <ChevronRight size={18} />
         </motion.button>

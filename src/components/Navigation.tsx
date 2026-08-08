@@ -6,11 +6,22 @@ import { Menu, X } from "lucide-react";
 
 const navLinks = [
   { label: "Inicio", href: "#inicio", id: "inicio" },
-  { label: "Trabajos", href: "#portfolio", id: "portfolio" },
-  { label: "Valores", href: "#valores", id: "valores" },
+  { label: "Casos", href: "#casos", id: "casos" },
+  { label: "Cómo trabajo", href: "#valores", id: "valores" },
+  { label: "Archivo", href: "#portfolio", id: "portfolio" },
+  { label: "Lofi", href: "#lofi", id: "lofi" },
   { label: "Contacto", href: "#contacto", id: "contacto" },
 ];
 
+/**
+ * Cabecera de diario, no navbar de SaaS.
+ *
+ * Lo que se sacó, porque es el trío que trae por defecto toda IA: la píldora
+ * flotante de cristal con blur, el logo en anillo con gradiente y el botón
+ * uppercase de esquinas redondas. Lo que entra en su lugar: un logotipo de
+ * texto, un folio en mono que dice en qué sección estás, enlaces planos con
+ * subrayado, y un filete al pie. Nada flota; la cabecera es parte de la hoja.
+ */
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -40,109 +51,106 @@ export default function Navigation() {
     return () => observer.disconnect();
   }, []);
 
+  const activeIndex = navLinks.findIndex((l) => l.id === active);
+  const folio = `${String(activeIndex + 1).padStart(2, "0")} / ${String(
+    navLinks.length
+  ).padStart(2, "0")}`;
+
   return (
     <motion.header
-      initial={{ y: -80, opacity: 0 }}
+      initial={{ y: -60, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
         scrolled
-          ? "py-3 bg-[#0A0711]/70 backdrop-blur-xl border-b border-white/[0.06]"
-          : "py-5 bg-transparent"
+          ? "bg-[#F7F4EF] border-b border-[#141210]/12"
+          : "bg-transparent border-b border-transparent"
       }`}
     >
-      <div className="max-w-[1180px] mx-auto px-5 md:px-10 flex items-center justify-between">
-        {/* Logo */}
-        <motion.a
-          href="#inicio"
-          className="flex items-center gap-2.5 group"
-          whileHover={{ scale: 1.02 }}
-        >
-          <span className="relative flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-br from-[#9B5CE5] to-[#6D3FA8]">
-            <span className="absolute inset-[2px] rounded-full bg-[#0A0711] flex items-center justify-center">
-              <span className="text-[11px] font-bold text-[#C77DFF]">JR</span>
+      <div className="max-w-[1180px] mx-auto px-5 md:px-10">
+        <div className="flex items-baseline justify-between py-4">
+          {/* Logotipo: texto, tipografía apretada, sin anillo ni gradiente */}
+          <a href="#inicio" className="group flex items-baseline gap-3">
+            <span className="text-[15px] font-extrabold tracking-[-0.03em] text-[#141210]">
+              Joaquín Rojas
             </span>
-          </span>
-          <span className="hidden sm:block text-sm font-semibold tracking-[0.04em] text-[#F2EEF8] group-hover:text-[#C77DFF] transition-colors duration-300">
-            Joaquín Rojas
-          </span>
-        </motion.a>
+            <span className="hidden sm:block tick text-[#6B655C]/70">
+              Content Specialist
+            </span>
+          </a>
 
-        {/* Desktop nav — pill */}
-        <nav className="hidden md:flex items-center gap-1 px-2 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.06]">
-          {navLinks.map((link) => {
-            const isActive = active === link.id;
-            return (
-              <a
-                key={link.href}
-                href={link.href}
-                className={`relative px-4 py-1.5 rounded-full text-sm tracking-[0.02em] transition-colors duration-300 ${
-                  isActive ? "text-[#F2EEF8]" : "text-[#948BA8] hover:text-[#F2EEF8]"
-                }`}
-              >
-                {isActive && (
-                  <motion.span
-                    layoutId="nav-pill"
-                    className="absolute inset-0 rounded-full bg-[#9B5CE5]/15 border border-[#9B5CE5]/30"
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                  />
-                )}
-                <span className="relative z-10">{link.label}</span>
-              </a>
-            );
-          })}
-        </nav>
+          {/* Folio: en qué sección vas. Detalle de imprenta, no de dashboard. */}
+          <span className="hidden lg:block tick tabular-nums">{folio}</span>
 
-        {/* CTA */}
-        <motion.a
-          href="#contacto"
-          className="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold tracking-[0.1em] uppercase bg-[#9B5CE5] text-white hover:bg-[#B47CF0] transition-colors duration-300"
-          whileHover={{ scale: 1.04 }}
-          whileTap={{ scale: 0.97 }}
-        >
-          Trabajemos juntos
-        </motion.a>
+          {/* Enlaces planos. El activo lleva subrayado, no una cápsula. */}
+          <nav className="hidden md:flex items-baseline gap-7">
+            {navLinks.map((link) => {
+              const isActive = active === link.id;
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className={`relative text-[13px] transition-colors duration-200 ${
+                    isActive
+                      ? "text-[#141210] font-medium"
+                      : "text-[#6B655C] hover:text-[#141210]"
+                  }`}
+                >
+                  {link.label}
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-underline"
+                      className="absolute -bottom-1.5 left-0 right-0 h-[2px] bg-[#6D28D9]"
+                      transition={{ type: "spring", stiffness: 400, damping: 34 }}
+                    />
+                  )}
+                </a>
+              );
+            })}
+          </nav>
 
-        {/* Mobile toggle */}
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden text-[#948BA8] hover:text-[#F2EEF8] transition-colors"
-          aria-label="Abrir menú"
-        >
-          {menuOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
+          {/* Menú mobile */}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="md:hidden -mb-1 text-[#141210]"
+            aria-label="Abrir menú"
+          >
+            {menuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
       </div>
 
-      {/* Mobile menu */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="md:hidden mt-3 mx-5 rounded-2xl bg-[#120D1C]/95 backdrop-blur-xl border border-white/[0.06] overflow-hidden"
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+            className="md:hidden bg-[#F7F4EF] border-t border-[#141210]/10 overflow-hidden"
           >
-            <div className="px-6 py-6 flex flex-col gap-5">
-              {navLinks.map((link) => (
+            <div className="px-5 py-5 flex flex-col">
+              {navLinks.map((link, i) => (
                 <a
                   key={link.href}
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
-                  className={`text-base tracking-wide transition-colors duration-200 ${
-                    active === link.id ? "text-[#C77DFF]" : "text-[#948BA8] hover:text-[#F2EEF8]"
-                  }`}
+                  className="flex items-baseline gap-4 py-2.5 border-b border-[#141210]/[0.07] last:border-0"
                 >
-                  {link.label}
+                  <span className="tick tabular-nums">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span
+                    className={`text-[15px] ${
+                      active === link.id
+                        ? "text-[#6D28D9] font-medium"
+                        : "text-[#141210]"
+                    }`}
+                  >
+                    {link.label}
+                  </span>
                 </a>
               ))}
-              <a
-                href="#contacto"
-                onClick={() => setMenuOpen(false)}
-                className="mt-1 text-center px-5 py-3 rounded-full text-xs font-semibold tracking-[0.1em] uppercase bg-[#9B5CE5] text-white"
-              >
-                Trabajemos juntos
-              </a>
             </div>
           </motion.div>
         )}

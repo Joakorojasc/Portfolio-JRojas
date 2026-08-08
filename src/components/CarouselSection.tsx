@@ -20,15 +20,15 @@ export default function CarouselSection() {
         className="flex items-center gap-4 mb-12"
       >
         <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-[#9B5CE5]" />
-          <h3 className="text-xl md:text-2xl font-bold tracking-[0.04em] text-[#F2EEF8]">
+          <div className="w-2 h-2 rounded-full bg-[#6D28D9]" />
+          <h3 className="text-xl md:text-2xl font-bold tracking-[0.04em] text-[#141210]">
             Carruseles
           </h3>
         </div>
-        <div className="h-px flex-1 bg-white/[0.05]" />
-        <div className="flex items-center gap-1.5 text-xs text-[#948BA8]">
+        <div className="h-px flex-1 bg-black/[0.10]" />
+        <div className="flex items-center gap-1.5 text-xs text-[#6B655C]">
           <LayoutGrid size={13} />
-          <span className="tracking-widest uppercase">
+          <span className="tracking-normal">
             {CAROUSEL_SLIDES.length} slides
           </span>
         </div>
@@ -51,7 +51,7 @@ export default function CarouselSection() {
               {/* Glow detrás del slide enfocado */}
               {isFocused && (
                 <div
-                  className="absolute inset-0 rounded-3xl -z-10 blur-2xl opacity-50"
+                  className="absolute inset-0 rounded-3xl -z-10 blur-2xl opacity-[0.18]"
                   style={{
                     background: slide.accent,
                     transform: "scale(0.85) translateY(16px)",
@@ -65,7 +65,7 @@ export default function CarouselSection() {
                   aspectRatio: "3/4",
                   borderColor: isFocused
                     ? slide.accent + "55"
-                    : "rgba(255,255,255,0.06)",
+                    : "rgba(20,18,16,0.10)",
                 }}
               >
                 {slide.publicId || slide.localSrc ? (
@@ -85,11 +85,11 @@ export default function CarouselSection() {
                     className="absolute inset-0 flex flex-col items-center justify-center gap-3"
                     style={{
                       background:
-                        "linear-gradient(160deg, #18121F 0%, #120D1C 50%, #0A0711 100%)",
+                        "linear-gradient(160deg, #EAE5DC 0%, #F1EDE6 50%, #F7F4EF 100%)",
                     }}
                   >
-                    <ImageIcon size={28} className="text-white/15" />
-                    <span className="text-[10px] tracking-[0.18em] uppercase text-white/25">
+                    <ImageIcon size={28} className="text-black/15" />
+                    <span className="text-[11px] tracking-[0.03em] text-black/25">
                       {slide.caption}
                     </span>
                   </div>
@@ -100,8 +100,8 @@ export default function CarouselSection() {
                   <span
                     className="text-xs font-bold tracking-widest px-2 py-1 rounded-full"
                     style={{
-                      color: slide.accent,
-                      background: "rgba(0,0,0,0.35)",
+                      color: "#F7F4EF",
+                      background: "rgba(20,18,16,0.62)",
                       backdropFilter: "blur(6px)",
                     }}
                   >
@@ -113,9 +113,9 @@ export default function CarouselSection() {
           )}
         />
 
-        <p className="text-center text-xs text-[#948BA8] mt-6">
-          Tocá una slide o usá las flechas — la del centro queda en foco, las de los
-          costados se atenúan.
+        <p className="text-center text-xs text-[#6B655C] mt-6">
+          Toca una slide o usa las flechas: la del centro queda en foco y las de
+          los costados se atenúan.
         </p>
       </motion.div>
     </div>

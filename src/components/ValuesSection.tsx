@@ -18,9 +18,7 @@ export default function ValuesSection() {
             animate={inView ? { opacity: 1 } : {}}
             transition={{ duration: 0.6 }}
           >
-            <span className="text-[11px] tracking-[0.28em] uppercase text-[#5C5468]">
-              Cómo trabajo
-            </span>
+            <span className="tick tabular-nums">02 · Cómo trabajo</span>
           </motion.div>
 
           {/* Párrafo en primera persona — reemplaza la grilla de tarjetas */}
@@ -37,8 +35,8 @@ export default function ValuesSection() {
                 }}
                 className={
                   i === 0
-                    ? "text-xl md:text-[26px] leading-[1.5] tracking-[-0.01em] text-[#16111F]"
-                    : "mt-6 text-base md:text-lg leading-[1.65] text-[#5C5468]"
+                    ? "text-xl md:text-[26px] leading-[1.5] tracking-[-0.01em] text-[#141210]"
+                    : "mt-6 text-base md:text-lg leading-[1.65] text-[#6B655C]"
                 }
               >
                 {para}
@@ -55,11 +53,11 @@ export default function ValuesSection() {
           className="mt-20 lg:ml-[264px] grid sm:grid-cols-2 gap-x-14 gap-y-7 max-w-[62ch]"
         >
           {VALUES.map((value) => (
-            <li key={value.title} className="border-t border-[#16111F]/10 pt-4">
-              <h4 className="text-[13px] font-semibold text-[#16111F] tracking-[0.01em]">
+            <li key={value.title} className="border-t border-[#141210]/10 pt-4">
+              <h4 className="text-[13px] font-semibold text-[#141210] tracking-[0.01em]">
                 {value.title}
               </h4>
-              <p className="mt-1 text-[13px] leading-relaxed text-[#5C5468]">
+              <p className="mt-1 text-[13px] leading-relaxed text-[#6B655C]">
                 {value.copy}
               </p>
             </li>

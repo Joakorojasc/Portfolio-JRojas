@@ -65,13 +65,13 @@ export default function ReelsSection() {
         {/* Header */}
         <div className="flex items-center gap-4 mb-12">
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-[#9B5CE5]" />
-            <h3 className="text-xl md:text-2xl font-bold tracking-[0.04em] text-[#F2EEF8]">
+            <div className="w-2 h-2 rounded-full bg-[#6D28D9]" />
+            <h3 className="text-xl md:text-2xl font-bold tracking-[0.04em] text-[#141210]">
               Reels Verticales
             </h3>
           </div>
-          <div className="h-px flex-1 bg-white/[0.05]" />
-          <span className="text-xs text-[#948BA8] tracking-widest uppercase">
+          <div className="h-px flex-1 bg-black/[0.10]" />
+          <span className="text-xs text-[#6B655C] tracking-normal">
             Formato 9:16
           </span>
         </div>
@@ -96,7 +96,7 @@ export default function ReelsSection() {
               {/* Glow detrás del bloque enfocado */}
               {isFocused && (
                 <div
-                  className="absolute inset-0 rounded-[1.4rem] -z-10 blur-3xl opacity-50"
+                  className="absolute inset-0 rounded-[1.4rem] -z-10 blur-3xl opacity-[0.18]"
                   style={{
                     background: reel.accent,
                     transform: "scale(0.85) translateY(20px)",
@@ -109,10 +109,10 @@ export default function ReelsSection() {
                 style={{
                   aspectRatio: "9/16",
                   borderColor: isFocused
-                    ? "rgba(255,255,255,0.22)"
-                    : "rgba(255,255,255,0.06)",
+                    ? "rgba(109,40,217,0.45)"
+                    : "rgba(20,18,16,0.10)",
                   boxShadow: isFocused
-                    ? "0 40px 80px -20px rgba(0,0,0,0.8)"
+                    ? "0 24px 50px -18px rgba(20,18,16,0.32)"
                     : "none",
                 }}
               >
@@ -124,7 +124,7 @@ export default function ReelsSection() {
                     className="absolute inset-0 w-full h-full object-cover"
                   />
                 ) : (
-                  <div className="absolute inset-0 bg-[#120D1C]" />
+                  <div className="absolute inset-0 bg-[#F1EDE6]" />
                 )}
 
                 {/* Degradado inferior */}
@@ -146,7 +146,7 @@ export default function ReelsSection() {
                 {/* Categoría */}
                 <div className="absolute top-0 left-0 right-0 p-5">
                   <p
-                    className="text-[10px] font-bold tracking-[0.18em] uppercase"
+                    className="text-[11px] font-bold tracking-[0.03em]"
                     style={{ color: reel.accent }}
                   >
                     {reel.category}
@@ -155,7 +155,7 @@ export default function ReelsSection() {
 
                 {/* Título */}
                 <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <p className="text-lg font-bold text-[#F2EEF8] leading-tight">
+                  <p className="text-lg font-bold text-white leading-tight">
                     {reel.title}
                   </p>
                 </div>
